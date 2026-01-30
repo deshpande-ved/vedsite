@@ -262,122 +262,26 @@ body {
 
 .nav-shape:nth-child(3) {
     background-color: #D60270;
-    animation: bounce-1 8s ease-in-out infinite, rotate-shape 8s linear infinite;
-
-    & > .shape-label {
-        animation: counter-rotate-8s 8s linear infinite;
-    }
 }
 
 .nav-shape:nth-child(4) {
     background-color: #9B4F96;
-    animation: bounce-2 10s ease-in-out infinite, rotate-shape 10s linear infinite;
-
-    & > .shape-label {
-        animation: counter-rotate-10s 10s linear infinite;
-    }
 }
 
 .nav-shape:nth-child(5) {
     background-color: #0038A8;
-    animation: bounce-3 12s ease-in-out infinite, rotate-shape 12s linear infinite;
-
-    & > .shape-label {
-        animation: counter-rotate-12s 12s linear infinite;
-    }
 }
 
 .nav-shape:nth-child(6) {
     background-color: #069494;
-    animation: bounce-4 9s ease-in-out infinite, rotate-shape 9s linear infinite;
-
-    & > .shape-label {
-        animation: counter-rotate-9s 9s linear infinite;
-    }
 }
 
 .nav-shape:nth-child(7) {
     background-color: #940606;
-    animation: bounce-5 11s ease-in-out infinite, rotate-shape 11s linear infinite;
-
-    & > .shape-label {
-        animation: counter-rotate-11s 11s linear infinite;
-    }
 }
 
 #misc-shape {
     background-color: #940606;
-    animation: bounce-5 11s ease-in-out infinite, rotate-shape 11s linear infinite;
-
-    & > .shape-label {
-        animation: counter-rotate-11s 11s linear infinite;
-    }
-}
-
-@keyframes counter-rotate-8s {
-    from { rotate: 0deg; }
-    to { rotate: -360deg; }
-}
-
-@keyframes counter-rotate-9s {
-    from { rotate: 0deg; }
-    to { rotate: -360deg; }
-}
-
-@keyframes counter-rotate-10s {
-    from { rotate: 0deg; }
-    to { rotate: -360deg; }
-}
-
-@keyframes counter-rotate-11s {
-    from { rotate: 0deg; }
-    to { rotate: -360deg; }
-}
-
-@keyframes counter-rotate-12s {
-    from { rotate: 0deg; }
-    to { rotate: -360deg; }
-}
-
-@keyframes bounce-1 {
-    0%, 100% { left: 0; top: 0; }
-    25% { left: calc(100vw - 225px); top: 0; }
-    50% { left: calc(100vw - 225px); top: calc(100vh - 225px); }
-    75% { left: 0; top: calc(100vh - 225px); }
-}
-
-@keyframes bounce-2 {
-    0%, 100% { left: calc(100vw - 225px); top: 0; }
-    33% { left: 0; top: calc(100vh - 225px); }
-    66% { left: calc(100vw - 225px); top: calc(50vh - 112px); }
-}
-
-@keyframes bounce-3 {
-    0%, 100% { left: 0; top: calc(100vh - 225px); }
-    50% { left: calc(100vw - 225px); top: 0; }
-}
-
-@keyframes bounce-4 {
-    0%, 100% { left: calc(50vw - 112px); top: 0; }
-    25% { left: calc(100vw - 225px); top: calc(50vh - 112px); }
-    50% { left: calc(50vw - 112px); top: calc(100vh - 225px); }
-    75% { left: 0; top: calc(50vh - 112px); }
-}
-
-@keyframes bounce-5 {
-    0%, 100% { left: calc(100vw - 225px); top: calc(100vh - 225px); }
-    25% { left: 0; top: calc(100vh - 225px); }
-    50% { left: 0; top: 0; }
-    75% { left: calc(100vw - 225px); top: 0; }
-}
-
-@keyframes rotate-shape {
-    from {
-        rotate: 0deg;
-    }
-    to {
-        rotate: 360deg;
-    }
 }
 
 .contact-icons img {

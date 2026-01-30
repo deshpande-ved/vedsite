@@ -23,53 +23,107 @@ const uniqueRand = (min, max, prev) => {
     return next;
 }
 
-// Border-radius options for smooth morphing - only rectangular shapes
-const roundnessOptions = [
-    '0rem',    // Sharp rectangle
-    '10px',    // Slightly rounded corners
-    '20px',    // Medium rounded corners
-    '40px',    // More rounded corners
-    '60px'     // Well rounded corners
-];
+// Border-radius options for morphing on edge collision
+const roundnessOptions = ['0rem', '10px', '20px', '40px', '60px'];
 
-// Morph each shape individually at random intervals
+// DVD-style bouncing physics
+const shapeData = [];
+const baseSpeed = 2;
+
 shapes.forEach((shape, index) => {
-    let prevRoundness = 0;
-    let isHovering = false;
+    // Random starting position
+    const x = rand(0, window.innerWidth - 225);
+    const y = rand(0, window.innerHeight - 225);
+    
+    // Random direction with consistent speed
+    const angle = Math.random() * 2 * Math.PI;
+    const speed = baseSpeed + Math.random() * 0.5;
+    
+    shapeData.push({
+        el: shape,
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        rotation: 0,
+        rotationSpeed: (Math.random() - 0.5) * 2,
+        prevRoundness: 0,
+        isHovering: false
+    });
+    
+    // Set initial position
+    shape.style.left = x + 'px';
+    shape.style.top = y + 'px';
     
     shape.addEventListener('mouseenter', () => {
-        isHovering = true;
+        shapeData[index].isHovering = true;
     });
     
     shape.addEventListener('mouseleave', () => {
-        isHovering = false;
+        shapeData[index].isHovering = false;
     });
-    
-    // Morph when animation completes a cycle (edge collision)
-    shape.addEventListener('animationiteration', () => {
-        if (!isHovering) {
-            const roundnessIndex = uniqueRand(0, roundnessOptions.length - 1, prevRoundness);
-            const borderRadius = roundnessOptions[roundnessIndex];
-            shape.style.borderRadius = borderRadius;
-            prevRoundness = roundnessIndex;
-        }
-    });
-    
-    const morphShape = () => {
-        if (isHovering) {
-            setTimeout(morphShape, 100);
-            return;
-        }
-        
-        const roundnessIndex = uniqueRand(0, roundnessOptions.length - 1, prevRoundness);
-        const borderRadius = roundnessOptions[roundnessIndex];
-        shape.style.borderRadius = borderRadius;
-        prevRoundness = roundnessIndex;
-        
-        // Morph every 3 seconds as backup
-        setTimeout(morphShape, 3000);
-    };
-    
-    // Start each shape's morphing with a staggered delay
-    setTimeout(() => morphShape(), index * 400);
 });
+
+function animate() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const size = 225;
+    
+    shapeData.forEach(data => {
+        if (data.isHovering) {
+            return; // Skip this shape, continue to next
+        }
+        
+        // Update position
+        data.x += data.vx;
+        data.y += data.vy;
+        
+        // Update rotation
+        data.rotation += data.rotationSpeed;
+        
+        let hitEdge = false;
+        
+        // Bounce off edges (DVD style - reverse velocity component)
+        if (data.x <= 0) {
+            data.x = 0;
+            data.vx *= -1;
+            hitEdge = true;
+        } else if (data.x >= w - size) {
+            data.x = w - size;
+            data.vx *= -1;
+            hitEdge = true;
+        }
+        
+        if (data.y <= 0) {
+            data.y = 0;
+            data.vy *= -1;
+            hitEdge = true;
+        } else if (data.y >= h - size) {
+            data.y = h - size;
+            data.vy *= -1;
+            hitEdge = true;
+        }
+        
+        // Morph shape on edge collision
+        if (hitEdge) {
+            const roundnessIndex = uniqueRand(0, roundnessOptions.length - 1, data.prevRoundness);
+            data.el.style.borderRadius = roundnessOptions[roundnessIndex];
+            data.prevRoundness = roundnessIndex;
+        }
+        
+        // Apply position and rotation
+        data.el.style.left = data.x + 'px';
+        data.el.style.top = data.y + 'px';
+        data.el.style.transform = `rotate(${data.rotation}deg)`;
+        
+        // Counter-rotate the label to keep it readable
+        const label = data.el.querySelector('.shape-label');
+        if (label) {
+            label.style.transform = `rotate(${-data.rotation}deg)`;
+        }
+    });
+    
+    requestAnimationFrame(animate);
+}
+
+animate();
