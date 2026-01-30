@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="page.css" />
+    <title>projects</title>
+    <link rel="icon" href="icons/tab_icon.png" type="image/png">
+    <style>
+        body { background-color: #9B4F96; }
+        .page-header .back-btn:hover { color: #9B4F96; }
+    </style>
+</head>
+
+<body>
+    <div id="page-transition">
+        <div class="transition-bar" data-index="0" style="background: #9B4F96;"></div>
+        <div class="transition-bar" data-index="1" style="background: #9B4F96;"></div>
+        <div class="transition-bar" data-index="2" style="background: #9B4F96;"></div>
+        <div class="transition-bar" data-index="3" style="background: #9B4F96;"></div>
+    </div>
+
+    <div id="background-animation">
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+    </div>
+
+    <div class="page-container">
+        <header class="page-header">
+            <h1>projects</h1>
+            <a href="index.html" class="back-btn">← back</a>
+        </header>
+
+        <div class="page-content">
+            <section>
+                <h2>featured projects</h2>
+                <p>Showcase your best work here.</p>
+            </section>
+
+            <section>
+                <h2>project 1</h2>
+                <p>Description of your first project.</p>
+            </section>
+
+            <section>
+                <h2>project 2</h2>
+                <p>Description of your second project.</p>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('page-transition').classList.add('exit');
+            }, 100);
+        });
+
+        document.querySelector('.back-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const transition = document.getElementById('page-transition');
+            transition.classList.remove('exit');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 600);
+        });
+    </script>
+</body>
+
+</html>

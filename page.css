@@ -4,41 +4,16 @@
 }
 
 * {
-    background-color: #a69b8f;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-#mousetrailer {
-    height: 15px;
-    width: 15px;
-    /*
-    background-image: url("cursor/cursorhand.png");
-    */
-    background: red;
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    z-index: 10000;
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 250 ms ease;
-    transform: rotate(35deg);
-}
-
 
 body {
-    height: 100vh;
-    width: 100vw;
-    margin: 0px;
-    overflow: hidden;
-    background-color: #a69b8f;
-
-    font-family: 'sfpro_d', 'inter', Times, serif;
-    font-size: 20pt;
-
-    & :hover>#mousetrailer {
-        opacity: 1;
-    }
+    min-height: 100vh;
+    width: 100%;
+    font-family: 'sfpro_d', 'Times New Roman', Times, serif;
+    overflow-x: hidden;
 }
 
 #background-animation {
@@ -207,6 +182,109 @@ body {
     }
 }
 
+.page-container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    width: 100%;
+    padding: 60px 80px;
+    background: transparent;
+
+    @media (max-width: 768px) {
+        padding: 40px 20px;
+    }
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+
+    & h1 {
+        font-size: 48px;
+        color: #ffffff;
+        background: none;
+
+        @media (max-width: 768px) {
+            font-size: 32px;
+        }
+    }
+
+    & .back-btn {
+        font-family: 'sfpro_d', 'Times New Roman', Times, serif;
+        font-size: 18px;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 12px 24px;
+        border: 2px solid #ffffff;
+        border-radius: 30px;
+        transition: all 300ms ease;
+        background: none;
+
+        &:hover {
+            background: #ffffff;
+            color: inherit;
+        }
+    }
+}
+
+.page-content {
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1.6;
+    background: none;
+
+    & h2 {
+        font-size: 32px;
+        margin-bottom: 20px;
+        background: none;
+
+        @media (max-width: 768px) {
+            font-size: 24px;
+        }
+    }
+
+    & p {
+        margin-bottom: 20px;
+        background: none;
+    }
+
+    & section {
+        margin-bottom: 60px;
+        background: none;
+    }
+}
+
+/* Entry transition */
+#page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 9999;
+    pointer-events: none;
+
+    & .transition-bar {
+        flex: 1;
+        height: 100%;
+        transform: scaleY(1);
+        transform-origin: center;
+        transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    &.exit .transition-bar {
+        transform: scaleY(0);
+    }
+
+    &.exit .transition-bar[data-index="0"] { transition-delay: 0ms; }
+    &.exit .transition-bar[data-index="1"] { transition-delay: 75ms; }
+    &.exit .transition-bar[data-index="2"] { transition-delay: 150ms; }
+    &.exit .transition-bar[data-index="3"] { transition-delay: 225ms; }
+}
+
 @keyframes float-and-roll-left {
     from {
         transform: translateX(-100px) rotate(0deg);
@@ -223,84 +301,4 @@ body {
     to {
         transform: translateX(-100px) rotate(360deg);
     }
-}
-
-.nav-shape {
-    position: fixed;
-    width: 225px;
-    height: 225px;
-    cursor: pointer;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    transition: border-radius 750ms ease-in-out, transform 300ms ease-in-out;
-    border-radius: 6rem;
-
-    &:hover {
-        transform: scale(1.15);
-
-        & > .shape-label {
-            opacity: 1;
-        }
-    }
-
-    & > .shape-label {
-        font-family: 'sfpro_d', 'Times New Roman', Times, serif;
-        font-size: 30px;
-        text-align: center;
-        opacity: 0;
-        transition: opacity 300ms ease;
-        pointer-events: none;
-        color: #000000;
-        background: none;
-        background-color: transparent;
-        animation: counter-rotate 8s linear infinite;
-    }
-}
-
-#about-shape {
-    background-color: #D60270;
-}
-
-#projects-shape {
-    background-color: #9B4F96;
-}
-
-#experience-shape {
-    background-color: #0038A8;
-}
-
-#misc-shape {
-    background-color: #069494;
-}
-
-.contact-icons img {
-    width: 24px;
-    height: 24px;
-}
-
-.welcome {
-    height: 100px;
-    display: flex;
-    align-content:center;
-    justify-content: center;
-}
-
-h1 {
-    font-family: 'sfpro_d', 'Times New Roman', Times, serif;
-    font-size: 40px;
-    color: ivory;
-    display: flex;
-    align-content: center;
-}
-
-h2 {
-    font-family: 'sfpro_d', 'Times New Roman', Times, serif;
-    font-size: 30px;
-    color: ivory;
-    display: flex;
-    align-content: center;
-    padding-right: 50px;
 }

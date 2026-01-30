@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="page.css" />
+    <title>about me</title>
+    <link rel="icon" href="icons/tab_icon.png" type="image/png">
+    <style>
+        body { background-color: #D60270; }
+        .page-header .back-btn:hover { color: #D60270; }
+    </style>
+</head>
+
+<body>
+    <div id="page-transition">
+        <div class="transition-bar" data-index="0" style="background: #D60270;"></div>
+        <div class="transition-bar" data-index="1" style="background: #D60270;"></div>
+        <div class="transition-bar" data-index="2" style="background: #D60270;"></div>
+        <div class="transition-bar" data-index="3" style="background: #D60270;"></div>
+    </div>
+
+    <div id="background-animation">
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+    </div>
+
+    <div class="page-container">
+        <header class="page-header">
+            <h1>about me</h1>
+            <a href="index.html" class="back-btn">← back</a>
+        </header>
+
+        <div class="page-content">
+            <section>
+                <h2>hello!</h2>
+                <p>Welcome to my corner of the internet. This is where you can learn more about who I am.</p>
+            </section>
+
+            <section>
+                <h2>background</h2>
+                <p>Add your background information here.</p>
+            </section>
+
+            <section>
+                <h2>interests</h2>
+                <p>Share your interests and hobbies here.</p>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('page-transition').classList.add('exit');
+            }, 100);
+        });
+
+        document.querySelector('.back-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const transition = document.getElementById('page-transition');
+            transition.classList.remove('exit');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 600);
+        });
+    </script>
+</body>
+
+</html>

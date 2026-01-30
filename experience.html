@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="page.css" />
+    <title>experience</title>
+    <link rel="icon" href="icons/tab_icon.png" type="image/png">
+    <style>
+        body { background-color: #0038A8; }
+        .page-header .back-btn:hover { color: #0038A8; }
+    </style>
+</head>
+
+<body>
+    <div id="page-transition">
+        <div class="transition-bar" data-index="0" style="background: #0038A8;"></div>
+        <div class="transition-bar" data-index="1" style="background: #0038A8;"></div>
+        <div class="transition-bar" data-index="2" style="background: #0038A8;"></div>
+        <div class="transition-bar" data-index="3" style="background: #0038A8;"></div>
+    </div>
+
+    <div id="background-animation">
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
+    </div>
+
+    <div class="page-container">
+        <header class="page-header">
+            <h1>experience</h1>
+            <a href="index.html" class="back-btn">← back</a>
+        </header>
+
+        <div class="page-content">
+            <section>
+                <h2>work experience</h2>
+                <p>List your professional experience here.</p>
+            </section>
+
+            <section>
+                <h2>education</h2>
+                <p>Add your educational background here.</p>
+            </section>
+
+            <section>
+                <h2>skills</h2>
+                <p>Highlight your key skills here.</p>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('page-transition').classList.add('exit');
+            }, 100);
+        });
+
+        document.querySelector('.back-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const transition = document.getElementById('page-transition');
+            transition.classList.remove('exit');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 600);
+        });
+    </script>
+</body>
+
+</html>

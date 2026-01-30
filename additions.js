@@ -127,3 +127,37 @@ function animate() {
 }
 
 animate();
+
+// Page transition handling
+const pageTransition = document.getElementById('page-transition');
+const transitionBars = document.querySelectorAll('.transition-bar');
+
+// Color mapping for each page
+const pageColors = {
+    'about': '#D60270',
+    'projects': '#9B4F96', 
+    'experience': '#0038A8',
+    'misc': '#069494'
+};
+
+shapes.forEach((shape, index) => {
+    shape.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const page = shape.dataset.page;
+        const color = pageColors[page] || '#000000';
+        
+        // Set bar colors to match clicked shape
+        transitionBars.forEach(bar => {
+            bar.style.background = color;
+        });
+        
+        // Trigger transition
+        pageTransition.classList.add('active');
+        
+        // Navigate after transition completes
+        setTimeout(() => {
+            window.location.href = `${page}.html`;
+        }, 600);
+    });
+});

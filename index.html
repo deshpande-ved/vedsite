@@ -3,13 +3,21 @@
 
 <head>
     <meta charset="UTF 8">
-    <meta name="viewport" content="" width=device-width,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="home.css" />
     <title>home</title>
     <link rel="icon" href="icons/tab_icon.png" type="image/png">
 </head>
 
 <div id="mousetrailer"></div>
+
+<!-- Page transition overlay -->
+<div id="page-transition">
+    <div class="transition-bar" data-index="0"></div>
+    <div class="transition-bar" data-index="1"></div>
+    <div class="transition-bar" data-index="2"></div>
+    <div class="transition-bar" data-index="3"></div>
+</div>
 
 <body>
     
@@ -22,29 +30,26 @@
     <!-- Background floating elements -->
     <div id="background-animation">
         <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
         <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
         <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
         <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
         <div class="bg-shape triangle"></div>
-        <div class="bg-shape triangle"></div>
-        <div class="bg-shape triangle"></div>
-        <div class="bg-shape triangle"></div>
-        <div class="bg-shape triangle"></div>
-        <div class="bg-shape triangle"></div>
+        <div class="bg-shape triangle-reverse"></div>
     </div>
 
     <!-- Navigation shapes -->
-    <a href="#about" class="nav-shape" data-page="about">
+    <a href="#about" class="nav-shape" id="about-shape" data-page="about">
         <span class="shape-label">about me</span>
     </a>
-    <a href="#projects" class="nav-shape" data-page="projects">
+    <a href="#projects" class="nav-shape" id="projects-shape" data-page="projects">
         <span class="shape-label">projects</span>
     </a>
-    <a href="#experience" class="nav-shape" data-page="experience">
+    <a href="#experience" class="nav-shape" id="experience-shape" data-page="experience">
         <span class="shape-label">experience</span>
-    </a>
-    <a href="#contact" class="nav-shape" data-page="contact">
-        <span class="shape-label">contact</span>
     </a>
     <a href="#misc" class="nav-shape" id="misc-shape" data-page="misc">
         <span class="shape-label">misc</span>
