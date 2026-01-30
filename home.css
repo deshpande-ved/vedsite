@@ -33,7 +33,7 @@ body {
     overflow: hidden;
     background-color: #a69b8f;
 
-    font-family: 'sfpro_d', 'Times New Roman', Times, serif;
+    font-family: 'sfpro_d', 'inter', Times, serif;
     font-size: 20pt;
 
     & :hover>#mousetrailer {
