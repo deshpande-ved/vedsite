@@ -26,14 +26,19 @@ const uniqueRand = (min, max, prev) => {
 // Border-radius options for morphing on edge collision
 const roundnessOptions = ['0rem', '10px', '20px', '40px', '60px'];
 
+// Get responsive shape size (1/5th of smaller viewport dimension)
+const getShapeSize = () => Math.min(window.innerWidth, window.innerHeight) / 4;
+
 // DVD-style bouncing physics
 const shapeData = [];
 const baseSpeed = 2;
 
 shapes.forEach((shape, index) => {
+    const size = getShapeSize();
+    
     // Random starting position
-    const x = rand(0, window.innerWidth - 225);
-    const y = rand(0, window.innerHeight - 225);
+    const x = rand(0, window.innerWidth - size);
+    const y = rand(0, window.innerHeight - size);
     
     // Random direction with consistent speed
     const angle = Math.random() * 2 * Math.PI;
@@ -51,7 +56,9 @@ shapes.forEach((shape, index) => {
         isHovering: false
     });
     
-    // Set initial position
+    // Set initial size and position
+    shape.style.width = size + 'px';
+    shape.style.height = size + 'px';
     shape.style.left = x + 'px';
     shape.style.top = y + 'px';
     
@@ -64,10 +71,22 @@ shapes.forEach((shape, index) => {
     });
 });
 
+// Update sizes on window resize
+window.addEventListener('resize', () => {
+    const size = getShapeSize();
+    shapeData.forEach(data => {
+        data.el.style.width = size + 'px';
+        data.el.style.height = size + 'px';
+        // Keep shapes in bounds after resize
+        data.x = Math.min(data.x, window.innerWidth - size);
+        data.y = Math.min(data.y, window.innerHeight - size);
+    });
+});
+
 function animate() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const size = 225;
+    const size = getShapeSize();
     
     shapeData.forEach(data => {
         if (data.isHovering) {
