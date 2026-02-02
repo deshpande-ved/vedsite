@@ -16,7 +16,7 @@ body {
 #mousetrailer {
     height: 15px;
     width: 15px;
-    background: red;
+    background: black;
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     position: fixed;
     left: 0px;
@@ -140,6 +140,12 @@ body {
         color: #000000;
         background: none;
         background-color: transparent;
+    }
+}
+
+@media (max-width: 768px), (hover: none) {
+    .nav-shape > .shape-label {
+        opacity: 1;
     }
 }
 

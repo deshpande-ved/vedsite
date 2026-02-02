@@ -169,7 +169,16 @@ if (returningFromSubpage) {
         }
     }
     
-    // Create true full-screen overlay first
+    // Get target position
+    const liveX = targetShapeData ? targetShapeData.x + halfSize : window.innerWidth / 2;
+    const liveY = targetShapeData ? targetShapeData.y + halfSize : window.innerHeight / 2;
+    
+    // Calculate initial circle radius to cover entire screen from target point
+    const maxDistX = Math.max(liveX, window.innerWidth - liveX);
+    const maxDistY = Math.max(liveY, window.innerHeight - liveY);
+    const startRadius = Math.sqrt(maxDistX * maxDistX + maxDistY * maxDistY) + 50;
+    
+    // Create full-screen overlay with clip-path
     const returnOverlay = document.createElement('div');
     returnOverlay.id = 'return-transition';
     returnOverlay.style.cssText = `
@@ -178,27 +187,15 @@ if (returningFromSubpage) {
         background-color: ${color};
         z-index: 9999;
         pointer-events: none;
+        clip-path: circle(${startRadius}px at ${liveX}px ${liveY}px);
+        transition: clip-path 400ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
     `;
     document.body.appendChild(returnOverlay);
     
-    // After a frame, transition to shape position
+    // Animate clip-path to shrink to shape size
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            const liveX = targetShapeData ? targetShapeData.x : window.innerWidth / 2 - halfSize;
-            const liveY = targetShapeData ? targetShapeData.y : window.innerHeight / 2 - halfSize;
-            
-            returnOverlay.style.cssText = `
-                position: fixed;
-                width: ${size}px;
-                height: ${size}px;
-                left: ${liveX}px;
-                top: ${liveY}px;
-                background-color: ${color};
-                border-radius: 6rem;
-                z-index: 9999;
-                pointer-events: none;
-                transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
-            `;
+            returnOverlay.style.clipPath = `circle(${halfSize}px at ${liveX}px ${liveY}px)`;
             
             setTimeout(() => {
                 returnOverlay.style.opacity = '0';
