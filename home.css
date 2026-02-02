@@ -103,8 +103,8 @@ body {
 
 .nav-shape {
     position: fixed;
-    width: 225px;
-    height: 225px;
+    width: clamp(120px, 25vw, 225px);
+    height: clamp(120px, 25vw, 225px);
     cursor: pointer;
     text-decoration: none;
     display: flex;
@@ -132,7 +132,7 @@ body {
 
     & > .shape-label {
         font-family: 'sfpro_d', 'Times New Roman', Times, serif;
-        font-size: 30px;
+        font-size: clamp(18px, 3vw, 30px);
         text-align: center;
         opacity: 0;
         transition: opacity 300ms ease;

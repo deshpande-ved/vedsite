@@ -6,17 +6,28 @@ const color = sessionStorage.getItem('transitionColor') || '#000000';
 const storedX = sessionStorage.getItem('transitionX');
 const storedY = sessionStorage.getItem('transitionY');
 
+// Get responsive shape size (matches CSS clamp)
+const getShapeSize = () => {
+    const vwSize = window.innerWidth * 0.25;
+    return Math.min(225, Math.max(120, vwSize));
+}
+
 // Position for overlay
+const size = getShapeSize();
+const halfSize = size / 2;
 const centerX = storedX ? parseFloat(storedX) : window.innerWidth / 2;
 const centerY = storedY ? parseFloat(storedY) : window.innerHeight / 2;
 
 // Create overlay element
 function createOverlay(startScaled) {
+    const currentSize = getShapeSize();
     const overlay = document.createElement('div');
     overlay.id = 'shape-transition';
     overlay.style.backgroundColor = color;
-    overlay.style.left = (centerX - 112.5) + 'px';
-    overlay.style.top = (centerY - 112.5) + 'px';
+    overlay.style.width = currentSize + 'px';
+    overlay.style.height = currentSize + 'px';
+    overlay.style.left = (centerX - currentSize / 2) + 'px';
+    overlay.style.top = (centerY - currentSize / 2) + 'px';
     if (!startScaled) {
         overlay.style.transform = 'scale(1)';
     }
@@ -34,7 +45,7 @@ window.addEventListener('DOMContentLoaded', () => {
         entryOverlay.classList.add('shrink');
         setTimeout(() => {
             entryOverlay.remove();
-        }, 700);
+        }, 500);
     }, 50);
 });
 

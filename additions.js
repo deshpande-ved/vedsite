@@ -24,6 +24,12 @@ const uniqueRand = (min, max, prev) => {
     return next;
 }
 
+// Get responsive shape size (matches CSS clamp)
+const getShapeSize = () => {
+    const vwSize = window.innerWidth * 0.25;
+    return Math.min(225, Math.max(120, vwSize));
+}
+
 // Border-radius options for morphing on edge collision
 const roundnessOptions = ['0rem', '10px', '20px', '40px', '60px'];
 
@@ -32,9 +38,11 @@ const shapeData = [];
 const baseSpeed = 2;
 
 shapes.forEach((shape, index) => {
+    const size = getShapeSize();
+    
     // Random starting position
-    const x = rand(0, window.innerWidth - 225);
-    const y = rand(0, window.innerHeight - 225);
+    const x = rand(0, window.innerWidth - size);
+    const y = rand(0, window.innerHeight - size);
     
     // Random direction with consistent speed
     const angle = Math.random() * 2 * Math.PI;
@@ -68,7 +76,7 @@ shapes.forEach((shape, index) => {
 function animate() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const size = 225;
+    const size = getShapeSize();
     
     shapeData.forEach(data => {
         if (data.isHovering) {
@@ -143,6 +151,8 @@ if (returningFromSubpage) {
     sessionStorage.removeItem('returningFromSubpage');
     
     const color = sessionStorage.getItem('transitionColor') || '#000000';
+    const size = getShapeSize();
+    const halfSize = size / 2;
     
     // Find which shape matches this color
     let targetShapeData = null;
@@ -160,22 +170,22 @@ if (returningFromSubpage) {
     }
     
     // Get current position of target shape (or fallback to center)
-    const currentX = targetShapeData ? targetShapeData.x + 112.5 : window.innerWidth / 2;
-    const currentY = targetShapeData ? targetShapeData.y + 112.5 : window.innerHeight / 2;
+    const currentX = targetShapeData ? targetShapeData.x + halfSize : window.innerWidth / 2;
+    const currentY = targetShapeData ? targetShapeData.y + halfSize : window.innerHeight / 2;
     
     // Create full-screen overlay at shape's current position
     const returnOverlay = document.createElement('div');
     returnOverlay.id = 'return-transition';
     returnOverlay.style.cssText = `
         position: fixed;
-        width: 225px;
-        height: 225px;
+        width: ${size}px;
+        height: ${size}px;
         background-color: ${color};
         border-radius: 0;
         z-index: 9999;
         pointer-events: none;
-        left: ${currentX - 112.5}px;
-        top: ${currentY - 112.5}px;
+        left: ${currentX - halfSize}px;
+        top: ${currentY - halfSize}px;
         transform: scale(20);
         transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 400ms ease, left 400ms ease, top 400ms ease;
     `;
@@ -185,8 +195,8 @@ if (returningFromSubpage) {
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             // Get updated position
-            const liveX = targetShapeData ? targetShapeData.x : currentX - 112.5;
-            const liveY = targetShapeData ? targetShapeData.y : currentY - 112.5;
+            const liveX = targetShapeData ? targetShapeData.x : currentX - halfSize;
+            const liveY = targetShapeData ? targetShapeData.y : currentY - halfSize;
             
             returnOverlay.style.left = liveX + 'px';
             returnOverlay.style.top = liveY + 'px';
@@ -234,6 +244,6 @@ shapes.forEach((shape, index) => {
         // Navigate after transition completes
         setTimeout(() => {
             window.location.href = `${page}.html`;
-        }, 700);
+        }, 350);
     });
 });
