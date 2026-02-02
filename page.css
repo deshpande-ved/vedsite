@@ -16,6 +16,10 @@ body {
     overflow-x: hidden;
 }
 
+a:not(.nav-shape):not(.home-btn) {
+    color: #000000;
+}
+
 #mousetrailer {
     height: 15px;
     width: 15px;
@@ -124,7 +128,7 @@ body {
         }
     }
 
-    & .back-btn {
+    & .home-btn {
         font-family: 'sfpro_d', 'Times New Roman', Times, serif;
         font-size: 18px;
         color: #ffffff;

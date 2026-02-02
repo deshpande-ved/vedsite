@@ -13,6 +13,10 @@ body {
     font-size: 20pt;
 }
 
+a:not(.nav-shape):not(.home-btn) {
+    color: #000000;
+}
+
 #mousetrailer {
     height: 15px;
     width: 15px;
@@ -118,6 +122,7 @@ body {
     will-change: transform;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    outline: none;
 
     &:hover {
         & > .shape-label {

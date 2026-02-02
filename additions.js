@@ -76,9 +76,11 @@ shapes.forEach((shape, index) => {
     
     shape.addEventListener('mouseleave', () => {
         shapeData[index].isHovering = false;
-        // Remove hover scale
+        // Remove hover scale and reset label
         const data = shapeData[index];
         shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
+        const label = shape.querySelector('.shape-label');
+        if (label) label.style.opacity = '';
     });
 });
 

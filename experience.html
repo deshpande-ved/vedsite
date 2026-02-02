@@ -9,11 +9,18 @@
     <link rel="icon" href="icons/tab_icon.png" type="image/png">
     <style>
         body { background-color: #0038A8; }
-        .page-header .back-btn:hover { color: #0038A8; }
+        .page-header .home-btn:hover { color: #0038A8; }
     </style>
 </head>
 
 <body>
+    <div id="page-transition">
+        <div class="transition-bar" data-index="0" style="background: #0038A8;"></div>
+        <div class="transition-bar" data-index="1" style="background: #0038A8;"></div>
+        <div class="transition-bar" data-index="2" style="background: #0038A8;"></div>
+        <div class="transition-bar" data-index="3" style="background: #0038A8;"></div>
+    </div>
+
     <div id="background-animation">
         <div class="bg-shape triangle"></div>
         <div class="bg-shape triangle-reverse"></div>
@@ -30,13 +37,13 @@
     <div class="page-container">
         <header class="page-header">
             <h1>experience</h1>
-            <a href="index.html" class="back-btn">← home</a>
+            <a href="index.html" class="home-btn"> â† home </a>
         </header>
 
         <div class="page-content">
             <section>
                 <h2>work experience</h2>
-                <p>professional experience here</p>
+                <p></p> professional experience here</p>
             </section>
 
             <section>
@@ -46,14 +53,45 @@
 
             <section>
                 <h2>skills</h2>
-                <p>technical skills</p>
+                <p>technical shit</p>
             </section>
         </div>
     </div>
 
-    <div id="mousetrailer"></div>
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('page-transition').classList.add('exit');
+            }, 100);
+        });
 
-    <script src="subpage.js"></script>
+        document.querySelector('.home-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const transition = document.getElementById('page-transition');
+            transition.classList.remove('exit');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 300);
+        });
+    </script>
 </body>
+
+<div id="mousetrailer"></div>
+
+<script>
+    const mousetrailer = document.getElementById("mousetrailer");
+
+    window.onmousemove = e => {
+        const x = e.clientX - mousetrailer.offsetWidth / 2;
+        const y = e.clientY - mousetrailer.offsetHeight / 2;
+
+        mousetrailer.animate({
+            transform: `translate(${x}px, ${y}px)`
+        }, {
+            duration: 400,
+            fill: 'forwards'
+        });
+    }
+</script>
 
 </html>

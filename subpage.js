@@ -75,7 +75,7 @@ function doExitTransition() {
 
 // Back button click handler
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.back-btn').addEventListener('click', (e) => {
+    document.querySelector('.home-btn').addEventListener('click', (e) => {
         e.preventDefault();
         doExitTransition();
     });
