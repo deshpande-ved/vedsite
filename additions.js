@@ -145,7 +145,7 @@ const pageColors = {
     'misc': '#069494'
 };
 
-// Check if returning from subpage - show shrinking overlay at shape's current position
+// Check if returning from subpage
 const returningFromSubpage = sessionStorage.getItem('returningFromSubpage');
 if (returningFromSubpage) {
     sessionStorage.removeItem('returningFromSubpage');
@@ -169,43 +169,39 @@ if (returningFromSubpage) {
         }
     }
     
-    // Get current position of target shape (or fallback to center)
-    const currentX = targetShapeData ? targetShapeData.x + halfSize : window.innerWidth / 2;
-    const currentY = targetShapeData ? targetShapeData.y + halfSize : window.innerHeight / 2;
-    
-    // Create full-screen overlay at shape's current position
+    // Create true full-screen overlay first
     const returnOverlay = document.createElement('div');
     returnOverlay.id = 'return-transition';
     returnOverlay.style.cssText = `
         position: fixed;
-        width: ${size}px;
-        height: ${size}px;
+        inset: 0;
         background-color: ${color};
-        border-radius: 0;
         z-index: 9999;
         pointer-events: none;
-        left: ${currentX - halfSize}px;
-        top: ${currentY - halfSize}px;
-        transform: scale(20);
-        transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 400ms ease, left 400ms ease, top 400ms ease;
     `;
     document.body.appendChild(returnOverlay);
     
-    // Animate shrink to shape's live position
+    // After a frame, transition to shape position
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            // Get updated position
-            const liveX = targetShapeData ? targetShapeData.x : currentX - halfSize;
-            const liveY = targetShapeData ? targetShapeData.y : currentY - halfSize;
+            const liveX = targetShapeData ? targetShapeData.x : window.innerWidth / 2 - halfSize;
+            const liveY = targetShapeData ? targetShapeData.y : window.innerHeight / 2 - halfSize;
             
-            returnOverlay.style.left = liveX + 'px';
-            returnOverlay.style.top = liveY + 'px';
-            returnOverlay.style.transform = 'scale(1)';
-            returnOverlay.style.borderRadius = '6rem';
+            returnOverlay.style.cssText = `
+                position: fixed;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${liveX}px;
+                top: ${liveY}px;
+                background-color: ${color};
+                border-radius: 6rem;
+                z-index: 9999;
+                pointer-events: none;
+                transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+            `;
             
             setTimeout(() => {
                 returnOverlay.style.opacity = '0';
-                returnOverlay.style.transition = 'opacity 200ms ease';
                 setTimeout(() => returnOverlay.remove(), 200);
             }, 400);
         });
