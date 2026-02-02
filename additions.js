@@ -60,16 +60,25 @@ shapes.forEach((shape, index) => {
         isHovering: false
     });
     
-    // Set initial position
-    shape.style.left = x + 'px';
-    shape.style.top = y + 'px';
+    // Set initial position using transform (GPU accelerated)
+    shape.style.left = '0';
+    shape.style.top = '0';
+    shape.style.transform = `translate(${x}px, ${y}px)`;
     
     shape.addEventListener('mouseenter', () => {
         shapeData[index].isHovering = true;
+        // Apply hover scale along with current position
+        const data = shapeData[index];
+        shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg) scale(1.15)`;
+        const label = shape.querySelector('.shape-label');
+        if (label) label.style.opacity = '1';
     });
     
     shape.addEventListener('mouseleave', () => {
         shapeData[index].isHovering = false;
+        // Remove hover scale
+        const data = shapeData[index];
+        shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
     });
 });
 
@@ -120,10 +129,8 @@ function animate() {
             data.prevRoundness = roundnessIndex;
         }
         
-        // Apply position and rotation
-        data.el.style.left = data.x + 'px';
-        data.el.style.top = data.y + 'px';
-        data.el.style.transform = `rotate(${data.rotation}deg)`;
+        // Apply position and rotation via transform (GPU accelerated)
+        data.el.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
         
         // Counter-rotate the label to keep it readable
         const label = data.el.querySelector('.shape-label');
@@ -218,6 +225,7 @@ shapes.forEach((shape, index) => {
         e.preventDefault();
         
         const page = shape.dataset.page;
+        const data = shapeData[index];
         const rect = shape.getBoundingClientRect();
         
         // Store shape info for back transition
@@ -237,9 +245,10 @@ shapes.forEach((shape, index) => {
         const maxDist = Math.sqrt(maxDistX * maxDistX + maxDistY * maxDistY);
         const scale = (maxDist * 2) / rect.width * 1.5;
         
-        // Add expanding class and apply transform
+        // Add expanding class and apply transform with current position
         shape.classList.add('expanding');
-        shape.style.transform = `rotate(0deg) scale(${scale})`;
+        shape.style.transition = 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 300ms cubic-bezier(0.4, 0, 0.2, 1)';
+        shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(0deg) scale(${scale})`;
         
         // Navigate after transition completes
         setTimeout(() => {
@@ -256,9 +265,11 @@ window.addEventListener('pageshow', (e) => {
         if (stuckOverlay) stuckOverlay.remove();
         
         // Reset any expanding shapes
-        shapes.forEach(shape => {
+        shapes.forEach((shape, index) => {
             shape.classList.remove('expanding');
-            shape.style.transform = '';
+            shape.style.transition = '';
+            const data = shapeData[index];
+            shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
             const label = shape.querySelector('.shape-label');
             if (label) label.style.opacity = '';
         });

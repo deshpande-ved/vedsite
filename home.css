@@ -111,14 +111,15 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 12;
-    transition: border-radius 750ms ease-in-out, transform 300ms ease-in-out;
+    transition: border-radius 750ms ease-in-out;
     border-radius: 6rem;
     overflow: hidden;
     opacity: 1;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 
     &:hover {
-        transform: scale(1.15);
-
         & > .shape-label {
             opacity: 1;
         }
@@ -126,7 +127,6 @@ body {
 
     &.expanding {
         z-index: 9999;
-        transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 300ms cubic-bezier(0.4, 0, 0.2, 1);
         border-radius: 0 !important;
     }
 
