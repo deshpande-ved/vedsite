@@ -145,7 +145,7 @@ body {
 
 @media (max-width: 768px), (hover: none) {
     .nav-shape > .shape-label {
-        opacity: 1;
+        opacity: 1 !important;
     }
 }
 

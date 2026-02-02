@@ -154,10 +154,11 @@ if (returningFromSubpage) {
     const size = getShapeSize();
     const halfSize = size / 2;
     
-    // Find which shape matches this color
+    // Find which shape matches this color (case-insensitive)
     let targetShapeData = null;
+    const colorLower = color.toLowerCase();
     for (const page in pageColors) {
-        if (pageColors[page] === color) {
+        if (pageColors[page].toLowerCase() === colorLower) {
             const shapeEl = document.querySelector(`[data-page="${page}"]`);
             if (shapeEl) {
                 const index = Array.from(shapes).indexOf(shapeEl);
@@ -169,25 +170,31 @@ if (returningFromSubpage) {
         }
     }
     
-    // Get target position
+    // Get target position (center of screen if no match)
     const liveX = targetShapeData ? targetShapeData.x + halfSize : window.innerWidth / 2;
     const liveY = targetShapeData ? targetShapeData.y + halfSize : window.innerHeight / 2;
     
     // Calculate initial circle radius to cover entire screen from target point
-    const maxDistX = Math.max(liveX, window.innerWidth - liveX);
-    const maxDistY = Math.max(liveY, window.innerHeight - liveY);
-    const startRadius = Math.sqrt(maxDistX * maxDistX + maxDistY * maxDistY) + 50;
+    // Use larger viewport estimate to handle iOS Safari dynamic viewport
+    const vpWidth = window.innerWidth;
+    const vpHeight = Math.max(window.innerHeight, document.documentElement.clientHeight, window.screen.height);
+    const maxDistX = Math.max(liveX, vpWidth - liveX);
+    const maxDistY = Math.max(liveY, vpHeight - liveY);
+    const startRadius = Math.sqrt(maxDistX * maxDistX + maxDistY * maxDistY) + 100;
     
     // Create full-screen overlay with clip-path
     const returnOverlay = document.createElement('div');
     returnOverlay.id = 'return-transition';
     returnOverlay.style.cssText = `
         position: fixed;
-        inset: 0;
+        top: -50px;
+        left: -50px;
+        right: -50px;
+        bottom: -50px;
         background-color: ${color};
         z-index: 9999;
         pointer-events: none;
-        clip-path: circle(${startRadius}px at ${liveX}px ${liveY}px);
+        clip-path: circle(${startRadius}px at ${liveX + 50}px ${liveY + 50}px);
         transition: clip-path 400ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
     `;
     document.body.appendChild(returnOverlay);
@@ -195,7 +202,7 @@ if (returningFromSubpage) {
     // Animate clip-path to shrink to shape size
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            returnOverlay.style.clipPath = `circle(${halfSize}px at ${liveX}px ${liveY}px)`;
+            returnOverlay.style.clipPath = `circle(${halfSize}px at ${liveX + 50}px ${liveY + 50}px)`;
             
             setTimeout(() => {
                 returnOverlay.style.opacity = '0';
@@ -239,4 +246,21 @@ shapes.forEach((shape, index) => {
             window.location.href = `${page}.html`;
         }, 350);
     });
+});
+
+// Handle browser back button (bfcache) - reset expanding shapes
+window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+        // Page restored from bfcache - remove any stuck transitions
+        const stuckOverlay = document.getElementById('return-transition');
+        if (stuckOverlay) stuckOverlay.remove();
+        
+        // Reset any expanding shapes
+        shapes.forEach(shape => {
+            shape.classList.remove('expanding');
+            shape.style.transform = '';
+            const label = shape.querySelector('.shape-label');
+            if (label) label.style.opacity = '';
+        });
+    }
 });
