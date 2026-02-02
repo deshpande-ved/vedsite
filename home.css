@@ -3,16 +3,19 @@
     src: url(font/SF-Pro-Display-Medium.otf);
 }
 
-* {
+body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0px;
+    overflow: hidden;
     background-color: #a69b8f;
+    font-family: 'sfpro_d', 'inter', Times, serif;
+    font-size: 20pt;
 }
 
 #mousetrailer {
     height: 15px;
     width: 15px;
-    /*
-    background-image: url("cursor/cursorhand.png");
-    */
     background: red;
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     position: fixed;
@@ -21,24 +24,8 @@
     z-index: 10000;
     pointer-events: none;
     opacity: 1;
-    transition: opacity 250 ms ease;
+    transition: opacity 250ms ease;
     transform: rotate(35deg);
-}
-
-
-body {
-    height: 100vh;
-    width: 100vw;
-    margin: 0px;
-    overflow: hidden;
-    background-color: #a69b8f;
-
-    font-family: 'sfpro_d', 'inter', Times, serif;
-    font-size: 20pt;
-
-    & :hover>#mousetrailer {
-        opacity: 1;
-    }
 }
 
 #background-animation {
@@ -48,24 +35,30 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 1;
+    z-index: 11;
     pointer-events: none;
+    background: none;
+
+    & * {
+        background: none;
+    }
 
     &::before {
-        content: 'vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite';
+        content: 'vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite';
         position: absolute;
         top: 0;
         left: 0;
         width: 300%;
         height: 300%;
-        font-size: 80px;
+        font-size: clamp(30px, 8vw, 80px);
         font-family: 'sfpro_d', 'inter', Times, serif;
         color: rgba(255, 255, 255, 0.05);
     }
 
-    &>.bg-shape {
+    & > .bg-shape {
         position: absolute;
-        opacity: 0.15;
+        opacity: 0.25;
+        will-change: transform;
 
         &.triangle {
             width: 0;
@@ -85,144 +78,27 @@ body {
             animation: float-and-roll-right 20s linear infinite;
         }
 
-        &:nth-child(1) {
-            top: 5%;
-            animation-delay: 0s;
-            animation-duration: 22s;
-        }
-
-        &:nth-child(2) {
-            top: 15%;
-            animation-delay: -5s;
-            animation-duration: 25s;
-        }
-
-        &:nth-child(3) {
-            top: 25%;
-            animation-delay: -10s;
-            animation-duration: 28s;
-        }
-
-        &:nth-child(4) {
-            top: 35%;
-            animation-delay: -15s;
-            animation-duration: 20s;
-        }
-
-        &:nth-child(5) {
-            top: 45%;
-            animation-delay: -8s;
-            animation-duration: 24s;
-        }
-
-        &:nth-child(6) {
-            top: 55%;
-            animation-delay: -12s;
-            animation-duration: 26s;
-        }
-
-        &:nth-child(7) {
-            top: 65%;
-            animation-delay: -18s;
-            animation-duration: 23s;
-        }
-
-        &:nth-child(8) {
-            top: 75%;
-            animation-delay: -3s;
-            animation-duration: 27s;
-        }
-
-        &:nth-child(9) {
-            top: 85%;
-            animation-delay: -20s;
-            animation-duration: 21s;
-        }
-
-        &:nth-child(10) {
-            top: 95%;
-            animation-delay: -14s;
-            animation-duration: 29s;
-        }
-
-        &:nth-child(11) {
-            top: 8%;
-            animation-delay: -2s;
-            animation-duration: 23s;
-        }
-
-        &:nth-child(12) {
-            top: 18%;
-            animation-delay: -7s;
-            animation-duration: 26s;
-        }
-
-        &:nth-child(13) {
-            top: 28%;
-            animation-delay: -13s;
-            animation-duration: 24s;
-        }
-
-        &:nth-child(14) {
-            top: 38%;
-            animation-delay: -19s;
-            animation-duration: 21s;
-        }
-
-        &:nth-child(15) {
-            top: 48%;
-            animation-delay: -4s;
-            animation-duration: 25s;
-        }
-
-        &:nth-child(16) {
-            top: 58%;
-            animation-delay: -16s;
-            animation-duration: 28s;
-        }
-
-        &:nth-child(17) {
-            top: 68%;
-            animation-delay: -9s;
-            animation-duration: 22s;
-        }
-
-        &:nth-child(18) {
-            top: 78%;
-            animation-delay: -6s;
-            animation-duration: 27s;
-        }
-
-        &:nth-child(19) {
-            top: 88%;
-            animation-delay: -11s;
-            animation-duration: 20s;
-        }
-
-        &:nth-child(20) {
-            top: 92%;
-            animation-delay: -17s;
-            animation-duration: 29s;
-        }
+        &:nth-child(1) { top: 5%; animation-delay: 0s; animation-duration: 22s; }
+        &:nth-child(2) { top: 15%; animation-delay: -5s; animation-duration: 25s; }
+        &:nth-child(3) { top: 25%; animation-delay: -10s; animation-duration: 28s; }
+        &:nth-child(4) { top: 35%; animation-delay: -15s; animation-duration: 20s; }
+        &:nth-child(5) { top: 45%; animation-delay: -8s; animation-duration: 24s; }
+        &:nth-child(6) { top: 55%; animation-delay: -12s; animation-duration: 26s; }
+        &:nth-child(7) { top: 65%; animation-delay: -18s; animation-duration: 23s; }
+        &:nth-child(8) { top: 75%; animation-delay: -3s; animation-duration: 27s; }
+        &:nth-child(9) { top: 85%; animation-delay: -20s; animation-duration: 21s; }
+        &:nth-child(10) { top: 95%; animation-delay: -14s; animation-duration: 29s; }
     }
 }
 
 @keyframes float-and-roll-left {
-    from {
-        transform: translateX(-100px) rotate(0deg);
-    }
-    to {
-        transform: translateX(calc(100vw + 100px)) rotate(-360deg);
-    }
+    from { transform: translateX(-100px) rotate(0deg); }
+    to { transform: translateX(calc(100vw + 100px)) rotate(-360deg); }
 }
 
 @keyframes float-and-roll-right {
-    from {
-        transform: translateX(calc(100vw + 100px)) rotate(0deg);
-    }
-    to {
-        transform: translateX(-100px) rotate(360deg);
-    }
+    from { transform: translateX(calc(100vw + 100px)) rotate(0deg); }
+    to { transform: translateX(-100px) rotate(360deg); }
 }
 
 .nav-shape {
@@ -234,9 +110,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: 12;
     transition: border-radius 750ms ease-in-out, transform 300ms ease-in-out;
     border-radius: 6rem;
+    overflow: hidden;
+    opacity: 1;
 
     &:hover {
         transform: scale(1.15);
@@ -244,6 +122,12 @@ body {
         & > .shape-label {
             opacity: 1;
         }
+    }
+
+    &.expanding {
+        z-index: 9999;
+        transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 0 !important;
     }
 
     & > .shape-label {
@@ -256,25 +140,13 @@ body {
         color: #000000;
         background: none;
         background-color: transparent;
-        animation: counter-rotate 8s linear infinite;
     }
 }
 
-#about-shape {
-    background-color: #D60270;
-}
-
-#projects-shape {
-    background-color: #9B4F96;
-}
-
-#experience-shape {
-    background-color: #0038A8;
-}
-
-#misc-shape {
-    background-color: #069494;
-}
+#about-shape { background-color: #D60270; }
+#projects-shape { background-color: #9B4F96; }
+#experience-shape { background-color: #0038A8; }
+#misc-shape { background-color: #069494; }
 
 .contact-icons img {
     width: 24px;
@@ -284,7 +156,7 @@ body {
 .welcome {
     height: 100px;
     display: flex;
-    align-content:center;
+    align-content: center;
     justify-content: center;
 }
 

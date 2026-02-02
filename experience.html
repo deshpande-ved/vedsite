@@ -14,13 +14,6 @@
 </head>
 
 <body>
-    <div id="page-transition">
-        <div class="transition-bar" data-index="0" style="background: #0038A8;"></div>
-        <div class="transition-bar" data-index="1" style="background: #0038A8;"></div>
-        <div class="transition-bar" data-index="2" style="background: #0038A8;"></div>
-        <div class="transition-bar" data-index="3" style="background: #0038A8;"></div>
-    </div>
-
     <div id="background-animation">
         <div class="bg-shape triangle"></div>
         <div class="bg-shape triangle-reverse"></div>
@@ -37,13 +30,13 @@
     <div class="page-container">
         <header class="page-header">
             <h1>experience</h1>
-            <a href="index.html" class="back-btn">← back</a>
+            <a href="index.html" class="back-btn">← home</a>
         </header>
 
         <div class="page-content">
             <section>
                 <h2>work experience</h2>
-                <p></p> professional experience here</p>
+                <p>professional experience here</p>
             </section>
 
             <section>
@@ -53,27 +46,14 @@
 
             <section>
                 <h2>skills</h2>
-                <p>technical shit</p>
+                <p>technical skills</p>
             </section>
         </div>
     </div>
 
-    <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('page-transition').classList.add('exit');
-            }, 100);
-        });
+    <div id="mousetrailer"></div>
 
-        document.querySelector('.back-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            const transition = document.getElementById('page-transition');
-            transition.classList.remove('exit');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 600);
-        });
-    </script>
+    <script src="subpage.js"></script>
 </body>
 
 </html>

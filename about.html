@@ -8,19 +8,17 @@
     <title>about me</title>
     <link rel="icon" href="icons/tab_icon.png" type="image/png">
     <style>
-        body { background-color: #D60270; }
-        .page-header .back-btn:hover { color: #D60270; }
+        body {
+            background-color: #D60270;
+        }
+
+        .page-header .back-btn:hover {
+            color: #D60270;
+        }
     </style>
 </head>
 
 <body>
-    <div id="page-transition">
-        <div class="transition-bar" data-index="0" style="background: #D60270;"></div>
-        <div class="transition-bar" data-index="1" style="background: #D60270;"></div>
-        <div class="transition-bar" data-index="2" style="background: #D60270;"></div>
-        <div class="transition-bar" data-index="3" style="background: #D60270;"></div>
-    </div>
-
     <div id="background-animation">
         <div class="bg-shape triangle"></div>
         <div class="bg-shape triangle-reverse"></div>
@@ -37,7 +35,7 @@
     <div class="page-container">
         <header class="page-header">
             <h1>about me</h1>
-            <a href="index.html" class="back-btn">← back</a>
+            <a href="index.html" class="back-btn">← home</a>
         </header>
 
         <div class="page-content">
@@ -53,27 +51,14 @@
 
             <section>
                 <h2>interests</h2>
-                <p>squash, movies, music,, </p>
+                <p>squash, movies, music</p>
             </section>
         </div>
     </div>
 
-    <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('page-transition').classList.add('exit');
-            }, 100);
-        });
+    <div id="mousetrailer"></div>
 
-        document.querySelector('.back-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            const transition = document.getElementById('page-transition');
-            transition.classList.remove('exit');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 600);
-        });
-    </script>
+    <script src="subpage.js"></script>
 </body>
 
 </html>

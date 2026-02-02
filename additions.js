@@ -1,18 +1,19 @@
+// Mousetrailer
 const mousetrailer = document.getElementById("mousetrailer");
 
 window.onmousemove = e => {
     const x = e.clientX - mousetrailer.offsetWidth / 2;
     const y = e.clientY - mousetrailer.offsetHeight / 2;
 
-    const keyframes = {
+    mousetrailer.animate({
         transform: `translate(${x}px, ${y}px)`
-    }
-    mousetrailer.animate(keyframes, {
+    }, {
         duration: 400,
         fill: 'forwards'
     });
 }
 
+// Shape bouncing and morphing
 const shapes = document.querySelectorAll('.nav-shape');
 
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -26,19 +27,14 @@ const uniqueRand = (min, max, prev) => {
 // Border-radius options for morphing on edge collision
 const roundnessOptions = ['0rem', '10px', '20px', '40px', '60px'];
 
-// Get responsive shape size (1/5th of smaller viewport dimension)
-const getShapeSize = () => Math.min(window.innerWidth, window.innerHeight) / 4;
-
 // DVD-style bouncing physics
 const shapeData = [];
 const baseSpeed = 2;
 
 shapes.forEach((shape, index) => {
-    const size = getShapeSize();
-    
     // Random starting position
-    const x = rand(0, window.innerWidth - size);
-    const y = rand(0, window.innerHeight - size);
+    const x = rand(0, window.innerWidth - 225);
+    const y = rand(0, window.innerHeight - 225);
     
     // Random direction with consistent speed
     const angle = Math.random() * 2 * Math.PI;
@@ -56,9 +52,7 @@ shapes.forEach((shape, index) => {
         isHovering: false
     });
     
-    // Set initial size and position
-    shape.style.width = size + 'px';
-    shape.style.height = size + 'px';
+    // Set initial position
     shape.style.left = x + 'px';
     shape.style.top = y + 'px';
     
@@ -71,22 +65,10 @@ shapes.forEach((shape, index) => {
     });
 });
 
-// Update sizes on window resize
-window.addEventListener('resize', () => {
-    const size = getShapeSize();
-    shapeData.forEach(data => {
-        data.el.style.width = size + 'px';
-        data.el.style.height = size + 'px';
-        // Keep shapes in bounds after resize
-        data.x = Math.min(data.x, window.innerWidth - size);
-        data.y = Math.min(data.y, window.innerHeight - size);
-    });
-});
-
 function animate() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const size = getShapeSize();
+    const size = 225;
     
     shapeData.forEach(data => {
         if (data.isHovering) {
@@ -147,11 +129,7 @@ function animate() {
 
 animate();
 
-// Page transition handling
-const pageTransition = document.getElementById('page-transition');
-const transitionBars = document.querySelectorAll('.transition-bar');
-
-// Color mapping for each page
+// Page color mapping
 const pageColors = {
     'about': '#D60270',
     'projects': '#9B4F96', 
@@ -159,24 +137,103 @@ const pageColors = {
     'misc': '#069494'
 };
 
+// Check if returning from subpage - show shrinking overlay at shape's current position
+const returningFromSubpage = sessionStorage.getItem('returningFromSubpage');
+if (returningFromSubpage) {
+    sessionStorage.removeItem('returningFromSubpage');
+    
+    const color = sessionStorage.getItem('transitionColor') || '#000000';
+    
+    // Find which shape matches this color
+    let targetShapeData = null;
+    for (const page in pageColors) {
+        if (pageColors[page] === color) {
+            const shapeEl = document.querySelector(`[data-page="${page}"]`);
+            if (shapeEl) {
+                const index = Array.from(shapes).indexOf(shapeEl);
+                if (index !== -1) {
+                    targetShapeData = shapeData[index];
+                }
+            }
+            break;
+        }
+    }
+    
+    // Get current position of target shape (or fallback to center)
+    const currentX = targetShapeData ? targetShapeData.x + 112.5 : window.innerWidth / 2;
+    const currentY = targetShapeData ? targetShapeData.y + 112.5 : window.innerHeight / 2;
+    
+    // Create full-screen overlay at shape's current position
+    const returnOverlay = document.createElement('div');
+    returnOverlay.id = 'return-transition';
+    returnOverlay.style.cssText = `
+        position: fixed;
+        width: 225px;
+        height: 225px;
+        background-color: ${color};
+        border-radius: 0;
+        z-index: 9999;
+        pointer-events: none;
+        left: ${currentX - 112.5}px;
+        top: ${currentY - 112.5}px;
+        transform: scale(20);
+        transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 400ms ease, left 400ms ease, top 400ms ease;
+    `;
+    document.body.appendChild(returnOverlay);
+    
+    // Animate shrink to shape's live position
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            // Get updated position
+            const liveX = targetShapeData ? targetShapeData.x : currentX - 112.5;
+            const liveY = targetShapeData ? targetShapeData.y : currentY - 112.5;
+            
+            returnOverlay.style.left = liveX + 'px';
+            returnOverlay.style.top = liveY + 'px';
+            returnOverlay.style.transform = 'scale(1)';
+            returnOverlay.style.borderRadius = '6rem';
+            
+            setTimeout(() => {
+                returnOverlay.style.opacity = '0';
+                returnOverlay.style.transition = 'opacity 200ms ease';
+                setTimeout(() => returnOverlay.remove(), 200);
+            }, 400);
+        });
+    });
+}
+
+// Page transition: expanding shape fills screen
 shapes.forEach((shape, index) => {
     shape.addEventListener('click', (e) => {
         e.preventDefault();
         
         const page = shape.dataset.page;
-        const color = pageColors[page] || '#000000';
+        const rect = shape.getBoundingClientRect();
         
-        // Set bar colors to match clicked shape
-        transitionBars.forEach(bar => {
-            bar.style.background = color;
-        });
+        // Store shape info for back transition
+        sessionStorage.setItem('transitionColor', pageColors[page]);
+        sessionStorage.setItem('transitionX', rect.left + rect.width / 2);
+        sessionStorage.setItem('transitionY', rect.top + rect.height / 2);
         
-        // Trigger transition
-        pageTransition.classList.add('active');
+        // Hide label during expansion
+        const label = shape.querySelector('.shape-label');
+        if (label) label.style.opacity = '0';
+        
+        // Calculate scale needed to cover viewport
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const maxDistX = Math.max(centerX, window.innerWidth - centerX);
+        const maxDistY = Math.max(centerY, window.innerHeight - centerY);
+        const maxDist = Math.sqrt(maxDistX * maxDistX + maxDistY * maxDistY);
+        const scale = (maxDist * 2) / rect.width * 1.5;
+        
+        // Add expanding class and apply transform
+        shape.classList.add('expanding');
+        shape.style.transform = `rotate(0deg) scale(${scale})`;
         
         // Navigate after transition completes
         setTimeout(() => {
             window.location.href = `${page}.html`;
-        }, 600);
+        }, 700);
     });
 });
