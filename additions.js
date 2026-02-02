@@ -136,7 +136,7 @@ function animate() {
         
         // Counter-rotate the label to keep it readable
         const label = data.el.querySelector('.shape-label');
-        if (label) {
+        if (label && window.innerWidth > 768) {
             label.style.transform = `rotate(${-data.rotation}deg)`;
         }
     });
