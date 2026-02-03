@@ -2,4 +2,4 @@ vedsite-key.pem
 .DS_Store
 __pycache__/
 *.pyc
-.venv/
+.venv/.DS_Store
