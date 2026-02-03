@@ -1,0 +1,244 @@
+/* misc.css - Styles specific to the misc page */
+
+/* Page colors */
+body {
+    background-color: #069494;
+}
+
+.page-header .home-btn:hover {
+    color: #069494;
+}
+
+/* Override z-index so content appears above triangles */
+#background-animation {
+    z-index: 1 !important;
+}
+
+.page-container {
+    position: relative;
+    z-index: 10 !important;
+}
+
+/* =============================================================================
+   NOW PLAYING SECTION
+   ============================================================================= */
+
+.now-playing {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.album-art {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.track-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.track-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.artist-name {
+    font-size: 18px;
+    opacity: 0.8;
+    margin-bottom: 12px;
+}
+
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: white;
+    border-radius: 3px;
+    width: 0%;
+    transition: none;
+}
+
+.progress-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.play-status {
+    font-size: 12px;
+    opacity: 0.6;
+    margin-top: 8px;
+}
+
+/* =============================================================================
+   QUEUE SECTION
+   ============================================================================= */
+
+.queue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.queue-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.queue-item img {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+}
+
+.queue-item-info {
+    min-width: 0;
+}
+
+.queue-track {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.queue-artist {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* =============================================================================
+   TOP ARTISTS GRID
+   ============================================================================= */
+
+.artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+.artist-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.artist-card .artist-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.artist-card .rank {
+    font-size: 24px;
+    font-weight: bold;
+    opacity: 0.5;
+}
+
+.artist-card .name {
+    font-size: 16px;
+    margin: 8px 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.artist-card .plays {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* =============================================================================
+   FILMS GRID
+   ============================================================================= */
+
+.films-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+}
+
+.film-card {
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.film-card img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.film-card .title {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.film-card .rating {
+    font-size: 14px;
+    color: #ffcc00;
+    margin-top: 4px;
+}
+
+.film-card .year {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+/* =============================================================================
+   UTILITIES
+   ============================================================================= */
+
+.loading {
+    opacity: 0.5;
+    font-style: italic;
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 600px) {
+    .now-playing {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .album-art {
+        width: 160px;
+        height: 160px;
+    }
+}

@@ -4,13 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="stylesheet" href="page.css" />
+    <link rel="stylesheet" href="frontend/subpage.css" />
+    <link rel="stylesheet" href="frontend/misc.css" />
     <title>misc</title>
     <link rel="icon" href="icons/tab_icon.png" type="image/png">
-    <style>
-        body { background-color: #069494; }
-        .page-header .home-btn:hover { color: #069494; }
-    </style>
 </head>
 
 <body>
@@ -34,26 +31,283 @@
         </header>
 
         <div class="page-content">
+            <!-- Now Playing -->
             <section>
-                <h2>miscellaneous</h2>
-                <p>random stuff</p>
+                <h2>now playing</h2>
+                <div class="now-playing" id="now-playing">
+                    <img class="album-art" id="album-art" src="" alt="Album art">
+                    <div class="track-info">
+                        <div class="track-name" id="track-name">Loading...</div>
+                        <div class="artist-name" id="artist-name"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress-bar"></div>
+                        </div>
+                        <div class="progress-time">
+                            <span id="progress-current">0:00</span>
+                            <span id="progress-duration">0:00</span>
+                        </div>
+                        <div class="play-status" id="play-status"></div>
+                    </div>
+                </div>
             </section>
 
+            <!-- Queue -->
             <section>
-                <h2>currently listening</h2>
-                <p>spotify/last.fm</p>
+                <h2>queue</h2>
+                <div class="queue-list" id="queue-list">
+                    <p class="loading">Loading queue...</p>
+                </div>
             </section>
 
+            <!-- Top Artists This Month -->
+            <section>
+                <h2>top artists this month</h2>
+                <div class="artists-grid" id="artists-grid">
+                    <p class="loading">Loading artists...</p>
+                </div>
+            </section>
+
+            <!-- Recently Watched -->
             <section>
                 <h2>recently watched</h2>
-                <p>letterboxd data</p>
+                <div class="films-grid" id="films-grid">
+                    <p class="loading">Loading films...</p>
+                </div>
+            </section>
+
+            <!-- Favorite Films -->
+            <section>
+                <h2>top 4</h2>
+                <div class="films-grid" id="top4-grid">
+                    <p class="loading">Loading top 4...</p>
+                </div>
             </section>
         </div>
     </div>
 
     <div id="mousetrailer"></div>
 
-    <script src="subpage.js"></script>
+    <script src="frontend/subpage.js"></script>
+    <script>
+        const API_BASE = 'http://127.0.0.1:5000/api';
+
+        // UTILITY FUNCTIONS
+
+        function formatTime(ms) {
+            const seconds = Math.floor(ms / 1000);
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function ratingToStars(rating) {
+            if (!rating) return 'No rating';
+            const full = Math.floor(rating);
+            const half = (rating - full) >= 0.5 ? '½' : '';
+            const empty = 5 - full - (half ? 1 : 0);
+            return '★'.repeat(full) + half + '☆'.repeat(empty);
+        }
+
+        // NOW PLAYING - Synced progress tracking
+
+        let currentTrack = {
+            name: null,
+            duration: 0,
+            progress: 0,
+            isPlaying: false,
+            lastUpdate: Date.now()
+        };
+
+        async function fetchNowPlaying() {
+            try {
+                const res = await fetch(`${API_BASE}/spotify/now-playing`);
+                const data = await res.json();
+
+                if (data.error) {
+                    document.getElementById('track-name').textContent = 'Could not load';
+                    return;
+                }
+
+                // Check if track changed
+                const trackChanged = currentTrack.name !== data.track_name;
+
+                // Update state
+                currentTrack = {
+                    name: data.track_name,
+                    duration: data.duration_ms,
+                    progress: data.progress_ms,
+                    isPlaying: data.is_playing,
+                    lastUpdate: Date.now()
+                };
+
+                // Update UI elements (only update static elements if track changed)
+                if (trackChanged) {
+                    document.getElementById('album-art').src = data.album_image;
+                    document.getElementById('track-name').textContent = data.track_name;
+                    document.getElementById('artist-name').textContent = data.artist_name;
+                    document.getElementById('progress-duration').textContent = formatTime(data.duration_ms);
+                }
+
+                document.getElementById('play-status').textContent = data.is_playing ? '▶ Playing' : '⏸ Paused';
+                updateProgressUI();
+
+            } catch (err) {
+                console.error('Error fetching now playing:', err);
+            }
+        }
+
+        function updateProgressUI() {
+            if (!currentTrack.name) return;
+
+            // Calculate current progress based on time elapsed since last API update
+            let displayProgress = currentTrack.progress;
+
+            if (currentTrack.isPlaying) {
+                const elapsed = Date.now() - currentTrack.lastUpdate;
+                displayProgress = currentTrack.progress + elapsed;
+            }
+
+            // Clamp to duration
+            displayProgress = Math.min(displayProgress, currentTrack.duration);
+
+            const percent = (displayProgress / currentTrack.duration) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-current').textContent = formatTime(displayProgress);
+        }
+
+        // Update progress display every 100ms for smooth animation
+        setInterval(updateProgressUI, 100);
+
+        // Poll API every 5 seconds to resync
+        setInterval(fetchNowPlaying, 5000);
+
+        // =============================================================================
+        // QUEUE
+        // =============================================================================
+
+        async function fetchQueue() {
+            try {
+                const res = await fetch(`${API_BASE}/spotify/queue`);
+                const data = await res.json();
+
+                const container = document.getElementById('queue-list');
+
+                if (!data.queue || data.queue.length === 0) {
+                    container.innerHTML = '<p style="opacity: 0.6;">No queue available</p>';
+                    return;
+                }
+
+                container.innerHTML = data.queue.slice(0, 5).map(track => `
+                    <div class="queue-item">
+                        <img src="${track.album_image}" alt="Album">
+                        <div class="queue-item-info">
+                            <div class="queue-track">${track.track_name}</div>
+                            <div class="queue-artist">${track.artist_name}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error fetching queue:', err);
+                document.getElementById('queue-list').innerHTML = '<p style="opacity: 0.6;">Queue unavailable</p>';
+            }
+        }
+
+        // =============================================================================
+        // TOP ARTISTS (Last.fm)
+        // =============================================================================
+
+        async function fetchTopArtists() {
+            try {
+                const res = await fetch(`${API_BASE}/lastfm/top-artists`);
+                const data = await res.json();
+
+                const container = document.getElementById('artists-grid');
+
+                if (!data.artists || data.artists.length === 0) {
+                    container.innerHTML = '<p>No data</p>';
+                    return;
+                }
+
+                container.innerHTML = data.artists.map((artist, i) => `
+            <div class="artist-card">
+                ${artist.image ? `<img src="${artist.image}" alt="${artist.name}" class="artist-image">` : ''}
+                <div class="rank">#${i + 1}</div>
+                <div class="name">${artist.name}</div>
+                <div class="plays">${artist.playcount} plays</div>
+            </div>
+        `).join('');
+            } catch (err) {
+                console.error('Error fetching artists:', err);
+            }
+        }
+
+        // =============================================================================
+        // RECENT FILMS (Letterboxd)
+        // =============================================================================
+
+        async function fetchRecentFilms() {
+            try {
+                const res = await fetch(`${API_BASE}/letterboxd/recent`);
+                const data = await res.json();
+
+                const container = document.getElementById('films-grid');
+
+                if (!data.films || data.films.length === 0) {
+                    container.innerHTML = '<p>No films</p>';
+                    return;
+                }
+
+                container.innerHTML = data.films.map(film => `
+                    <a href="${film.url}" target="_blank" class="film-card" style="text-decoration: none; color: inherit;">
+                        <img src="${film.poster}" alt="${film.title}">
+                        <div class="title">${film.title}</div>
+                        <div class="rating">${ratingToStars(film.rating)}</div>
+                        <div class="year">${film.year}</div>
+                    </a>
+                `).join('');
+            } catch (err) {
+                console.error('Error fetching films:', err);
+            }
+        }
+
+        async function fetchTop4() {
+            try {
+                const res = await fetch(`${API_BASE}/letterboxd/top4`);
+                const data = await res.json();
+
+                const container = document.getElementById('top4-grid');
+
+                if (!data.films || data.films.length === 0) {
+                    container.innerHTML = '<p>No films</p>';
+                    return;
+                }
+
+                container.innerHTML = data.films.map(film => `
+            <a href="${film.url}" target="_blank" class="film-card" style="text-decoration: none; color: inherit;">
+                <img src="${film.poster}" alt="${film.title}">
+                <div class="title">${film.title}</div>
+                <div class="year">${film.year}</div>
+            </a>
+        `).join('');
+            } catch (err) {
+                console.error('Error fetching top 4:', err);
+            }
+        }
+
+
+        // INITIALIZE
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchNowPlaying();
+            fetchQueue();
+            fetchTopArtists();
+            fetchRecentFilms();
+            fetchTop4()
+
+            // Refresh queue periodically
+            setInterval(fetchQueue, 30000);
+        });
+    </script>
 </body>
 
 </html>
