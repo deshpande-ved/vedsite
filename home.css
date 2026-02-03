@@ -115,7 +115,7 @@ a:not(.nav-shape):not(.home-btn) {
     align-items: center;
     justify-content: center;
     z-index: 12;
-    transition: border-radius 750ms ease-in-out;
+    transition: border-radius 200ms ease-in-out;
     border-radius: 6rem;
     overflow: hidden;
     opacity: 1;
