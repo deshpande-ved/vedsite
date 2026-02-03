@@ -3,3 +3,4 @@ vedsite-key.pem
 __pycache__/
 *.pyc
 .venv/.DS_Store
+token.rtf
