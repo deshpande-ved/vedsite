@@ -33,6 +33,7 @@ a:not(.nav-shape):not(.home-btn) {
     opacity: 1;
     transition: opacity 250ms ease;
     transform: rotate(35deg);
+    display: none;
 }
 
 #background-animation {
@@ -173,9 +174,9 @@ a:not(.nav-shape):not(.home-btn) {
     }
 }
 
-@media (hover: none), (pointer: coarse) {
+@media (hover: hover), (pointer: fine) {
     #mousetrailer {
-        display: none;
+        display: block;
     }
 }
 

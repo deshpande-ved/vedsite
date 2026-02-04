@@ -30,6 +30,7 @@ a:not(.nav-shape):not(.home-btn) {
     opacity: 1;
     transition: opacity 250ms ease;
     transform: rotate(35deg);
+    display: none;
 }
 
 #background-animation {
@@ -151,6 +152,12 @@ a:not(.nav-shape):not(.home-btn) {
 @media (max-width: 768px), (hover: none) {
     .nav-shape > .shape-label {
         opacity: 1 !important;
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #mousetrailer {
+        display: block;
     }
 }
 

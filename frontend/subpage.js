@@ -52,11 +52,11 @@ document.body.appendChild(entryOverlay);
 window.addEventListener('DOMContentLoaded', () => {
     // Push history state for back button interception
     history.pushState({ page: 'subpage' }, '');
-    
+
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             entryOverlay.style.clipPath = `circle(${halfSize}px at ${centerX + 50}px ${centerY + 50}px)`;
-            
+
             setTimeout(() => {
                 entryOverlay.style.opacity = '0';
                 setTimeout(() => entryOverlay.remove(), 200);
@@ -98,16 +98,20 @@ window.addEventListener('pageshow', (e) => {
 // Mousetrailer
 document.addEventListener('DOMContentLoaded', () => {
     const mousetrailer = document.getElementById("mousetrailer");
-    
-    window.onmousemove = e => {
-        const x = e.clientX - mousetrailer.offsetWidth / 2;
-        const y = e.clientY - mousetrailer.offsetHeight / 2;
 
-        mousetrailer.animate({
-            transform: `translate(${x}px, ${y}px)`
-        }, {
-            duration: 400,
-            fill: 'forwards'
-        });
+    if (window.matchMedia("(hover: hover), (pointer: fine)").matches) {
+
+
+        window.onmousemove = e => {
+            const x = e.clientX - mousetrailer.offsetWidth / 2;
+            const y = e.clientY - mousetrailer.offsetHeight / 2;
+
+            mousetrailer.animate({
+                transform: `translate(${x}px, ${y}px)`
+            }, {
+                duration: 400,
+                fill: 'forwards'
+            });
+        }
     }
 });
