@@ -3,6 +3,8 @@
 /* Page colors */
 body {
     background-color: #069494;
+    overflow: auto !important;
+    height: auto !important;
 }
 
 .page-header .home-btn:hover {
@@ -17,10 +19,10 @@ body {
 .page-container {
     position: relative;
     z-index: 10 !important;
-    padding: 20px 50px 25px;
-    min-height: auto;
-    height: 100vh;
-    overflow: hidden;
+    padding: 20px 50px 40px;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
 }
 
 .page-header {
@@ -53,13 +55,14 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
-    height: calc(100vh - 90px);
+    min-height: calc(100vh - 90px);
+    height: auto;
 }
 
 .column {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 20px;
 }
 
 @media (max-width: 900px) {
@@ -94,8 +97,8 @@ body {
 }
 
 .artist-card .artist-img {
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 6px;
@@ -202,14 +205,14 @@ body {
 }
 
 .left-column section:last-child {
-    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .left-column section:last-child .queue-list {
-    flex: 1;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .queue-item {
@@ -269,6 +272,12 @@ body {
     display: block;
 }
 
+#top4-grid .film-card img {
+    max-width: none;
+    width: 100%;
+    min-height: 180px;
+}
+
 .film-card .title {
     font-size: 15px;
     white-space: nowrap;
@@ -291,19 +300,12 @@ body {
    STRAVA PLACEHOLDER
    ============================================================================= */
 
-.right-column section:nth-child(1),
-.right-column section:nth-child(2) {
-    flex: 1.5;
-}
-
 .right-column section:last-child {
-    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .strava-placeholder {
-    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -314,6 +316,7 @@ body {
     text-align: center;
     opacity: 0.6;
     font-size: 12px;
+    min-height: 80px;
 }
 
 /* =============================================================================
@@ -330,6 +333,17 @@ body {
    ============================================================================= */
 
 @media (max-width: 600px) {
+    .page-container {
+        padding: 15px 20px 40px;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
     .now-playing {
         flex-direction: column;
         text-align: center;
@@ -344,8 +358,27 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    #top4-grid .film-card img {
+        width: 100%;
+        max-width: none;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+    }
+
     .artists-row {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 8px;
+    }
+
+    .artist-card {
+        flex: 0 0 calc(33.33% - 8px);
+        min-width: 0;
+        max-width: calc(33.33% - 8px);
+    }
+
+    .artist-card .artist-img {
+        width: 50px;
+        height: 50px;
     }
 }
