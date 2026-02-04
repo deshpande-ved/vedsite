@@ -333,9 +333,48 @@ body {
    ============================================================================= */
 
 @media (max-width: 600px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    section {
+        width: 100%;
+
+        &>* {
+            max-width: 100%;
+        }
+
+        & h2 {
+            text-align: center;
+        }
+    }
+
+    .column {
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .queue-list {
+            width: 100%;
+        }
+
+    .queue-item {
+            text-align: left;
+        }
+    
+
     .page-container {
         padding: 15px 20px 40px;
+        max-width: 100vw;
+        overflow-x: hidden;
+        box-sizing: border-box;
     }
+
+    .two-column-layout {
+        max-width: 100%;
+    }
+
 
     .page-header {
         display: flex;
@@ -358,9 +397,24 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .film-card {
+        min-width: none;
+        width: 100%;
+    }
+
+    #top4-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    #top4-grid .film-card .title {
+        white-space: normal;
+    }
+
     #top4-grid .film-card img {
         width: 100%;
         max-width: none;
+        min-height: unset;
+        height: auto;
         aspect-ratio: 2/3;
         object-fit: cover;
     }
