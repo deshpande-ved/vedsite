@@ -17,6 +17,107 @@ body {
 .page-container {
     position: relative;
     z-index: 10 !important;
+    padding: 20px 50px 25px;
+    min-height: auto;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.page-header {
+    margin-bottom: 15px;
+
+    & h1 {
+        font-size: 32px;
+    }
+
+    & .home-btn {
+        padding: 8px 18px;
+        font-size: 16px;
+    }
+}
+
+.page-content h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.page-content section {
+    margin-bottom: 0 !important;
+}
+
+/* =============================================================================
+   TWO-COLUMN LAYOUT
+   ============================================================================= */
+
+.two-column-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    height: calc(100vh - 90px);
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (max-width: 900px) {
+    .two-column-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        height: auto;
+    }
+
+    .page-container {
+        height: auto;
+        overflow: auto;
+    }
+}
+
+/* =============================================================================
+   TOP ARTISTS - HORIZONTAL ROW
+   ============================================================================= */
+
+.artists-row {
+    display: flex;
+    gap: 12px;
+}
+
+.artist-card {
+    flex: 1;
+    min-width: 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.artist-card .artist-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 6px;
+}
+
+.artist-card .rank {
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0.5;
+}
+
+.artist-card .name {
+    font-size: 11px;
+    margin: 4px 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.artist-card .plays {
+    font-size: 10px;
+    opacity: 0.7;
 }
 
 /* =============================================================================
@@ -25,18 +126,17 @@ body {
 
 .now-playing {
     display: flex;
-    gap: 24px;
+    gap: 14px;
     align-items: center;
     background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 10px;
 }
 
 .album-art {
-    width: 120px;
-    height: 120px;
-    border-radius: 8px;
+    width: 70px;
+    height: 70px;
+    border-radius: 6px;
     object-fit: cover;
     flex-shrink: 0;
 }
@@ -47,33 +147,33 @@ body {
 }
 
 .track-name {
-    font-size: 24px;
+    font-size: 15px;
     font-weight: bold;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .artist-name {
-    font-size: 18px;
+    font-size: 13px;
     opacity: 0.8;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
 
 .progress-container {
     width: 100%;
-    height: 6px;
+    height: 4px;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+    border-radius: 2px;
     overflow: hidden;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .progress-bar {
     height: 100%;
     background: white;
-    border-radius: 3px;
+    border-radius: 2px;
     width: 0%;
     transition: none;
 }
@@ -81,14 +181,14 @@ body {
 .progress-time {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 10px;
     opacity: 0.7;
 }
 
 .play-status {
-    font-size: 12px;
+    font-size: 10px;
     opacity: 0.6;
-    margin-top: 8px;
+    margin-top: 4px;
 }
 
 /* =============================================================================
@@ -98,7 +198,18 @@ body {
 .queue-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
+}
+
+.left-column section:last-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.left-column section:last-child .queue-list {
+    flex: 1;
+    justify-content: space-between;
 }
 
 .queue-item {
@@ -106,13 +217,13 @@ body {
     align-items: center;
     gap: 12px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 10px;
-    border-radius: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
 }
 
 .queue-item img {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 4px;
 }
 
@@ -121,69 +232,25 @@ body {
 }
 
 .queue-track {
-    font-size: 14px;
+    font-size: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .queue-artist {
-    font-size: 12px;
+    font-size: 13px;
     opacity: 0.7;
 }
 
 /* =============================================================================
-   TOP ARTISTS GRID
+   FILMS - HORIZONTAL ROW OF 4
    ============================================================================= */
 
-.artists-grid {
+.films-row {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
-}
-
-.artist-card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 16px;
-    border-radius: 12px;
-    text-align: center;
-}
-
-.artist-card .artist-image {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 12px;
-}
-
-.artist-card .rank {
-    font-size: 24px;
-    font-weight: bold;
-    opacity: 0.5;
-}
-
-.artist-card .name {
-    font-size: 16px;
-    margin: 8px 0 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.artist-card .plays {
-    font-size: 12px;
-    opacity: 0.7;
-}
-
-/* =============================================================================
-   FILMS GRID
-   ============================================================================= */
-
-.films-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 }
 
 .film-card {
@@ -194,28 +261,59 @@ body {
 
 .film-card img {
     width: 100%;
+    max-width: 150px;
     aspect-ratio: 2/3;
     object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    border-radius: 5px;
+    margin: 0 auto 3px;
+    display: block;
 }
 
 .film-card .title {
-    font-size: 14px;
+    font-size: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .film-card .rating {
-    font-size: 14px;
+    font-size: 15px;
     color: #ffcc00;
-    margin-top: 4px;
+    margin-top: 2px;
 }
 
 .film-card .year {
-    font-size: 12px;
+    font-size: 14px;
     opacity: 0.6;
+}
+
+/* =============================================================================
+   STRAVA PLACEHOLDER
+   ============================================================================= */
+
+.right-column section:nth-child(1),
+.right-column section:nth-child(2) {
+    flex: 1.5;
+}
+
+.right-column section:last-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.strava-placeholder {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    opacity: 0.6;
+    font-size: 12px;
 }
 
 /* =============================================================================
@@ -238,7 +336,16 @@ body {
     }
 
     .album-art {
-        width: 160px;
-        height: 160px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .films-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .artists-row {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }

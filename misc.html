@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="frontend/subpage.css" />
-    <link rel="stylesheet" href="frontend/misc.css" />
     <title>misc</title>
     <link rel="icon" href="icons/tab_icon.png" type="image/png">
+    <link rel="stylesheet" href="frontend/misc.css" />
 </head>
 
 <body>
@@ -30,66 +30,80 @@
             <a href="index.html" class="home-btn"> ← home </a>
         </header>
 
-        <div class="page-content">
-            <!-- Now Playing -->
-            <section>
-                <h2>now playing</h2>
-                <div class="now-playing" id="now-playing">
-                    <img class="album-art" id="album-art" src="" alt="Album art">
-                    <div class="track-info">
-                        <div class="track-name" id="track-name">Loading...</div>
-                        <div class="artist-name" id="artist-name"></div>
-                        <div class="progress-container">
-                            <div class="progress-bar" id="progress-bar"></div>
-                        </div>
-                        <div class="progress-time">
-                            <span id="progress-current">0:00</span>
-                            <span id="progress-duration">0:00</span>
-                        </div>
-                        <div class="play-status" id="play-status"></div>
+        <div class="page-content two-column-layout">
+            <!-- Left Column -->
+            <div class="column left-column">
+                <!-- Top Artists This Month -->
+                <section>
+                    <h2>top artists this month</h2>
+                    <div class="artists-row" id="artists-grid">
+                        <p class="loading">Loading artists...</p>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Queue -->
-            <section>
-                <h2>queue</h2>
-                <div class="queue-list" id="queue-list">
-                    <p class="loading">Loading queue...</p>
-                </div>
-            </section>
+                <!-- Now Playing -->
+                <section>
+                    <h2>now playing</h2>
+                    <div class="now-playing" id="now-playing">
+                        <img class="album-art" id="album-art" src="" alt="Album art">
+                        <div class="track-info">
+                            <div class="track-name" id="track-name">Loading...</div>
+                            <div class="artist-name" id="artist-name"></div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progress-bar"></div>
+                            </div>
+                            <div class="progress-time">
+                                <span id="progress-current">0:00</span>
+                                <span id="progress-duration">0:00</span>
+                            </div>
+                            <div class="play-status" id="play-status"></div>
+                        </div>
+                    </div>
+                </section>
 
-            <!-- Top Artists This Month -->
-            <section>
-                <h2>top artists this month</h2>
-                <div class="artists-grid" id="artists-grid">
-                    <p class="loading">Loading artists...</p>
-                </div>
-            </section>
+                <!-- Queue -->
+                <section>
+                    <h2>current queue</h2>
+                    <div class="queue-list" id="queue-list">
+                        <p class="loading">Loading queue...</p>
+                    </div>
+                </section>
+            </div>
 
-            <!-- Recently Watched -->
-            <section>
-                <h2>recently watched</h2>
-                <div class="films-grid" id="films-grid">
-                    <p class="loading">Loading films...</p>
-                </div>
-            </section>
+            <!-- Right Column -->
+            <div class="column right-column">
+                <!-- Top 4 Films -->
+                <section>
+                    <h2>top 4</h2>
+                    <div class="films-row" id="top4-grid">
+                        <p class="loading">Loading top 4...</p>
+                    </div>
+                </section>
 
-            <!-- Favorite Films -->
-            <section>
-                <h2>top 4</h2>
-                <div class="films-grid" id="top4-grid">
-                    <p class="loading">Loading top 4...</p>
-                </div>
-            </section>
+                <!-- Recently Watched -->
+                <section>
+                    <h2>recently watched</h2>
+                    <div class="films-row" id="films-grid">
+                        <p class="loading">Loading films...</p>
+                    </div>
+                </section>
+
+                <!-- Strava Placeholder -->
+                <section>
+                    <h2>strava</h2>
+                    <div class="strava-placeholder">
+                        <h3>coming soon: exercise stats including calories and time</h3>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 
     <div id="mousetrailer"></div>
 
-    <script src="frontend/subpage.js"></script>
+    <script src="subpage.js"></script>
     <script>
-        const API_BASE = 'https://api.vedsite.com/api';
+        const API_BASE = 'http://127.0.0.1:5000/api';
 
         // UTILITY FUNCTIONS
 
@@ -107,7 +121,7 @@
             const empty = 5 - full - (half ? 1 : 0);
             return '★'.repeat(full) + half + '☆'.repeat(empty);
         }
-
+        
         // NOW PLAYING - Synced progress tracking
 
         let currentTrack = {
@@ -229,13 +243,12 @@
                 }
 
                 container.innerHTML = data.artists.map((artist, i) => `
-            <div class="artist-card">
-                ${artist.image ? `<img src="${artist.image}" alt="${artist.name}" class="artist-image">` : ''}
-                <div class="rank">#${i + 1}</div>
-                <div class="name">${artist.name}</div>
-                <div class="plays">${artist.playcount} plays</div>
-            </div>
-        `).join('');
+                    <div class="artist-card">
+                        ${artist.image ? `<img class="artist-img" src="${artist.image}" alt="${artist.name}">` : `<div class="rank">#${i + 1}</div>`}
+                        <div class="name">${artist.name}</div>
+                        <div class="plays">${artist.playcount} plays</div>
+                    </div>
+                `).join('');
             } catch (err) {
                 console.error('Error fetching artists:', err);
             }
@@ -270,6 +283,10 @@
             }
         }
 
+        // =============================================================================
+        // TOP 4 FILMS (Letterboxd)
+        // =============================================================================
+
         async function fetchTop4() {
             try {
                 const res = await fetch(`${API_BASE}/letterboxd/top4`);
@@ -283,12 +300,12 @@
                 }
 
                 container.innerHTML = data.films.map(film => `
-            <a href="${film.url}" target="_blank" class="film-card" style="text-decoration: none; color: inherit;">
-                <img src="${film.poster}" alt="${film.title}">
-                <div class="title">${film.title}</div>
-                <div class="year">${film.year}</div>
-            </a>
-        `).join('');
+                    <a href="${film.url}" target="_blank" class="film-card" style="text-decoration: none; color: inherit;">
+                        <img src="${film.poster}" alt="${film.title}">
+                        <div class="title">${film.title}</div>
+                        <div class="year">${film.year}</div>
+                    </a>
+                `).join('');
             } catch (err) {
                 console.error('Error fetching top 4:', err);
             }
