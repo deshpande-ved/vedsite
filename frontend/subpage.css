@@ -173,6 +173,12 @@ a:not(.nav-shape):not(.home-btn) {
     }
 }
 
+@media (hover: none), (pointer: coarse) {
+    #mousetrailer {
+        display: none;
+    }
+}
+
 /* Shape transition overlay */
 #shape-transition {
     position: fixed;
