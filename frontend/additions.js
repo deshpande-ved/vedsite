@@ -229,6 +229,8 @@ shapes.forEach((shape, index) => {
     shape.addEventListener('click', (e) => {
         e.preventDefault();
 
+        shapeData[index].isHovering = true;// Disable hover state
+
         const page = shape.dataset.page;
         const data = shapeData[index];
         const rect = shape.getBoundingClientRect();
@@ -269,11 +271,77 @@ window.addEventListener('pageshow', (e) => {
         const stuckOverlay = document.getElementById('return-transition');
         if (stuckOverlay) stuckOverlay.remove();
 
+        //checking to play return animation for browser back button
+        const returningFromSubpage = sessionStorage.getItem('returningFromSubpage');
+        if (returningFromSubpage) {
+            sessionStorage.removeItem('returningFromSubpage');
+
+            const color = sessionStorage.getItem('transitionColor') || '#000000';
+            const size = getShapeSize();
+            const halfSize = size / 2;
+
+            // Find which shape matches this color (case-insensitive)
+            let targetShapeData = null;
+            const colorLower = color.toLowerCase();
+            for (const page in pageColors) {
+                if (pageColors[page].toLowerCase() === colorLower) {
+                    const shapeEl = document.querySelector(`[data-page="${page}"]`);
+                    if (shapeEl) {
+                        const index = Array.from(shapes).indexOf(shapeEl);
+                        if (index !== -1) {
+                            targetShapeData = shapeData[index];
+                        }
+                    }
+                    break;
+                }
+            }
+
+            // Get target position (center of screen if no match)
+            const liveX = targetShapeData ? targetShapeData.x + halfSize : window.innerWidth / 2;
+            const liveY = targetShapeData ? targetShapeData.y + halfSize : window.innerHeight / 2;
+
+            // Calculate initial circle radius to cover entire screen from target point
+            // Use larger viewport estimate to handle iOS Safari dynamic viewport
+            const vpWidth = window.innerWidth;
+            const vpHeight = Math.max(window.innerHeight, document.documentElement.clientHeight, window.screen.height);
+            const maxDistX = Math.max(liveX, vpWidth - liveX);
+            const maxDistY = Math.max(liveY, vpHeight - liveY);
+            const startRadius = Math.sqrt(maxDistX * maxDistX + maxDistY * maxDistY) + 100;
+
+            // Create full-screen overlay with clip-path
+            const returnOverlay = document.createElement('div');
+            returnOverlay.id = 'return-transition';
+            returnOverlay.style.cssText = `
+                position: fixed;
+                top: -50px; left: -50px; right: -50px; bottom: -50px;
+                background-color: ${color};
+                z-index: 9999;
+                pointer-events: none;
+                clip-path: circle(${startRadius}px at ${liveX + 50}px ${liveY + 50}px);
+                transition: clip-path 400ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
+            `;
+            document.body.appendChild(returnOverlay);
+
+            // Animate clip-path to shrink to shape size
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    returnOverlay.style.clipPath = `circle(${halfSize}px at ${liveX + 50}px ${liveY + 50}px)`;
+
+                    setTimeout(() => {
+                        returnOverlay.style.opacity = '0';
+                        setTimeout(() => returnOverlay.remove(), 200);
+                    }, 400);
+                });
+            });
+        }
+
         // Reset any expanding shapes
         shapes.forEach((shape, index) => {
             shape.classList.remove('expanding');
             shape.style.transition = '';
+            shape.style.borderRadius = '';
             const data = shapeData[index];
+            data.isHovering
             shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
             const label = shape.querySelector('.shape-label');
             if (label) label.style.opacity = '';
