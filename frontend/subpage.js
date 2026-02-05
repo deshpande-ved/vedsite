@@ -68,9 +68,9 @@ window.addEventListener('DOMContentLoaded', () => {
 // Exit transition - store current page color and navigate
 function doExitTransition() {
     // Set current page's color for the return transition
+    window.location.href = 'index.html';
     sessionStorage.setItem('transitionColor', getPageColor());
     sessionStorage.setItem('returningFromSubpage', 'true');
-    window.location.href = 'index.html';
 }
 
 // Back button click handler
@@ -81,9 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Browser back button handler
-window.addEventListener('popstate', (e) => {
-    doExitTransition();
+// Set return flag whenever leaving this page (works with bfcache)
+window.addEventListener('pagehide', () => {
+    sessionStorage.setItem('transitionColor', getPageColor());
+    sessionStorage.setItem('returningFromSubpage', 'true');
+});
+
+// Browser back button - just go back, pagehide will set the flags
+window.addEventListener('popstate', () => {
+    history.back();
 });
 
 // Handle bfcache - clean up if page restored

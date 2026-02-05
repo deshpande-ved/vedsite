@@ -267,11 +267,26 @@ shapes.forEach((shape, index) => {
 // Handle browser back button (bfcache) - reset expanding shapes
 window.addEventListener('pageshow', (e) => {
     if (e.persisted) {
-        // Page restored from bfcache - remove any stuck transitions
+        // Remove any stuck overlay
         const stuckOverlay = document.getElementById('return-transition');
         if (stuckOverlay) stuckOverlay.remove();
 
-        //checking to play return animation for browser back button
+        // Reset ALL shapes immediately
+        shapes.forEach((shape, index) => {
+            shape.classList.remove('expanding');
+            shape.style.transition = '';
+            shape.style.borderRadius = '';
+            shape.style.zIndex = '';
+            
+            const data = shapeData[index];
+            data.isHovering = false;
+            shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
+            
+            const label = shape.querySelector('.shape-label');
+            if (label) label.style.opacity = '';
+        });
+
+        // Check if returning from subpage - play animation
         const returningFromSubpage = sessionStorage.getItem('returningFromSubpage');
         if (returningFromSubpage) {
             sessionStorage.removeItem('returningFromSubpage');
@@ -280,35 +295,28 @@ window.addEventListener('pageshow', (e) => {
             const size = getShapeSize();
             const halfSize = size / 2;
 
-            // Find which shape matches this color (case-insensitive)
             let targetShapeData = null;
             const colorLower = color.toLowerCase();
             for (const page in pageColors) {
                 if (pageColors[page].toLowerCase() === colorLower) {
                     const shapeEl = document.querySelector(`[data-page="${page}"]`);
                     if (shapeEl) {
-                        const index = Array.from(shapes).indexOf(shapeEl);
-                        if (index !== -1) {
-                            targetShapeData = shapeData[index];
-                        }
+                        const idx = Array.from(shapes).indexOf(shapeEl);
+                        if (idx !== -1) targetShapeData = shapeData[idx];
                     }
                     break;
                 }
             }
 
-            // Get target position (center of screen if no match)
             const liveX = targetShapeData ? targetShapeData.x + halfSize : window.innerWidth / 2;
             const liveY = targetShapeData ? targetShapeData.y + halfSize : window.innerHeight / 2;
 
-            // Calculate initial circle radius to cover entire screen from target point
-            // Use larger viewport estimate to handle iOS Safari dynamic viewport
             const vpWidth = window.innerWidth;
             const vpHeight = Math.max(window.innerHeight, document.documentElement.clientHeight, window.screen.height);
             const maxDistX = Math.max(liveX, vpWidth - liveX);
             const maxDistY = Math.max(liveY, vpHeight - liveY);
             const startRadius = Math.sqrt(maxDistX * maxDistX + maxDistY * maxDistY) + 100;
 
-            // Create full-screen overlay with clip-path
             const returnOverlay = document.createElement('div');
             returnOverlay.id = 'return-transition';
             returnOverlay.style.cssText = `
@@ -322,11 +330,9 @@ window.addEventListener('pageshow', (e) => {
             `;
             document.body.appendChild(returnOverlay);
 
-            // Animate clip-path to shrink to shape size
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     returnOverlay.style.clipPath = `circle(${halfSize}px at ${liveX + 50}px ${liveY + 50}px)`;
-
                     setTimeout(() => {
                         returnOverlay.style.opacity = '0';
                         setTimeout(() => returnOverlay.remove(), 200);
@@ -334,17 +340,5 @@ window.addEventListener('pageshow', (e) => {
                 });
             });
         }
-
-        // Reset any expanding shapes
-        shapes.forEach((shape, index) => {
-            shape.classList.remove('expanding');
-            shape.style.transition = '';
-            shape.style.borderRadius = '';
-            const data = shapeData[index];
-            data.isHovering
-            shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
-            const label = shape.querySelector('.shape-label');
-            if (label) label.style.opacity = '';
-        });
     }
 });
