@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="frontend/subpage.css" />
+    <script src="frontend/subpage.js" defer></script>
     <title>experience</title>
     <link rel="icon" href="icons/tab_icon.png" type="image/png">
     <style>
@@ -14,12 +15,6 @@
 </head>
 
 <body>
-    <div id="page-transition">
-        <div class="transition-bar" data-index="0" style="background: #0038A8;"></div>
-        <div class="transition-bar" data-index="1" style="background: #0038A8;"></div>
-        <div class="transition-bar" data-index="2" style="background: #0038A8;"></div>
-        <div class="transition-bar" data-index="3" style="background: #0038A8;"></div>
-    </div>
 
     <div id="background-animation">
         <div class="bg-shape triangle"></div>
@@ -57,41 +52,10 @@
             </section>
         </div>
     </div>
-
-    <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('page-transition').classList.add('exit');
-            }, 100);
-        });
-
-        document.querySelector('.home-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            const transition = document.getElementById('page-transition');
-            transition.classList.remove('exit');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 300);
-        });
-    </script>
+    
+    <div id="mousetrailer"></div>
 </body>
 
-<div id="mousetrailer"></div>
 
-<script>
-    const mousetrailer = document.getElementById("mousetrailer");
-
-    window.onmousemove = e => {
-        const x = e.clientX - mousetrailer.offsetWidth / 2;
-        const y = e.clientY - mousetrailer.offsetHeight / 2;
-
-        mousetrailer.animate({
-            transform: `translate(${x}px, ${y}px)`
-        }, {
-            duration: 400,
-            fill: 'forwards'
-        });
-    }
-</script>
 
 </html>
