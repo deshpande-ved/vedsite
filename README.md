@@ -2,10 +2,8 @@
 managing the files for my personal website
 
 # structure
+```
 vedsite/
-├── cursor/
-│   ├── cursorhand.png
-│   └── cursortrail.png
 ├── font/
 │   └── SF-Pro-Display-Medium.otf
 ├── frontend/
@@ -23,14 +21,8 @@ vedsite/
 │   └── tab_icon.png
 ├── stats/
 │   ├── Dockerfile
-│   ├── lastfm_alltimeartists.ipynb
-│   ├── lastfm_data.ipynb
-│   ├── letterboxd_data.ipynb
-│   ├── recent_films.json
 │   ├── requirements.txt
 │   ├── server.py
-│   ├── spotify_data.ipynb
-│   ├── spotify_tokens.json
 │   └── top4.json
 ├── .gitignore
 ├── about.html
@@ -39,3 +31,4 @@ vedsite/
 ├── misc.html
 ├── projects.html
 └── README.md
+```
