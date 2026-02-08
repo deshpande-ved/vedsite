@@ -47,16 +47,15 @@ def load_spotify_tokens():
         return json.load(f)
 
 def save_spotify_tokens(tokens):
-    """Save tokens atomically to prevent corruption"""
-    dir_name = os.path.dirname(SPOTIFY_TOKENS_FILE) or '.'
-    fd, tmp_path = tempfile.mkstemp(dir=dir_name)
-    try:
-        with os.fdopen(fd, 'w') as f:
-            json.dump(tokens, f)
-        os.replace(tmp_path, SPOTIFY_TOKENS_FILE)  # atomic on POSIX
-    except:
-        os.unlink(tmp_path)
-        raise
+    """Save tokens safely (cant use atomic rename with docker bind mounts)"""
+    tmp_path = SPOTIFY_TOKENS_FILE + '.tmp'
+    with open(tmp_path, 'w') as f:
+        json.dump(tokens, f)
+        f.flush()
+        os.fsync(f.fileno())
+    with open(tmp_path, 'r') as src, open(SPOTIFY_TOKENS_FILE, 'w') as dst:
+        dst.write(src.read())
+    os.remove(tmp_path)
 
 def refresh_spotify_token():
     """Get new access token using refresh token"""
