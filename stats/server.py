@@ -4,7 +4,6 @@ handles: Spotify (with auto token refresh), Last.fm, Letterboxd
 """
 
 from flask import Flask, jsonify
-from flask_cors import CORS
 import os
 import tempfile
 import requests
