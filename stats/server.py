@@ -14,6 +14,10 @@ import time
 import hashlib
 import feedparser
 
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env file
+
 app = Flask(__name__)
 @app.after_request
 def after_request(response):
@@ -24,16 +28,16 @@ def after_request(response):
 
 # CONFIGURATION - Your API credentials
 
-SPOTIFY_CLIENT_ID = "REDACTED"
-SPOTIFY_CLIENT_SECRET = "REDACTED"
-SPOTIFY_TOKENS_FILE = "spotify_tokens.json"
+SPOTIFY_CLIENT_ID = os.environ["SPOTIFY_CLIENT_ID"]
+SPOTIFY_CLIENT_SECRET = os.environ["SPOTIFY_CLIENT_SECRET"]
+SPOTIFY_TOKENS_FILE = os.environ.get("SPOTIFY_TOKENS_FILE", "spotify_tokens.json")
 
-LASTFM_API_KEY = "REDACTED"
-LASTFM_SECRET = "REDACTED"
-LASTFM_SESSION_KEY = "REDACTED"
-LASTFM_USER = "yerasaki"
+LASTFM_API_KEY = os.environ["LASTFM_API_KEY"]
+LASTFM_SECRET = os.environ["LASTFM_SECRET"]
+LASTFM_SESSION_KEY = os.environ["LASTFM_SESSION_KEY"]
+LASTFM_USER = os.environ.get("LASTFM_USER", "yerasaki")
 
-LETTERBOXD_USER = "yerasaki"
+LETTERBOXD_USER = os.environ.get("LETTERBOXD_USER", "yerasaki")
 
 # SPOTIFY - Token Management
 
