@@ -16,7 +16,7 @@ body {
     overflow-x: hidden;
 }
 
-a:not(.nav-shape):not(.home-btn) {
+a:not(.nav-shape):not(.home-btn):not(.back-btn) {
     color: #000000;
 }
 
@@ -141,8 +141,9 @@ a:not(.nav-shape):not(.home-btn) {
         background: none;
 
         &:hover {
-            background: #ffffff;
-            color: inherit;
+            background: #a69b8f;
+            border-color: #a69b8f;
+            color: #000000;
         }
     }
 }
