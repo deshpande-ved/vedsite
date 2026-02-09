@@ -1,5 +1,6 @@
 # vedsite.com
 managing the files for my personal website
+deployed on cloudflare pages, hosted on AWS EC2 in Docker with nginx reverse proxy
 
 # structure
 ```
