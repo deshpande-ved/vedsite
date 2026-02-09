@@ -259,7 +259,8 @@ shapes.forEach((shape, index) => {
 
         // Navigate after transition completes
         setTimeout(() => {
-            window.location.href = `${page}.html`;
+            const href = page === 'projects' ? 'projects/projects.html' : `${page}.html`;
+            window.location.href = href;
         }, 350);
     });
 });
