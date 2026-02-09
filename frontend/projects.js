@@ -206,7 +206,7 @@ if (cardsContainer) {
                 e.preventDefault();
                 sessionStorage.setItem('transitionColor', getPageColor());
                 sessionStorage.setItem('returningFromSubpage', 'true');
-                window.location.href = homeBtn.getAttribute('href') || '../index.html';
+                window.location.href = homeBtn.getAttribute('href') || 'index.html';
             });
         }
     });
