@@ -254,14 +254,14 @@ shapes.forEach((shape, index) => {
 
         // Add expanding class and apply transform with current position
         shape.classList.add('expanding');
-        shape.style.transition = 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 300ms cubic-bezier(0.4, 0, 0.2, 1)';
+        shape.style.transition = 'transform 500ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 300ms cubic-bezier(0.4, 0, 0.2, 1)';
         shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(0deg) scale(${scale})`;
 
         // Navigate after transition completes
         setTimeout(() => {
-            const href = page === 'projects' ? 'projects/projects.html' : `${page}.html`;
+            const href = page === 'projects' ? 'projects.html' : `${page}.html`;
             window.location.href = href;
-        }, 350);
+        }, 450);
     });
 });
 
