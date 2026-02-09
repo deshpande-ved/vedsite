@@ -3,8 +3,10 @@
 /* Page colors */
 body {
     background-color: #069494;
-    overflow: auto !important;
-    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: 100vh !important;
+    margin: 0;
 }
 
 .page-header .home-btn:hover {
@@ -19,14 +21,17 @@ body {
 .page-container {
     position: relative;
     z-index: 10 !important;
-    padding: 20px 50px 40px;
-    min-height: 100vh;
-    height: auto;
-    overflow: visible;
+    padding: 20px 50px 20px;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .page-header {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
 
     & h1 {
         font-size: 32px;
@@ -40,7 +45,8 @@ body {
 
 .page-content h2 {
     font-size: 24px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    flex-shrink: 0;
 }
 
 .page-content section {
@@ -54,15 +60,54 @@ body {
 .two-column-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    min-height: calc(100vh - 90px);
-    height: auto;
+    gap: 20px;
+    flex: 1;
+    min-height: 600px;
 }
 
 .column {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
+    min-height: 0;
+}
+
+.right-column {
+    overflow: hidden;
+}
+
+.right-column section {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.right-column .films-row {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.right-column .film-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.right-column .film-card img {
+    flex: 1;
+    min-height: 0;
+    object-fit: contain;
+}
+
+.column section {
+    display: flex;
+    flex-direction: column;
+}
+
+.column section > *:last-child:not(h2) {
+    min-height: 0;
 }
 
 @media (max-width: 900px) {
@@ -85,6 +130,8 @@ body {
 .artists-row {
     display: flex;
     gap: 12px;
+    overflow: hidden;
+    align-items: center;
 }
 
 .artist-card {
@@ -99,6 +146,8 @@ body {
 .artist-card .artist-img {
     width: 90px;
     height: 90px;
+    max-width: 100%;
+    max-height: 100%;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 6px;
@@ -260,11 +309,11 @@ body {
     text-align: center;
     text-decoration: none;
     color: inherit;
+    min-width: 0;
 }
 
 .film-card img {
     width: 100%;
-    max-width: 150px;
     aspect-ratio: 2/3;
     object-fit: cover;
     border-radius: 5px;
@@ -272,10 +321,13 @@ body {
     display: block;
 }
 
+.right-column .film-card img {
+    aspect-ratio: unset;
+}
+
 #top4-grid .film-card img {
     max-width: none;
     width: 100%;
-    min-height: 180px;
 }
 
 .film-card .title {
@@ -303,6 +355,8 @@ body {
 .right-column section:last-child {
     display: flex;
     flex-direction: column;
+    flex: 0 0 auto;
+    overflow: visible;
 }
 
 .strava-placeholder {
@@ -316,7 +370,7 @@ body {
     text-align: center;
     opacity: 0.6;
     font-size: 12px;
-    min-height: 80px;
+    min-height: 50px;
 }
 
 /* =============================================================================

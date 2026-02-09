@@ -68,7 +68,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // Exit transition - store current page color and navigate
 function doExitTransition() {
     // Set current page's color for the return transition
-    window.location.href = 'index.html';
+    const homeUrl = document.querySelector('.home-btn').getAttribute('href') || 'index.html';
+    window.location.href = homeUrl;
     sessionStorage.setItem('transitionColor', getPageColor());
     sessionStorage.setItem('returningFromSubpage', 'true');
 }
