@@ -10,7 +10,9 @@ body {
 }
 
 .page-header .home-btn:hover {
-    color: #069494;
+    background: #a69b8f;
+    border-color: #a69b8f;
+    color: #000000;
 }
 
 /* Override z-index so content appears above triangles */
