@@ -4,7 +4,7 @@ deployed on cloudflare pages, hosted on AWS EC2 in Docker with nginx reverse pro
 ssh portfolio on port 22 made with go & bubble tea, wish frameworks <br>
 ssh portfolio.vedsite.com
 
-# structure
+# project structure
 ```
 vedsite/
 ├── font/
