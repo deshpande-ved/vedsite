@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="../frontend/projects.css" />
-    <title>portfolio ecosystem</title>
+    <title>SSH portfolio</title>
     <link rel="icon" href="../icons/tab_icon.png" type="image/png">
 </head>
 
@@ -25,7 +25,7 @@
 
     <div class="page-container">
         <header class="page-header">
-            <h1>portfolio ecosystem</h1>
+            <h1>SSH Portfolio</h1>
             <div class="nav-buttons">
                 <a href="../projects.html" class="back-btn"> ← projects </a>
                 <a href="../index.html" class="home-btn"> ⌂ home </a>
@@ -33,10 +33,133 @@
         </header>
 
         <div class="page-content">
+
+            <!-- DIY -->
+            <section>
+                <h2>DIY</h2>
+                <div class="highlight-box">
+                    <code>ssh portfolio.vedsite.com</code>
+                    <p class="hint">enter in your terminal and confirm the connection. trust me, i don't want your data</p>
+                </div>
+            </section>
+
+            <!-- OVERVIEW -->
             <section>
                 <h2>overview</h2>
-                <p>Coming soon...</p>
+                <p>
+                    This is my website, but accessible over SSH. When you connect to port 22, you receive a 
+                    version of my homepage at <a href="https://vedsite.com">vedsite.com</a>, but in the terminal.
+                    I tried to keep consistent to the DVD-player-esque animation style, with the shapes bouncing and hitting the edges.
+                    Each shape maps to a section of my portfolio (about, projects, experience, misc) and morphs
+                    into a different character every time it hits a wall. You can press 1 through 4 on your keyboard to navigate into 
+                    each section, or just sit by and watch the shapes bounce around (don't sit idle too long, i have a timeout set for 10 minutes).
+                </p>
+                <video class="screenshot" autoplay loop muted playsinline>
+                    <source src="../media/ssh_demo.mp4" type="video/mp4">
+                </video>
             </section>
+
+            <!-- visuals -->
+            <section>
+                <h2>visuals</h2>
+
+                <div class="features">
+                    <div class="feature">
+                        <strong>bouncing square navigation</strong>: four squares made up of four different icons (█ ◆ ● ▓) drift
+                        across the terminal, with each square color-coded to a specific page. pink = about, purple = projects, 
+                        blue = experience, teal = misc. the numbers and colors match the ones on my website homepage respectively.
+                    </div>
+                    <div class="feature">
+                        <strong>square morphing</strong>: when a square collides with the edge of the terminal window, its character icon
+                        cycles to the next in the set. purely cosmetic, but helps stay true to the original animation.
+                    </div>
+                    <div class="feature">
+                        <strong>tiled background</strong>: staying true to the background on my homepage, i have my (clever) personal domain
+                        repeating across every cell in the terminal as a dim grid, providing a nice background to watch the squares bounce
+                        around in. the text is offset per row so it reads diagonally, and the squares render on top of it.
+                    </div>
+                    <div class="feature">
+                        <strong>keyboard navigation</strong>: press <code>1</code>–<code>4</code> to open a subpage,
+                        <code>b</code> or <code>esc</code> to go back, <code>q</code> to quit. each subpage
+                        shows the section title and links back to the real website.
+                    </div>
+                    <div class="feature">
+                        <strong>per-user sessions</strong>: every SSH connection spawns its own independent
+                        instance of the UI. your shapes, your session.
+                    </div>
+                </div>
+
+                <!-- SCREENSHOT: a subpage view after pressing 1/2/3/4 -->
+                <!-- <img class="screenshot" src="../media/ssh-subpage.png" alt="SSH subpage view"> -->
+                <img class="screenshot" src="../media/ssh_subproject.png" alt="SSH subproject view">
+            </section>
+
+            <!-- HOW IT'S BUILT -->
+            <section>
+                <h2>how it's built</h2>
+                <p>
+                    the app is written in Go using the Charm stack — a set of libraries purpose-built for
+                    terminal UIs over SSH.
+                </p>
+
+                <div class="tech-tags">
+                    <span>Go</span>
+                    <span>Wish</span>
+                    <span>Bubble Tea</span>
+                    <span>Lip Gloss</span>
+                    <span>Docker</span>
+                    <span>AWS EC2</span>
+                </div>
+
+                <p>
+                    <strong>Wish</strong> handles the SSH server — it listens on port 22 and bootstraps a
+                    fresh terminal UI for each incoming connection.
+                    <strong>Bubble Tea</strong> is the TUI framework that drives the render loop:
+                    an <code>Init → Update → View</code> cycle running at 50ms ticks for smooth animation.
+                    <strong>Lip Gloss</strong> handles all the styling — colors, bold text, positioning — in the terminal.
+                </p>
+
+                <p>
+                    the animation loop works like a simple physics engine: each shape has an (x, y) position
+                    and a velocity vector (vx, vy). every tick, positions update and bounce off terminal edges.
+                    on collision, the shape's character morphs to the next in the cycle.
+                </p>
+            </section>
+
+            <!-- ARCHITECTURE -->
+            <section>
+                <h2>architecture</h2>
+
+                <div class="arch-row">
+                    <span class="node">your terminal</span>
+                    <span class="arrow">→</span>
+                    <span class="node">SSH (port 22)</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Docker</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Wish server</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Bubble Tea UI</span>
+                </div>
+
+                <p>
+                    the Go binary runs inside a Docker container on my AWS EC2 instance.
+                    port 22 on the host is mapped to the container, so <code>ssh ssh.vedsite.com</code>
+                    routes directly into the Wish server. my admin SSH runs on a different port so the
+                    portfolio can own port 22. Cloudflare handles DNS (A record, DNS-only mode — SSH
+                    can't be proxied).
+                </p>
+            </section>
+
+            <!-- SOURCE -->
+            <section>
+                <h2>source</h2>
+                <p>
+                    the code is on my GitHub. the main logic is a single <code>main.go</code> file —
+                    model, update loop, view renderer, and SSH server setup all in ~230 lines.
+                </p>
+            </section>
+
         </div>
     </div>
 
