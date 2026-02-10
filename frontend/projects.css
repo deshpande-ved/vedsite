@@ -205,6 +205,10 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn) {
         text-align: center;
     }
 
+    & p strong {
+        color: #FF0000;
+    }
+
     & section {
         margin-bottom: 60px;
         background: none;
@@ -634,4 +638,37 @@ body.detail-page {
     margin: 1rem 0;
     font-size: 0.9rem;
     opacity: 0.4;
+}
+
+/* =============================================================================
+   SSH COMMAND COPY BUTTON
+   ============================================================================= */
+
+.ssh-command {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ssh-command code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 1em;
+    color: #FF0000;
+}
+
+.copy-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: background 200ms ease;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
 }

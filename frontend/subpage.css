@@ -16,7 +16,7 @@ body {
     overflow-x: hidden;
 }
 
-a:not(.nav-shape):not(.home-btn):not(.back-btn) {
+a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     color: #000000;
 }
 
@@ -114,8 +114,8 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn) {
 }
 
 .page-header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     margin-bottom: 60px;
 
@@ -129,7 +129,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn) {
         }
     }
 
-    & .home-btn {
+    & .resume-btn {
         font-family: 'sfpro_d', 'Times New Roman', Times, serif;
         font-size: 18px;
         color: #ffffff;
@@ -141,11 +141,36 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn) {
         background: none;
 
         &:hover {
+            background: #000000;
+            border-color: #000000;
+            color: #ffffff;
+        }
+    }
+
+    & .home-btn {
+        font-family: 'sfpro_d', 'Times New Roman', Times, serif;
+        font-size: 18px;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 12px 24px;
+        border: 2px solid #ffffff;
+        border-radius: 30px;
+        transition: all 300ms ease;
+        background: none;
+        justify-self: end;
+
+        &:hover {
             background: #a69b8f;
             border-color: #a69b8f;
             color: #000000;
         }
     }
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
 .page-content {
