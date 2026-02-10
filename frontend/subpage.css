@@ -158,6 +158,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         transition: all 300ms ease;
         background: none;
         justify-self: end;
+        grid-column: 3;
 
         &:hover {
             background: #a69b8f;
