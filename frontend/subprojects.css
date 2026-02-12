@@ -174,6 +174,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn) {
         border-radius: 30px;
         transition: all 300ms ease;
         background: none;
+        white-space: nowrap;
 
         &:hover {
             background: #a69b8f;
@@ -448,6 +449,7 @@ body.detail-page {
     border-radius: 30px;
     transition: all 300ms ease;
     background: none;
+    white-space: nowrap;
 }
 
 .page-header .back-btn:hover {
@@ -460,6 +462,7 @@ body.detail-page {
     display: flex;
     gap: 12px;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 /* =============================================================================

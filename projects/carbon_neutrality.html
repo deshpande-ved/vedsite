@@ -33,10 +33,198 @@
         </header>
 
         <div class="page-content">
+
+            <!-- overview -->
             <section>
                 <h2>overview</h2>
-                <p>Coming soon...</p>
+                <p>
+                    An interactive simulation game that models carbon emissions across five Boston neighborhoods. 
+                    Players race against time to reduce CO2 levels by planting eelgrass and converting car commuters 
+                    to public transit. The game visualizes how policy decisions and environmental interventions 
+                    can impact urban carbon footprints, with neighborhoods changing color based on their emission levels.
+                </p>
             </section>
+
+            <!-- how to play -->
+            <section>
+                <h2>how to play</h2>
+                <div class="features">
+                    <div class="feature">
+                        <strong>goal</strong>: Reduce any neighborhood's carbon emissions to zero (turns white) 
+                        within 15 seconds to win. If time runs out, global warming wins.
+                    </div>
+                    <div class="feature">
+                        <strong>spacebar</strong>: Increases emissions by 750 tonnes per neighborhood. 
+                        Use this to demo how colors change as pollution rises.
+                    </div>
+                    <div class="feature">
+                        <strong>any other key</strong>: Plants eelgrass, removing 750 tonnes of carbon 
+                        from each neighborhood instantly.
+                    </div>
+                    <div class="feature">
+                        <strong>mouse click</strong>: Converts 300 car commuters to public transit AND 
+                        removes 750 tonnes of carbon. A double benefit!
+                    </div>
+                    <div class="feature">
+                        <strong>time pressure</strong>: Every 4 seconds, one year passes and emissions 
+                        accumulate based on how many people still drive in each neighborhood.
+                    </div>
+                </div>
+            </section>
+
+            <!-- visuals -->
+            <section>
+                <h2>visuals</h2>
+                <p>
+                    Each neighborhood is color-coded based on its current carbon emission level, 
+                    creating an intuitive heat map of Boston's environmental health:
+                </p>
+                <div class="features">
+                    <div class="feature">
+                        <strong>white (0 tonnes)</strong>: Carbon neutral — you've saved this neighborhood!
+                    </div>
+                    <div class="feature">
+                        <strong>blue (&lt;1000 tonnes)</strong>: Low emissions, doing well.
+                    </div>
+                    <div class="feature">
+                        <strong>green (&lt;1500 tonnes)</strong>: Moderate emissions, room for improvement.
+                    </div>
+                    <div class="feature">
+                        <strong>yellow (&lt;2000 tonnes)</strong>: Elevated emissions, take action soon.
+                    </div>
+                    <div class="feature">
+                        <strong>orange (&lt;3000 tonnes)</strong>: High emissions, intervention needed.
+                    </div>
+                    <div class="feature">
+                        <strong>red (3000+ tonnes)</strong>: Critical levels, immediate action required.
+                    </div>
+                </div>
+                <video class="screenshot" autoplay loop muted playsinline controls>
+                    <source src="../media/carbon_win.mp4" type="video/mp4">
+                </video>
+                <img class="screenshot" src="../media/carbon_loss.png" alt="Lose screen">
+            </section>
+
+            <!-- neighborhoods -->
+            <section>
+                <h2>neighborhoods</h2>
+                <p>
+                    The simulation features five real Boston neighborhoods, positioned according to their 
+                    approximate geographic locations. Each has different commuter populations based on 
+                    actual census data:
+                </p>
+                <div class="features">
+                    <div class="feature">
+                        <strong>Mission Hill</strong>: West-central Boston. 7,819 total commuters, 
+                        2,645 using public transit.
+                    </div>
+                    <div class="feature">
+                        <strong>North End</strong>: Northeast, by the harbor. 8,004 total commuters, 
+                        4,438 using public transit.
+                    </div>
+                    <div class="feature">
+                        <strong>Roxbury</strong>: Central-south Boston. 22,969 total commuters, 
+                        18,083 using public transit.
+                    </div>
+                    <div class="feature">
+                        <strong>Roslindale</strong>: Southwest Boston. 18,007 total commuters, 
+                        9,343 using public transit.
+                    </div>
+                    <div class="feature">
+                        <strong>South Boston Waterfront</strong>: East, seaport area. 3,459 total commuters, 
+                        only 366 using public transit — the hardest to save!
+                    </div>
+                </div>
+            </section>
+
+            <!-- background -->
+            <section>
+                <h2>background</h2>
+                <p>
+                    The eelgrass mechanic is based on real research into <strong>Blue Carbon</strong> ecosystems. 
+                    Coastal ecosystems like eelgrass beds sequester significant amounts of CO2. According to 
+                    <a href="https://seagrant.mit.edu/2023/10/19/mapping-blue-carbon-new-report-highlights-coastal-ecosystem-benefits/">MIT Sea Grant research</a>, 
+                    Massachusetts' 218,222 acres of coastal ecosystems sequester approximately 7.5 million metric 
+                    tonnes of carbon — roughly 34 tonnes per acre.
+                </p>
+                <p>
+                    The emission calculations assume that non-public-transit commuters drive cars, each producing 
+                    approximately 2.9 tonnes of CO2 annually (based on average commute distances and vehicle efficiency). 
+                    While simplified, this model demonstrates the real tension between transportation choices and 
+                    environmental impact.
+                </p>
+            </section>
+
+            <!-- construction -->
+            <section>
+                <h2>construction</h2>
+                <div class="tech-tags">
+                    <span>Racket</span>
+                    <span>ISL+</span>
+                    <span>big-bang</span>
+                    <span>2htdp/image</span>
+                    <span>2htdp/universe</span>
+                </div>
+
+                <p>
+                    Built in <strong>Racket</strong> using the Intermediate Student Language with Lambda (ISL+), 
+                    this project uses the <code>big-bang</code> framework for reactive game programming. 
+                    The game state is a struct containing the list of neighborhoods and elapsed time, 
+                    updated through pure functional transformations on each tick, key press, or mouse click.
+                </p>
+
+                <p>
+                    Key technical elements:
+                </p>
+                <div class="features">
+                    <div class="feature">
+                        <strong>functional state management</strong>: The world state is immutable — each 
+                        handler returns a new state rather than mutating the old one.
+                    </div>
+                    <div class="feature">
+                        <strong>map/filter abstractions</strong>: List operations like <code>map</code> and 
+                        <code>ormap</code> apply transformations across all neighborhoods efficiently.
+                    </div>
+                    <div class="feature">
+                        <strong>image composition</strong>: Neighborhoods are drawn using <code>place-image</code> 
+                        and <code>foldr</code>, layering each onto a base canvas.
+                    </div>
+                    <div class="feature">
+                        <strong>event-driven architecture</strong>: Separate handlers for <code>on-tick</code>, 
+                        <code>on-key</code>, and <code>on-mouse</code> keep concerns cleanly separated.
+                    </div>
+                </div>
+            </section>
+
+            <!-- architecture -->
+            <section>
+                <h2>game loop</h2>
+
+                <div class="arch-row">
+                    <span class="node">World State</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Event Handler</span>
+                    <span class="arrow">→</span>
+                    <span class="node">New State</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Draw</span>
+                </div>
+
+                <p>
+                    The <code>big-bang</code> loop follows a simple cycle: the current world state 
+                    (neighborhoods + timer) passes through event handlers (tick/key/mouse), which 
+                    return a new state. The draw function renders this state to the screen. 
+                    The <code>stop-when</code> clause checks for win (any neighborhood at 0 carbon) 
+                    or lose (15+ seconds elapsed) conditions after each update.
+                </p>
+
+                <p>
+                    <strong>Source?</strong> This was built as part of Northeastern's Fundamentals of 
+                    Computer Science course. The full Racket source demonstrates functional programming 
+                    principles applied to interactive simulation.
+                </p>
+            </section>
+
         </div>
     </div>
 
