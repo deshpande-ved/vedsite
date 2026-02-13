@@ -27,7 +27,7 @@
     <div class="page-container">
         <header class="page-header">
             <h1>misc</h1>
-            <a href="index.html" class="home-btn"> ← home </a>
+            <a href="index.html" class="home-btn"> â† home </a>
         </header>
 
         <div class="page-content two-column-layout">
@@ -117,9 +117,9 @@
         function ratingToStars(rating) {
             if (!rating) return 'No rating';
             const full = Math.floor(rating);
-            const half = (rating - full) >= 0.5 ? '½' : '';
+            const half = (rating - full) >= 0.5 ? 'Â½' : '';
             const empty = 5 - full - (half ? 1 : 0);
-            return '★'.repeat(full) + half + '☆'.repeat(empty);
+            return 'â˜…'.repeat(full) + half + 'â˜†'.repeat(empty);
         }
         
         // NOW PLAYING - Synced progress tracking
@@ -162,7 +162,7 @@
                     document.getElementById('progress-duration').textContent = formatTime(data.duration_ms);
                 }
 
-                document.getElementById('play-status').textContent = data.is_playing ? '▶ Playing' : '⏸ Paused';
+                document.getElementById('play-status').textContent = data.is_playing ? 'â–¶ Playing' : 'â¸ Paused';
                 updateProgressUI();
 
             } catch (err) {
@@ -192,8 +192,25 @@
         // Update progress display every 100ms for smooth animation
         setInterval(updateProgressUI, 100);
 
-        // Poll API every 5 seconds to resync
-        setInterval(fetchNowPlaying, 5000);
+        // Visibility-aware polling - stops when tab is hidden
+        let nowPlayingInterval;
+        let queueInterval;
+
+        function startPolling() {
+            fetchNowPlaying();
+            fetchQueue();
+            nowPlayingInterval = setInterval(fetchNowPlaying, 30000);
+            queueInterval = setInterval(fetchQueue, 120000);
+        }
+
+        function stopPolling() {
+            clearInterval(nowPlayingInterval);
+            clearInterval(queueInterval);
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            document.hidden ? stopPolling() : startPolling();
+        });
 
         // =============================================================================
         // QUEUE
@@ -315,14 +332,10 @@
         // INITIALIZE
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchNowPlaying();
-            fetchQueue();
             fetchTopArtists();
             fetchRecentFilms();
-            fetchTop4()
-
-            // Refresh queue periodically
-            setInterval(fetchQueue, 30000);
+            fetchTop4();
+            startPolling();
         });
     </script>
 </body>
