@@ -27,7 +27,7 @@
     <div class="page-container">
         <header class="page-header">
             <h1>misc</h1>
-            <a href="index.html" class="home-btn"> ← home </a>
+            <a href="index.html" class="home-btn"> â† home </a>
         </header>
 
         <div class="page-content two-column-layout">
@@ -117,9 +117,9 @@
         function ratingToStars(rating) {
             if (!rating) return 'No rating';
             const full = Math.floor(rating);
-            const half = (rating - full) >= 0.5 ? 'Â½' : '';
+            const half = (rating - full) >= 0.5 ? '½' : '';
             const empty = 5 - full - (half ? 1 : 0);
-            return 'â˜…'.repeat(full) + half + 'â˜†'.repeat(empty);
+            return '★'.repeat(full) + half + '☆'.repeat(empty);
         }
         
         // NOW PLAYING - Synced progress tracking
@@ -139,8 +139,12 @@
 
                 if (data.error) {
                     document.getElementById('track-name').textContent = 'Could not load';
+                    pollInterval = 120000; // Slow down on error
                     return;
                 }
+
+                // Adjust polling rate based on playback state
+                pollInterval = data.is_playing ? 60000 : 120000;
 
                 // Check if track changed
                 const trackChanged = currentTrack.name !== data.track_name;
@@ -162,11 +166,12 @@
                     document.getElementById('progress-duration').textContent = formatTime(data.duration_ms);
                 }
 
-                document.getElementById('play-status').textContent = data.is_playing ? '⏯︎ Playing' : '⏸︎ Paused';
+                document.getElementById('play-status').textContent = data.is_playing ? '▶ Playing' : '⏸ Paused';
                 updateProgressUI();
 
             } catch (err) {
                 console.error('Error fetching now playing:', err);
+                pollInterval = 120000; // Slow down on error
             }
         }
 
@@ -192,15 +197,24 @@
         // Update progress display every 100ms for smooth animation
         setInterval(updateProgressUI, 100);
 
-        // Visibility-aware polling - stops when tab is hidden
+        // Visibility-aware polling with dynamic interval
         let nowPlayingInterval;
         let queueInterval;
+        let pollInterval = 60000; // 60s when playing, 120s when idle
 
         function startPolling() {
             fetchNowPlaying();
             fetchQueue();
-            nowPlayingInterval = setInterval(fetchNowPlaying, 30000);
+            scheduleNowPlaying();
             queueInterval = setInterval(fetchQueue, 120000);
+        }
+
+        function scheduleNowPlaying() {
+            clearInterval(nowPlayingInterval);
+            nowPlayingInterval = setInterval(() => {
+                fetchNowPlaying();
+                scheduleNowPlaying(); // Reschedule with potentially new interval
+            }, pollInterval);
         }
 
         function stopPolling() {
