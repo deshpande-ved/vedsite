@@ -162,7 +162,7 @@
                     document.getElementById('progress-duration').textContent = formatTime(data.duration_ms);
                 }
 
-                document.getElementById('play-status').textContent = data.is_playing ? 'â–¶ Playing' : 'â¸ Paused';
+                document.getElementById('play-status').textContent = data.is_playing ? '⏯︎ Playing' : '⏸︎ Paused';
                 updateProgressUI();
 
             } catch (err) {
