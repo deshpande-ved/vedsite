@@ -176,7 +176,7 @@ if (cardsContainer) {
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
 
-            sessionStorage.setItem('transitionColor', '#9B4F96');
+            sessionStorage.setItem('transitionColor', '#663399'); // Match homepage shape color
             sessionStorage.setItem('transitionX', cx);
             sessionStorage.setItem('transitionY', cy);
             sessionStorage.setItem('projectForward', 'true');

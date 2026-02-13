@@ -162,7 +162,7 @@ a:not(.nav-shape):not(.home-btn) {
 }
 
 #about-shape { background-color: #D60270; }
-#projects-shape { background-color: #9B4F96; }
+#projects-shape { background-color: rebeccapurple; }
 #experience-shape { background-color: #0038A8; }
 #misc-shape { background-color: #069494; }
 

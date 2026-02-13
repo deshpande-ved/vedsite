@@ -453,8 +453,8 @@ body.detail-page {
 }
 
 .page-header .back-btn:hover {
-    background: #9b4f96;
-    border-color: #9b4f96;
+    background: rebeccapurple;
+    border-color: rebeccapurple;
     color: #ffffff;
 }
 
