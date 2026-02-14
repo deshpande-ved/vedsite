@@ -43,7 +43,8 @@
                         <button class="copy-btn"
                             onclick="navigator.clipboard.writeText('ssh portfolio.vedsite.com'); this.textContent='✓'; setTimeout(() => this.textContent='📁', 1500);">📁</button>
                     </div>
-                    <p class="hint">paste into your terminal and type yes to confirm the connection. trust me, i don't want your data
+                    <p class="hint">paste into your terminal and type yes to confirm the connection. trust me, i don't
+                        want your data
                     </p>
                 </div>
             </section>
@@ -75,17 +76,17 @@
 
                 <div class="features">
                     <div class="feature">
-                        <strong>bouncing square navigation</strong>: Four squares made up of four different icons (█ ◆ ●
-                        ▓) drift
+                        <strong>bouncing square navigation</strong>: Four squares made up of four different icons (# @ *
+                        +) drift
                         across the terminal, with each square color-coded to a specific page. Pink = about, purple =
-                        projects,
-                        blue = experience, teal = misc. The numbers and colors match the ones on my website homepage
+                        projects, blue = experience, teal = misc. The numbers and colors match the ones on my website
+                        homepage
                         respectively.
                     </div>
                     <div class="feature">
                         <strong>square morphing</strong>: When a square collides with the edge of the terminal window,
-                        its character icon
-                        cycles to the next in the set. Purely cosmetic, but helps hold up part of the original
+                        its character icon cycles to the next in the set. Purely cosmetic, but helps hold up part of the
+                        original
                         animation.
                     </div>
                     <div class="feature">
@@ -158,18 +159,25 @@
                 </div>
 
                 <p>
-                    The Go binary runs inside a Docker container on my AWS EC2 instance in Ohio. I chose Docker for easy 
-                    deployment and isolation, I was able to quickly build the Go binary, drop it in the container, and run
-                    it without worrying about Go versions or library conflicts on the host machine. The container runs a Wish
-                    SSH server that listens on port 22, and every incoming SSH connection spawns a new instance of the Bubble 
-                    Tea UI. Port 22 on the host is mapped to the container, so <code>ssh portfolio.vedsite.com</code> routes
-                    directly into the Wish server. My admin SSH runs on a different port to prevent disparity and so the portfolio
-                    can own port 22. Cloudflare handles DNS as an A record on DNS-only mode since SSH cannot be proxied on the free tier.
+                    The Go binary runs inside a Docker container on my AWS EC2 instance in Ohio. I chose Docker for easy
+                    deployment and isolation, I was able to quickly build the Go binary, drop it in the container, and
+                    run
+                    it without worrying about Go versions or library conflicts on the host machine. The container runs a
+                    Wish
+                    SSH server that listens on port 22, and every incoming SSH connection spawns a new instance of the
+                    Bubble
+                    Tea UI. Port 22 on the host is mapped to the container, so <code>ssh portfolio.vedsite.com</code>
+                    routes
+                    directly into the Wish server. My admin SSH runs on a different port to prevent disparity and so the
+                    portfolio
+                    can own port 22. Cloudflare handles DNS as an A record on DNS-only mode since SSH cannot be proxied
+                    on the free tier.
                     <br>
-                    <br> 
-                
-                    <strong>Source?</strong> The code is on my <a href="https://github.com/deshpande-ved">GitHub</a>. The main logic is a single <code>main.go</code>
-                    file: model, update loop, view renderer, and SSH server setup all in ~230 lines.
+                    <br>
+
+                    <strong>Source?</strong> The code is on my <a href="https://github.com/deshpande-ved">GitHub</a>.
+                    The main logic is a single <code>main.go</code>
+                    file: model, update loop, view renderer, and SSH server setup all in ~330 lines.
                 </p>
 
         </div>
