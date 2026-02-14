@@ -23,7 +23,7 @@ import (
 	"github.com/muesli/termenv"
 )
 
-const discordWebhook = os.getenv("DISCORD_WEBHOOK")
+var discordWebhook = os.Getenv("DISCORD_WEBHOOK")
 
 type Shape struct {
 	x, y   float64
@@ -33,7 +33,7 @@ type Shape struct {
 	label  string
 }
 
-var shapeChars = []string{"█", "◆", "●", "▓"}
+var shapeChars = []string{"#", "@", "*", "+"}
 
 var pageColors = []lipgloss.Color{
 	lipgloss.Color("#D60270"),
@@ -155,12 +155,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				morphed = true
 			}
 
-			if m.shapes[i].y <= 1 {
-				m.shapes[i].y = 1
+			if m.shapes[i].y < 2 {
+				m.shapes[i].y = 2
 				m.shapes[i].vy *= -1
 				morphed = true
-			} else if m.shapes[i].y >= float64(m.height-5) {
-				m.shapes[i].y = float64(m.height - 5)
+			} else if m.shapes[i].y >= float64(m.height-3) {
+				m.shapes[i].y = float64(m.height - 3)
 				m.shapes[i].vy *= -1
 				morphed = true
 			}
