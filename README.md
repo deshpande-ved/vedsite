@@ -51,8 +51,9 @@ vedsite/
 │   ├── requirements.txt
 │   ├── server.py
 │   └── top4.json
-├── .env
 ├── .gitignore
+├── LICENSE
+├── README.md
 ├── Ved_Deshpande_Resume.pdf
 ├── about.html
 ├── experience.html
