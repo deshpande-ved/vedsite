@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="../frontend/subprojects.css" />
-    <title>sanguine strategy card game</title>
+    <link rel="stylesheet" href="../frontend/sanguine.css" />
+    <title>Sanguine Strategy Card Game</title>
     <link rel="icon" href="../icons/tab_icon.png" type="image/png">
 </head>
 
@@ -25,7 +26,7 @@
 
     <div class="page-container">
         <header class="page-header">
-            <h1>sanguine strategy card game</h1>
+            <h1>Sanguine Strategy Card Game</h1>
             <div class="nav-buttons">
                 <a href="../projects.html" class="back-btn"> ← projects </a>
                 <a href="../index.html" class="home-btn"> ⌂ home </a>
@@ -33,15 +34,241 @@
         </header>
 
         <div class="page-content">
+
+            <!-- overview -->
             <section>
                 <h2>overview</h2>
-                <p>Coming soon...</p>
+                <p>
+                    A two-player strategy card game inspired by Queen's Blood from Final Fantasy VII Rebirth.
+                    Players compete for territorial control across a 3×5 board, placing cards from their own decks
+                    onto cells that they own via pawns. Each card spreads influence to adjacent territories based on its
+                    unique
+                    mini-grid pattern. Victory goes to whoever controls the most valuable rows when the board fills or
+                    both players consecutively pass which creates a delicate balance of expansion, defense, and resource
+                    management.
+                </p>
             </section>
+
+            <!-- play the game -->
+            <section>
+                <h2>play the game</h2>
+                <div class="game-container" id="game-container">
+                    <div class="mode-selector">
+                        <button class="mode-btn active" data-mode="pvp">Player vs Player</button>
+                        <button class="mode-btn" data-mode="pve">Player vs AI</button>
+                        <button class="mode-btn" data-mode="eve">AI vs AI (Demo)</button>
+                    </div>
+
+                    <div class="game-header">
+                        <div class="score-display">
+                            <span class="score-red">PINK: <span id="red-total">0</span></span>
+                            <span class="score-blue">TEAL: <span id="blue-total">0</span></span>
+                        </div>
+                        <div class="turn-indicator turn-red" id="turn-indicator">PINK's Turn</div>
+                    </div>
+
+                    <div class="game-board">
+                        <div class="row-scores" id="red-row-scores"></div>
+                        <div class="board-grid" id="board-grid"></div>
+                        <div class="row-scores" id="blue-row-scores"></div>
+                    </div>
+
+                    <div class="hands-container">
+                        <div class="hand">
+                            <div class="hand-title hand-title-red">◆ Pink's Hand</div>
+                            <div class="hand-cards" id="red-hand"></div>
+                        </div>
+                        
+                        <div class="hand">
+                            <div class="hand-title hand-title-blue">◆ Teal's Hand</div>
+                            <div class="hand-cards" id="blue-hand"></div>
+                        </div>
+                    </div>
+
+                    <div class="game-controls">
+                        <button class="game-btn btn-pass" id="pass-btn">Pass Turn</button>
+                        <button class="game-btn btn-reset" id="reset-btn">New Game</button>
+                    </div>
+
+                    <div class="game-message" id="game-message"></div>
+                </div>
+            </section>
+
+            <!-- how to play -->
+            <section>
+                <h2>how to play</h2>
+                <div class="features">
+                    <div class="feature">
+                        <strong>goal</strong>: A player wins rows by having the higher card value than their opponent.
+                        Your total score is the sum of your values, but only in rows that you're winning.
+                    </div>
+                    <div class="feature">
+                        <strong>pawns & ownership</strong>: Each cell shows how many pawns exist.
+                        Pink starts with pawns on the left column, Teal on the right. You can only place
+                        cards on cells you own by existence of pawns on those cells.
+                    </div>
+                    <div class="feature">
+                        <strong>card cost</strong>: Each card has a cost ranging from 1 - 3. You need at least that
+                        many pawns on a cell to place the card there.
+                    </div>
+                    <div class="feature">
+                        <strong>influence spread</strong>: When you place a card, a mini-grid spreads influence
+                        based on its pattern. Hovering over cards in the player's deck will show the influence grid:
+                        purple
+                        squares show where new pawns will appear.
+                    </div>
+                    <div class="feature">
+                        <strong>capturing territory</strong>: If your influence reaches an opponent's cell
+                        (without a card), you take ownership. Cells with cards are locked and cannot be overwritten.
+                    </div>
+                    <div class="feature">
+                        <strong>game ending</strong>: The game ends when the board is full OR both players
+                        pass consecutively.
+                    </div>
+                </div>
+            </section>
+
+            <!-- card gallery -->
+            <section>
+                <h2>card gallery</h2>
+                <p>
+                    Each card has unique stats and influence patterns. Cost determines where it can be placed,
+                    value contributes to row totals, and the influence grid shapes your territorial expansion.
+                </p>
+                <div class="features">
+                    <div class="feature">
+                        <strong>Goblin</strong> (Cost 1, Value 1): Minimal influence. Cheap blocker.
+                    </div>
+                    <div class="feature">
+                        <strong>Archer</strong> (Cost 1, Value 2): Horizontal spread for reaching across lanes.
+                    </div>
+                    <div class="feature">
+                        <strong>Miner</strong> (Cost 1, Value 2): Diagonal sneaker for unexpected spots.
+                    </div>
+                    <div class="feature">
+                        <strong>Knight</strong> (Cost 1, Value 3): Classic vertical influence.
+                    </div>
+                    <div class="feature">
+                        <strong>Healer</strong> (Cost 1, Value 3): Wide horizontal spread.
+                    </div>
+                    <div class="feature">
+                        <strong>Pekka</strong> (Cost 1, Value 4): X-pattern influence.
+                    </div>
+                    <div class="feature">
+                        <strong>Valkyrie</strong> (Cost 2, Value 4): Corner specialist.
+                    </div>
+                    <div class="feature">
+                        <strong>Barbarian</strong> (Cost 2, Value 5): Cross pattern.
+                    </div>
+                    <div class="feature">
+                        <strong>Wizard</strong> (Cost 2, Value 5): Long vertical reach.
+                    </div>
+                    <div class="feature">
+                        <strong>Prince</strong> (Cost 2, Value 5): Mixed pattern.
+                    </div>
+                    <div class="feature">
+                        <strong>Witch</strong> (Cost 2, Value 6): Extended vertical.
+                    </div>
+                    <div class="feature">
+                        <strong>Golem</strong> (Cost 3, Value 6): Compact but strong.
+                    </div>
+                    <div class="feature">
+                        <strong>Giant</strong> (Cost 3, Value 7): Massive cross pattern.
+                    </div>
+                    <div class="feature">
+                        <strong>Musketeer</strong> (Cost 2, Value 8): Checkerboard pattern.
+                    </div>
+                    <div class="feature">
+                        <strong>Dragon</strong> (Cost 3, Value 10): Full 5×5 influence, the ultimate card.
+                    </div>
+                </div>
+            </section>
+
+            <!-- construction -->
+            <section>
+                <h2>construction</h2>
+                <div class="tech-tags">
+                    <span>Java</span>
+                    <span>Swing</span>
+                    <span>MVC</span>
+                    <span>JUnit</span>
+                    <span>Strategy Pattern</span>
+                </div>
+
+                <p>
+                    The original implementation for this Sanguine Game is built in <strong>Java</strong> following
+                    strict
+                    Model-View-Controller architecture. The model manages all game state and rules, views
+                    render the board (both text-based and Swing GUI), and controllers handle player input
+                    through a listener-based event system.
+                </p>
+
+                <div class="features">
+                    <div class="feature">
+                        <strong>mvc architecture</strong>: Complete separation between game logic (BasicSanguine model),
+                        display (SwingSanguineView, TextBoardView), and input handling (SanguineController).
+                    </div>
+                    <div class="feature">
+                        <strong>listener pattern</strong>: The model notifies observers via ModelStatusListener
+                        and PlayerActionListener interfaces, enabling loose coupling between components.
+                    </div>
+                    <div class="feature">
+                        <strong>strategy pattern</strong>: AI opponents implement SanguineStrategy interface.
+                        Multiple strategies available: FillFirst (greedy), MaximizeRowScore (tactical),
+                        Minimax (optimal), and composite FallbackStrategy.
+                    </div>
+                    <div class="feature">
+                        <strong>influence system</strong>: Cards define 5×5 influence grids where 'I' marks
+                        pawn placement, 'C' is center, and 'X' is empty. Teal's grid is mirrored horizontally
+                        for symmetric gameplay.
+                    </div>
+                    <div class="feature">
+                        <strong>comprehensive testing</strong>: JUnit test suites verify model behavior,
+                        strategy correctness, and edge cases, while mock objects validate controller interactions.
+                    </div>
+                </div>
+            </section>
+
+            <!-- architecture -->
+            <section>
+                <h2>architecture</h2>
+
+                <div class="arch-row">
+                    <span class="node">Model</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Listeners</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Controller</span>
+                    <span class="arrow">→</span>
+                    <span class="node">View</span>
+                </div>
+
+                <p>
+                    The game uses an event-driven architecture where the model broadcasts state changes
+                    to registered listeners. The controller implements both ModelStatusListener (for turn
+                    changes and game-over events) and PlayerActionListener (for card placement and passing).
+                    Views subscribe to updates and re-render accordingly.
+                </p>
+
+                <p>
+                    Player abstraction supports both HumanPlayer (awaits GUI input) and MachinePlayer
+                    (computes moves via strategy). This enables human vs human, human vs AI, and AI vs AI
+                    game modes with identical underlying logic.
+                </p>
+
+                <p>
+                    <strong>Source?</strong> This project was built as part of Northeastern's Object-Oriented Design course (CS 3500),
+                    with the full Java implementation demonstrating advanced OOD principles including interface
+                    segregation, composition over inheritance, and design patterns in practice.
+                </p>
+            </section>
+
         </div>
     </div>
 
     <div id="mousetrailer"></div>
     <script src="../frontend/subprojects.js"></script>
+    <script src="../frontend/sanguine.js"></script>
 </body>
 
 </html>
