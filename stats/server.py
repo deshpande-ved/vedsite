@@ -42,8 +42,19 @@ LETTERBOXD_USER = os.environ.get("LETTERBOXD_USER", "yerasaki")
 
 def load_spotify_tokens():
     """Load tokens from file"""
-    with open(SPOTIFY_TOKENS_FILE, 'r') as f:
-        return json.load(f)
+    try:
+        with open(SPOTIFY_TOKENS_FILE, 'r') as f:
+            content = f.read()
+            if not content.strip():
+                print("ERROR: Spotify tokens file is empty")
+                return None
+            return json.loads(content)
+    except FileNotFoundError:
+        print("ERROR: Spotify tokens file not found")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"ERROR: Spotify tokens file corrupted: {e}")
+        return None
 
 def save_spotify_tokens(tokens):
     """Save tokens safely (cant use atomic rename with docker bind mounts)"""
@@ -52,13 +63,30 @@ def save_spotify_tokens(tokens):
         json.dump(tokens, f)
         f.flush()
         os.fsync(f.fileno())
+    
+    # Verify tmp file was written correctly before overwriting main file
+    with open(tmp_path, 'r') as f:
+        content = f.read()
+        if not content.strip():
+            print("ERROR: Failed to write tokens to temp file")
+            return False
+        # Verify it's valid JSON
+        json.loads(content)
+    
     with open(tmp_path, 'r') as src, open(SPOTIFY_TOKENS_FILE, 'w') as dst:
         dst.write(src.read())
     os.remove(tmp_path)
+    return True
 
 def refresh_spotify_token():
     """Get new access token using refresh token"""
     tokens = load_spotify_tokens()
+    if not tokens:
+        return None
+    
+    if 'refresh_token' not in tokens:
+        print("ERROR: No refresh_token in tokens file")
+        return None
     
     auth_str = f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}"
     auth_base64 = base64.b64encode(auth_str.encode()).decode()
@@ -73,8 +101,14 @@ def refresh_spotify_token():
     )
     
     new_tokens = response.json()
+    
+    # Check if refresh succeeded
+    if 'access_token' not in new_tokens:
+        print(f"ERROR: Spotify refresh failed: {new_tokens}")
+        return None
+    
     tokens['access_token'] = new_tokens['access_token']
-    tokens['expires_at'] = time.time() + new_tokens['expires_in'] - 300  # 5 min buffer
+    tokens['expires_at'] = time.time() + new_tokens['expires_in'] - 300
     save_spotify_tokens(tokens)
     
     return tokens['access_token']
@@ -82,16 +116,21 @@ def refresh_spotify_token():
 def get_spotify_token():
     """Get valid token, refreshing if expired"""
     tokens = load_spotify_tokens()
+    if not tokens:
+        return None
     
     if time.time() >= tokens.get('expires_at', 0):
         print("Token expired, refreshing...")
         return refresh_spotify_token()
     
-    return tokens['access_token']
+    return tokens.get('access_token')
 
 def spotify_request(endpoint):
     """Make authenticated Spotify API request"""
     token = get_spotify_token()
+    if not token:
+        return None
+    
     response = requests.get(
         f"https://api.spotify.com/v1{endpoint}",
         headers={"Authorization": f"Bearer {token}"}
@@ -104,6 +143,9 @@ def spotify_request(endpoint):
 def spotify_now_playing():
     """Get currently playing track with progress"""
     response = spotify_request("/me/player/currently-playing")
+    
+    if response is None:
+        return jsonify({"error": "Spotify authentication failed - tokens may need refresh"}), 503
     
     if response.status_code == 200:
         data = response.json()
@@ -122,6 +164,8 @@ def spotify_now_playing():
     elif response.status_code == 204:
         # Nothing playing - get last played
         response = spotify_request("/me/player/recently-played?limit=1")
+        if response is None:
+            return jsonify({"error": "Spotify authentication failed"}), 503
         if response.status_code == 200:
             data = response.json()
             track = data['items'][0]['track']
@@ -143,6 +187,9 @@ def spotify_now_playing():
 def spotify_queue():
     """Get current queue"""
     response = spotify_request("/me/player/queue")
+    
+    if response is None:
+        return jsonify({"queue": [], "error": "Spotify unavailable"})
     
     if response.status_code == 200:
         data = response.json()
@@ -192,24 +239,25 @@ def lastfm_top_artists():
         for artist in data['topartists']['artist']:
             # Search Spotify for artist image
             image_url = None
-            try:
-                spotify_search = requests.get(
-                    "https://api.spotify.com/v1/search",
-                    headers={"Authorization": f"Bearer {spotify_token}"},
-                    params={
-                        "q": artist['name'],
-                        "type": "artist",
-                        "limit": 1
-                    }
-                )
-                if spotify_search.status_code == 200:
-                    spotify_data = spotify_search.json()
-                    if spotify_data['artists']['items']:
-                        images = spotify_data['artists']['items'][0].get('images', [])
-                        if images:
-                            image_url = images[0]['url']  # Largest image
-            except:
-                pass
+            if spotify_token:
+                try:
+                    spotify_search = requests.get(
+                        "https://api.spotify.com/v1/search",
+                        headers={"Authorization": f"Bearer {spotify_token}"},
+                        params={
+                            "q": artist['name'],
+                            "type": "artist",
+                            "limit": 1
+                        }
+                    )
+                    if spotify_search.status_code == 200:
+                        spotify_data = spotify_search.json()
+                        if spotify_data['artists']['items']:
+                            images = spotify_data['artists']['items'][0].get('images', [])
+                            if images:
+                                image_url = images[0]['url']  # Largest image
+                except:
+                    pass
             
             artists.append({
                 "name": artist['name'],
