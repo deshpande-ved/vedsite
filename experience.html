@@ -5,16 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="frontend/subpage.css" />
+    <link rel="stylesheet" href="frontend/experience.css" />
     <script src="frontend/subpage.js" defer></script>
     <title>experience</title>
     <link rel="icon" href="icons/tab_icon.png" type="image/png">
-    <style>
-        body { background-color: #0038A8; }
-    </style>
 </head>
 
 <body>
-
     <div id="background-animation">
         <div class="bg-shape triangle"></div>
         <div class="bg-shape triangle-reverse"></div>
@@ -31,30 +28,93 @@
     <div class="page-container">
         <header class="page-header">
             <h1>experience</h1>
+            <a href="Ved_Deshpande_Resume.pdf" class="resume-btn">✎ resume</a>
             <a href="index.html" class="home-btn"> ← home </a>
         </header>
 
         <div class="page-content">
             <section>
-                <h2>work experience</h2>
-                <p></p> professional experience here</p>
+                <h2>work</h2>
+                <div class="experience-card">
+                    <div class="exp-header">
+                        <span class="exp-title">Software Development Intern</span>
+                        <span class="exp-date">Jun – Aug 2023</span>
+                    </div>
+                    <div class="exp-company">TalentHome Solutions LLP · Mumbai, India</div>
+                    <p>Integrated React.js and MongoDB into web projects. Revised internal database inventory management system. Optimized SEO strategies.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>leadership</h2>
+                <div class="experience-card">
+                    <div class="exp-header">
+                        <span class="exp-title">Vice President</span>
+                        <span class="exp-date">Sep 2024 – Present</span>
+                    </div>
+                    <div class="exp-company">Northeastern Club Squash</div>
+                    <p>Spearheading inter-club operations and match scheduling across the east coast. Represented Northeastern at CSA Nationals in Philadelphia, February 2025.</p>
+                </div>
+
+                <div class="experience-card">
+                    <div class="exp-header">
+                        <span class="exp-title">Program Alumni & Co-Facilitator</span>
+                        <span class="exp-date">Sep 2024 – Present</span>
+                    </div>
+                    <div class="exp-company">Khoury FIRST</div>
+                    <p>Mentoring first-generation students through workshops and networking events. Leading workshops for 30+ incoming freshmen starting Spring 2026.</p>
+                </div>
             </section>
 
             <section>
                 <h2>education</h2>
-                <p>Northeastern University</p>
+                <div class="experience-card">
+                    <div class="exp-header">
+                        <span class="exp-title">B.S. Computer Science, Minor in Mathematics</span>
+                        <span class="exp-date">Expected May 2028</span>
+                    </div>
+                    <div class="exp-company">Northeastern University</div>
+                    <p>Object-Oriented Design, Computer Systems, Foundations of Data Science, Real Analysis</p>
+                </div>
             </section>
 
             <section>
                 <h2>skills</h2>
-                <p>technical shit</p>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>languages</h3>
+                        <div class="skill-tags">
+                            <span>Java</span>
+                            <span>Python</span>
+                            <span>C</span>
+                            <span>Go</span>
+                            <span>JavaScript</span>
+                            <span>HTML/CSS</span>
+                            <span>Assembly</span>
+                            <span>LISP</span>
+                            <span>LaTeX</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>tools & frameworks</h3>
+                        <div class="skill-tags">
+                            <span>React.js</span>
+                            <span>Flask</span>
+                            <span>Node.js</span>
+                            <span>PostgreSQL</span>
+                            <span>Docker</span>
+                            <span>AWS EC2</span>
+                            <span>Cloudflare</span>
+                            <span>Git</span>
+                            <span>RESTful APIs</span>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     </div>
     
     <div id="mousetrailer"></div>
 </body>
-
-
 
 </html>
