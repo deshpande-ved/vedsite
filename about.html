@@ -5,13 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="frontend/subpage.css" />
+    <link rel="stylesheet" href="frontend/about.css" />
     <title>about me</title>
     <link rel="icon" href="icons/tab_icon.png" type="image/png">
-    <style>
-        body {
-            background-color: #D60270;
-        }
-    </style>
 </head>
 
 <body>
@@ -35,26 +31,57 @@
         </header>
 
         <div class="page-content">
-            <section>
-                <h2>hello</h2>
-                <p>more about me</p>
-            </section>
+            <div class="intro-text">
+                <p>instead of writing an all-encompassing description that describes my personality, i thought it'd be better to show you instead.</p>
+            </div>
 
-            <section>
-                <h2>background</h2>
-                <p>sophomore at northeastern, currently looking for my first co-op</p>
-            </section>
+            <div id="drag-zone" class="drag-zone">
+                <div id="image-track" data-mouse-down-at="0" data-prev-percentage="0">
+                    <div class="gallery-card" data-description="Holding the Indian flag with my best friend at the time, this is me after winning the Hong Kong International Roller Skating Championships at 10 years old.">
+                        <img class="image" src="media/about/1.jpg" draggable="false" />
+                        <div class="card-description">Holding the Indian flag with my best friend at the time, this is me after winning the Hong Kong International Roller Skating Championships at 10 years old.</div>
+                    </div>
 
-            <section>
-                <h2>interests</h2>
-                <p>squash, movies, music. for more information, visit <a href="misc.html">my misc page</a></p>
-            </section>
+                    <div class="gallery-card" data-description="High school graduation vs kindergarten graduation. 12 years apart, but not that different.">
+                        <img class="image" src="media/about/2.jpeg" draggable="false" />
+                        <div class="card-description">High school graduation vs kindergarten graduation. 12 years apart, but not that different.</div>
+                    </div>
+
+                    <div class="gallery-card" data-description="July 16th 2023 - July 16th 2024. I got a buzz cut and wanted to document how my hair grows and changes texture over time. 52 pictures for the 52 weeks in a year, displaying the growth every week.">
+                        <video class="image" src="media/about/3.mp4" autoplay loop muted playsinline draggable="false"></video>
+                        <div class="card-description">July 16th 2023 - July 16th 2024. I got a buzz cut and wanted to document how my hair grows and changes texture over time. 52 pictures for the 52 weeks in a year, displaying the growth every week.</div>
+                    </div>
+
+                    <div class="gallery-card" data-description="Taken right before Northeastern, when I was staying with my brother. Hike at Carrol Canyon Park.">
+                        <img class="image" src="media/about/4.jpeg" draggable="false" />
+                        <div class="card-description">Taken right before Northeastern, when I was staying with my brother. Hike at Carrol Canyon Park.</div>
+                    </div>
+
+                    <div class="gallery-card" data-description="First semester of college.">
+                        <img class="image" src="media/about/5.jpeg" draggable="false" />
+                        <div class="card-description">First semester of college.</div>
+                    </div>
+
+                    <div class="gallery-card" data-description="My first ever rave, in an abandoned dog park late at night. Wild night.">
+                        <video class="image" src="media/about/6.mp4" autoplay loop muted playsinline draggable="false"></video>
+                        <div class="card-description">My first ever rave, in an abandoned dog park late at night. Wild night.</div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <!-- Expanded overlay -->
+    <div class="expanded-overlay" id="expanded-overlay">
+        <button class="close-btn" id="close-expanded">×</button>
+        <img class="expanded-media" id="expanded-media-img" style="display: none;">
+        <video class="expanded-media" id="expanded-media-video" autoplay loop muted playsinline style="display: none;"></video>
+        <div class="expanded-description" id="expanded-description"></div>
     </div>
 
     <div id="mousetrailer"></div>
 
-    <script src="frontend/subpage.js"></script>
+    <script src="frontend/about.js"></script>
 </body>
 
 </html>

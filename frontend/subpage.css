@@ -63,7 +63,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         color: rgba(255, 255, 255, 0.05);
     }
 
-    & > .bg-shape {
+    &>.bg-shape {
         position: absolute;
         opacity: 0.15;
         will-change: transform;
@@ -86,16 +86,65 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
             animation: float-and-roll-right 20s linear infinite;
         }
 
-        &:nth-child(1) { top: 5%; animation-delay: 0s; animation-duration: 22s; }
-        &:nth-child(2) { top: 15%; animation-delay: -5s; animation-duration: 25s; }
-        &:nth-child(3) { top: 25%; animation-delay: -10s; animation-duration: 28s; }
-        &:nth-child(4) { top: 35%; animation-delay: -15s; animation-duration: 20s; }
-        &:nth-child(5) { top: 45%; animation-delay: -8s; animation-duration: 24s; }
-        &:nth-child(6) { top: 55%; animation-delay: -12s; animation-duration: 26s; }
-        &:nth-child(7) { top: 65%; animation-delay: -18s; animation-duration: 23s; }
-        &:nth-child(8) { top: 75%; animation-delay: -3s; animation-duration: 27s; }
-        &:nth-child(9) { top: 85%; animation-delay: -20s; animation-duration: 21s; }
-        &:nth-child(10) { top: 95%; animation-delay: -14s; animation-duration: 29s; }
+        &:nth-child(1) {
+            top: 5%;
+            animation-delay: 0s;
+            animation-duration: 22s;
+        }
+
+        &:nth-child(2) {
+            top: 15%;
+            animation-delay: -5s;
+            animation-duration: 25s;
+        }
+
+        &:nth-child(3) {
+            top: 25%;
+            animation-delay: -10s;
+            animation-duration: 28s;
+        }
+
+        &:nth-child(4) {
+            top: 35%;
+            animation-delay: -15s;
+            animation-duration: 20s;
+        }
+
+        &:nth-child(5) {
+            top: 45%;
+            animation-delay: -8s;
+            animation-duration: 24s;
+        }
+
+        &:nth-child(6) {
+            top: 55%;
+            animation-delay: -12s;
+            animation-duration: 26s;
+        }
+
+        &:nth-child(7) {
+            top: 65%;
+            animation-delay: -18s;
+            animation-duration: 23s;
+        }
+
+        &:nth-child(8) {
+            top: 75%;
+            animation-delay: -3s;
+            animation-duration: 27s;
+        }
+
+        &:nth-child(9) {
+            top: 85%;
+            animation-delay: -20s;
+            animation-duration: 21s;
+        }
+
+        &:nth-child(10) {
+            top: 95%;
+            animation-delay: -14s;
+            animation-duration: 29s;
+        }
     }
 }
 
@@ -131,14 +180,15 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 
     & .resume-btn {
         font-family: 'sfpro_d', 'Times New Roman', Times, serif;
-        font-size: 18px;
+        font-size: clamp(12px, 2vw, 18px);
         color: #ffffff;
         text-decoration: none;
-        padding: 12px 24px;
+        padding: clamp(8px, 1.5vw, 12px) clamp(14px, 2.5vw, 24px);
         border: 2px solid #ffffff;
         border-radius: 30px;
         transition: all 300ms ease;
         background: none;
+        white-space: nowrap;
 
         &:hover {
             background: #000000;
@@ -149,16 +199,17 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 
     & .home-btn {
         font-family: 'sfpro_d', 'Times New Roman', Times, serif;
-        font-size: 18px;
+        font-size: clamp(12px, 2vw, 18px);
         color: #ffffff;
         text-decoration: none;
-        padding: 12px 24px;
+        padding: clamp(8px, 1.5vw, 12px) clamp(14px, 2.5vw, 24px);
         border: 2px solid #ffffff;
         border-radius: 30px;
         transition: all 300ms ease;
         background: none;
         justify-self: end;
         grid-column: 3;
+        white-space: nowrap;
 
         &:hover {
             background: #a69b8f;
@@ -201,7 +252,8 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     }
 }
 
-@media (hover: hover), (pointer: fine) {
+@media (hover: hover),
+(pointer: fine) {
     #mousetrailer {
         display: block;
     }
@@ -223,19 +275,30 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 }
 
 @keyframes float-and-roll-left {
-    from { transform: translateX(-100px) rotate(0deg); }
-    to { transform: translateX(calc(100vw + 100px)) rotate(-360deg); }
+    from {
+        transform: translateX(-100px) rotate(0deg);
+    }
+
+    to {
+        transform: translateX(calc(100vw + 100px)) rotate(-360deg);
+    }
 }
 
 @keyframes float-and-roll-right {
-    from { transform: translateX(calc(100vw + 100px)) rotate(0deg); }
-    to { transform: translateX(-100px) rotate(360deg); }
+    from {
+        transform: translateX(calc(100vw + 100px)) rotate(0deg);
+    }
+
+    to {
+        transform: translateX(-100px) rotate(360deg);
+    }
 }
+
 /* =============================================================================
    CARD GRID (projects.html landing page)
    ============================================================================= */
 
-.page-content > section:first-child {
+.page-content>section:first-child {
     margin-bottom: 30px;
 }
 
@@ -248,7 +311,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     justify-content: center;
 }
 
-#cards:hover > .card::after {
+#cards:hover>.card::after {
     opacity: 1;
 }
 
@@ -283,24 +346,20 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 }
 
 .card::before {
-    background: radial-gradient(
-        800px circle at var(--mouse-x) var(--mouse-y),
-        rgba(255, 255, 255, 0.06),
-        transparent 40%
-    );
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+            rgba(255, 255, 255, 0.06),
+            transparent 40%);
     z-index: 3;
 }
 
 .card::after {
-    background: radial-gradient(
-        600px circle at var(--mouse-x) var(--mouse-y),
-        rgba(255, 255, 255, 0.4),
-        transparent 40%
-    );
+    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
+            rgba(255, 255, 255, 0.4),
+            transparent 40%);
     z-index: 1;
 }
 
-.card > .card-content {
+.card>.card-content {
     background-color: rgb(20, 20, 20);
     border-radius: inherit;
     display: flex;
@@ -322,7 +381,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     display: none;
 }
 
-.card.expanding > .card-content {
+.card.expanding>.card-content {
     background-color: #000000;
 }
 
@@ -372,7 +431,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     gap: 10px;
 }
 
-.card-info-title > h3 {
+.card-info-title>h3 {
     font-size: 1.05em;
     line-height: 1.3;
     color: rgb(240, 240, 240);
@@ -380,7 +439,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     margin: 0;
 }
 
-.card-info-title > h4 {
+.card-info-title>h4 {
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.8em;
     font-weight: 400;
@@ -401,18 +460,19 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 @media (max-width: 600px) {
 
     @media (hover: none) {
-    .card::before,
-    .card::after {
-        opacity: 1;
-        --mouse-x: 50%;
-        --mouse-y: 50%;
+
+        .card::before,
+        .card::after {
+            opacity: 1;
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
+
+        .card-image img {
+            opacity: 1;
+            filter: grayscale(0);
+        }
     }
-    
-    .card-image img {
-        opacity: 1;
-        filter: grayscale(0);
-    }
-}
 
     #cards {
         gap: 6px;
@@ -427,12 +487,78 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         padding: 0px 12px;
     }
 
-    .card-info-title > h3 {
+    .card-info-title>h3 {
         font-size: 0.95em;
     }
 
-    .card-info-title > h4 {
+    .card-info-title>h4 {
         font-size: 0.75em;
         margin-top: 4px;
+    }
+}
+
+/* =============================================================================
+   PROJECTS PAGE SPECIFIC
+   ============================================================================= */
+
+body:has(#cards) {
+    overflow: hidden;
+    height: 100vh;
+    background-color: rebeccapurple;
+
+    & .page-container {
+        padding: 40px 60px;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    & .page-header {
+        margin-bottom: 30px;
+
+        @media (max-width: 768px) {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+    }
+
+    & .home-btn {
+        @media (max-width: 768px) {
+            justify-self: unset;
+            grid-column: unset;
+        }
+    }
+
+    & .page-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    & #cards {
+        width: 100%;
+    }
+
+    & .card {
+        height: 260px;
+    }
+
+    & .card-image {
+        height: 140px;
+    }
+
+    @media (max-width: 768px) {
+        overflow-y: auto;
+        height: auto;
+
+        & .page-container {
+            height: auto;
+        }
+
+        & .page-content {
+            flex: none;
+            display: block;
+        }
     }
 }
