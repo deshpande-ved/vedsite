@@ -27,7 +27,7 @@
     <div class="page-container">
         <header class="page-header">
             <h1>misc</h1>
-            <a href="index.html" class="home-btn"> ← home </a>
+            <a href="index.html" class="home-btn"> â† home </a>
         </header>
 
         <div class="page-content two-column-layout">
@@ -166,7 +166,7 @@
                     document.getElementById('progress-duration').textContent = formatTime(data.duration_ms);
                 }
 
-                document.getElementById('play-status').textContent = data.is_playing ? '▶ Playing' : '⏸ Paused';
+                document.getElementById('play-status').textContent = data.is_playing ? 'â–¶ Playing' : 'â¸ Paused';
                 updateProgressUI();
 
             } catch (err) {
@@ -330,9 +330,17 @@
                     return;
                 }
 
+                // Generate 8 fader images for the hover animation
+                const faders = (poster, title) => Array(8).fill(0).map(() => 
+                    `<img class="top4-fader top4-image" src="${poster}" alt="${title}">`
+                ).join('');
+
                 container.innerHTML = data.films.map(film => `
-                    <a href="${film.url}" target="_blank" class="film-card" style="text-decoration: none; color: inherit;">
-                        <img src="${film.poster}" alt="${film.title}">
+                    <a href="${film.url}" target="_blank" class="top4-card">
+                        <div class="top4-poster-wrapper">
+                            <img class="top4-front-image top4-image" src="${film.poster}" alt="${film.title}">
+                            <div class="top4-faders">${faders(film.poster, film.title)}</div>
+                        </div>
                         <div class="title">${film.title}</div>
                         <div class="year">${film.year}</div>
                     </a>

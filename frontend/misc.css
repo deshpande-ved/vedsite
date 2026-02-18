@@ -82,26 +82,26 @@ body {
 }
 
 .right-column {
-    overflow: hidden;
+    overflow: visible;
 }
 
 .right-column section {
     flex: 1;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .right-column .films-row {
     flex: 1;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .right-column .film-card {
     display: flex;
     flex-direction: column;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .right-column .film-card img {
@@ -334,11 +334,6 @@ body {
     aspect-ratio: unset;
 }
 
-#top4-grid .film-card img {
-    max-width: none;
-    width: 100%;
-}
-
 .film-card .title {
     font-size: 15px;
     white-space: nowrap;
@@ -380,6 +375,140 @@ body {
     opacity: 0.6;
     font-size: 12px;
     min-height: 50px;
+}
+
+/* =============================================================================
+   TOP 4 FILMS - HOVER FADE ANIMATION
+   ============================================================================= */
+
+#top4-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    overflow: visible;
+}
+
+/* Ensure parent section allows overflow for animation */
+section:has(#top4-grid) {
+    overflow: visible !important;
+}
+
+.top4-card {
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+    overflow: visible;
+}
+
+.top4-poster-wrapper {
+    position: relative;
+    cursor: pointer;
+    overflow: visible;
+}
+
+.top4-image {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.top4-front-image {
+    position: relative;
+    z-index: 2;
+    display: block;
+}
+
+.top4-faders {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1500ms;
+    pointer-events: none;
+}
+
+.top4-card:hover .top4-faders {
+    opacity: 1;
+}
+
+.top4-fader {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.top4-fader:nth-child(odd) {
+    animation: top4-fade-left 3s linear infinite;
+}
+
+.top4-fader:nth-child(even) {
+    animation: top4-fade-right 3s linear infinite;
+}
+
+.top4-fader:nth-child(3),
+.top4-fader:nth-child(4) {
+    animation-delay: 750ms;
+}
+
+.top4-fader:nth-child(5),
+.top4-fader:nth-child(6) {
+    animation-delay: 1500ms;
+}
+
+.top4-fader:nth-child(7),
+.top4-fader:nth-child(8) {
+    animation-delay: 2250ms;
+}
+
+@keyframes top4-fade-left {
+    from {
+        scale: 1;
+        translate: 0%;
+        opacity: 1;
+    }
+    to {
+        scale: 0.8;
+        translate: -30%;
+        opacity: 0;
+    }
+}
+
+@keyframes top4-fade-right {
+    from {
+        scale: 1;
+        translate: 0%;
+        opacity: 1;
+    }
+    to {
+        scale: 0.8;
+        translate: 30%;
+        opacity: 0;
+    }
+}
+
+.top4-card .title {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 3px;
+}
+
+.top4-card .year {
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+/* Always show animation on touch/mobile devices */
+@media (hover: none) {
+    .top4-faders {
+        opacity: 1;
+    }
 }
 
 /* =============================================================================
@@ -467,13 +596,14 @@ body {
 
     #top4-grid {
         grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 30px;
     }
 
-    #top4-grid .film-card .title {
+    .top4-card .title {
         white-space: normal;
     }
 
-    #top4-grid .film-card img {
+    .top4-image {
         width: 100%;
         max-width: none;
         min-height: unset;

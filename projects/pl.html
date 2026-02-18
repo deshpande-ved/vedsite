@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="../frontend/subprojects.css" />
-    <title>premier league performance analysis</title>
+    <title>Premier League Performance Analysis</title>
     <link rel="icon" href="../icons/tab_icon.png" type="image/png">
 </head>
 
@@ -25,7 +25,7 @@
 
     <div class="page-container">
         <header class="page-header">
-            <h1>premier league performance analysis</h1>
+            <h1>Premier League Performance Analysis</h1>
             <div class="nav-buttons">
                 <a href="../projects.html" class="back-btn"> ← projects </a>
                 <a href="../index.html" class="home-btn"> ⌂ home </a>
@@ -33,10 +33,217 @@
         </header>
 
         <div class="page-content">
+
+            <!-- overview -->
             <section>
                 <h2>overview</h2>
-                <p>Coming soon...</p>
+                <p>
+                    A data science project exploring whether online media presence affects soccer team performance.
+                    We analyzed 59 Premier League matches across five top teams (Arsenal, Liverpool, Manchester United, 
+                    Manchester City, Chelsea) to determine if the number of news articles published between games 
+                    could predict goals scored. Using Selenium web scraping for ESPN match data and The Guardian API 
+                    for article counts, we built linear and polynomial regression models to test this hypothesis.
+                </p>
+                <p>
+                    <strong>Spoiler:</strong> The models found no predictive relationship (negative R² scores), 
+                    suggesting media coverage follows success rather than causes it.
+                </p>
             </section>
+
+            <!-- data pipeline -->
+            <section>
+                <h2>data pipeline</h2>
+                <div class="tech-tags">
+                    <span>Python</span>
+                    <span>Selenium</span>
+                    <span>pandas</span>
+                    <span>scikit-learn</span>
+                    <span>matplotlib</span>
+                    <span>NumPy</span>
+                </div>
+
+                <div class="features">
+                    <div class="feature">
+                        <strong>ESPN scraping</strong>: Selenium WebDriver navigates ESPN's team pages in headless 
+                        Chrome, extracting fixtures, scores, and statistics from dynamically loaded tables using 
+                        <code>pd.read_html()</code> on the page source.
+                    </div>
+                    <div class="feature">
+                        <strong>Guardian API</strong>: RESTful calls to <code>content.guardianapis.com</code> retrieve 
+                        articles matching team names within date ranges, returning headline, word count, and publication timestamp.
+                    </div>
+                    <div class="feature">
+                        <strong>match window creation</strong>: Each game generates a time window from match end to 
+                        next match start. Articles are binned into these windows to count pre-game media coverage.
+                    </div>
+                    <div class="feature">
+                        <strong>data cleaning</strong>: Removed NaN rows, standardized date formats across sources, 
+                        and merged article counts with match results on team + game number keys.
+                    </div>
+                </div>
+
+                <!-- PLACEHOLDER: pl_data_pipeline.png - show the dataframes side by side -->
+                <div class="screenshot-placeholder">screenshot: data pipeline showing article df + match df → merged df</div>
+            </section>
+
+            <!-- match window logic -->
+            <section>
+                <h2>match window logic</h2>
+                <p>
+                    The core challenge was attributing articles to the correct game. We defined a "match window" 
+                    as the period between one game's end time and the next game's start time. Any article published 
+                    within this window counts toward the upcoming match's pre-game coverage.
+                </p>
+
+                <div class="arch-row">
+                    <span class="node">Game N ends</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Window opens</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Articles counted</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Game N+1 starts</span>
+                </div>
+
+                <p>
+                    This approach captures the media narrative between matches—post-match analysis of Game N 
+                    and preview coverage for Game N+1. The assumption is that this combined coverage could 
+                    influence team morale, fan expectations, or perceived pressure.
+                </p>
+
+                <!-- PLACEHOLDER: pl_window_matching.png - show the window creation table -->
+                <div class="screenshot-placeholder">screenshot: match window table with window_start, window_end, article_count columns</div>
+            </section>
+
+            <!-- ML models -->
+            <section>
+                <h2>machine learning</h2>
+                <p>
+                    We tested whether article count (X) could predict goals scored (y) using two regression approaches:
+                </p>
+
+                <div class="features">
+                    <div class="feature">
+                        <strong>linear regression</strong>: Fit a line through the data using least squares. 
+                        Test MSE: 2.38, R² = -0.1087. The negative R² means predicting the mean would be more accurate.
+                    </div>
+                    <div class="feature">
+                        <strong>polynomial regression (degree 2)</strong>: Added a quadratic term to capture 
+                        non-linear relationships. Test MSE: 2.38, R² = -0.1074. No improvement over linear.
+                    </div>
+                    <div class="feature">
+                        <strong>train/test split</strong>: 80/20 split. Training MSE was 1.5 while test MSE was 2.38, 
+                        indicating the model memorizes training data but fails to generalize.
+                    </div>
+                </div>
+
+                <!-- PLACEHOLDER: pl_linear_regression.png - the linear regression scatter plot -->
+                <div class="screenshot-placeholder">screenshot: linear regression scatter plot with R² = -0.1087</div>
+
+                <!-- PLACEHOLDER: pl_polynomial_regression.png - the polynomial regression scatter plot -->
+                <div class="screenshot-placeholder">screenshot: polynomial regression scatter plot with curve</div>
+            </section>
+
+            <!-- results -->
+            <section>
+                <h2>results</h2>
+                <p>
+                    Both models performed worse than a naive baseline (predicting mean goals for every match). 
+                    The negative R² scores definitively show that article count alone has no predictive power 
+                    for team performance.
+                </p>
+
+                <div class="features">
+                    <div class="feature">
+                        <strong>no correlation found</strong>: Media coverage volume does not predict goals scored. 
+                        The relationship is essentially random noise.
+                    </div>
+                    <div class="feature">
+                        <strong>coverage follows success</strong>: More likely, successful teams generate more articles 
+                        after wins, creating a lagging indicator rather than a leading one.
+                    </div>
+                    <div class="feature">
+                        <strong>sample size limitation</strong>: 59 matches across 5 teams may be insufficient. 
+                        A full season (380 matches) could reveal subtler patterns.
+                    </div>
+                </div>
+
+                <!-- PLACEHOLDER: pl_model_comparison.png - side by side comparison table -->
+                <div class="screenshot-placeholder">screenshot: model comparison table showing MSE and R² for both models</div>
+            </section>
+
+            <!-- future work -->
+            <section>
+                <h2>future work</h2>
+                <div class="features">
+                    <div class="feature">
+                        <strong>sentiment analysis</strong>: Instead of counting articles, analyze their tone. 
+                        Negative press might affect performance differently than positive coverage.
+                    </div>
+                    <div class="feature">
+                        <strong>home vs away split</strong>: Test if media pressure impacts home games differently 
+                        than away games where crowd dynamics differ.
+                    </div>
+                    <div class="feature">
+                        <strong>word count weighting</strong>: Long-form analysis pieces might have more impact 
+                        than brief match reports. Weight articles by depth of coverage.
+                    </div>
+                    <div class="feature">
+                        <strong>opponent strength</strong>: Add features like opponent league position, 
+                        head-to-head history, and rest days between matches.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ethical considerations -->
+            <section>
+                <h2>ethical considerations</h2>
+                <p>
+                    If a strong relationship existed, it could imply media coverage affects player performance—raising 
+                    questions about fair competition. Teams with larger fanbases generate more articles, which could 
+                    create feedback loops where popular teams get predicted to win, receive more coverage, and become 
+                    even more popular.
+                </p>
+                <p>
+                    Additionally, using article counts disadvantages smaller clubs with less media presence, potentially 
+                    making predictions less accurate for them regardless of actual performance quality.
+                </p>
+            </section>
+
+            <!-- construction -->
+            <section>
+                <h2>construction</h2>
+                <p>
+                    Built as a DS3000 (Foundations of Data Science) final project at Northeastern. The codebase 
+                    spans three Jupyter notebooks handling scraping, cleaning, and modeling separately.
+                </p>
+
+                <div class="features">
+                    <div class="feature">
+                        <strong>ESPN scraping</strong>: <code>setup_driver()</code> initializes headless Chrome, 
+                        <code>scrape_team_fixtures()</code> extracts tables per team, outputs 30+ team-specific DataFrames.
+                    </div>
+                    <div class="feature">
+                        <strong>Guardian API</strong>: <code>get_guardian_articles()</code> handles pagination, 
+                        <code>get_article_data()</code> parses JSON responses into flat dictionaries.
+                    </div>
+                    <div class="feature">
+                        <strong>window matching</strong>: Pandas datetime operations create windows, 
+                        <code>pd.merge()</code> joins article counts to matches on composite keys.
+                    </div>
+                    <div class="feature">
+                        <strong>regression</strong>: scikit-learn's <code>LinearRegression</code> and 
+                        <code>PolynomialFeatures</code> with manual train/test splits and MSE/R² evaluation.
+                    </div>
+                </div>
+
+                <p>
+                    <strong>Source?</strong> This project was built collaboratively with William Hon, Kinsey Bellerose, 
+                    and Zaid Jilla. The notebooks demonstrate the full data science pipeline from web scraping through 
+                    statistical modeling and interpretation.
+                </p>
+            </section>
+
         </div>
     </div>
 
