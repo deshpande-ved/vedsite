@@ -6,10 +6,6 @@ body {
     height: 100vh;
 }
 
-body.dragging {
-    cursor: grabbing;
-}
-
 .page-container {
     display: flex;
     flex-direction: column;
@@ -45,7 +41,7 @@ body.dragging {
 }
 
 /* =============================================================================
-   DRAG ZONE - bottom half of screen
+   DRAG ZONE - desktop only
    ============================================================================= */
 
 .drag-zone {
@@ -177,7 +173,7 @@ body.dragging {
 }
 
 /* =============================================================================
-   MOBILE - VERTICAL SCROLL
+   MOBILE - NATIVE VERTICAL SCROLL
    ============================================================================= */
 
 @media (hover: none), (max-width: 768px) {
@@ -199,7 +195,6 @@ body.dragging {
     .drag-zone {
         position: static;
         overflow: visible;
-        cursor: auto;
     }
 
     #image-track {
@@ -219,6 +214,10 @@ body.dragging {
 
     .gallery-card:hover {
         transform: none;
+    }
+
+    .gallery-card > .image {
+        object-position: center center;
     }
 
     .card-description {

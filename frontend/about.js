@@ -109,63 +109,60 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-// IMAGE TRACK
+// IMAGE TRACK (desktop only - hover devices)
 // ============================================================
 
 const track = document.getElementById('image-track');
 const dragZone = document.getElementById('drag-zone');
 let hasDragged = false;
 
-const handleOnDown = e => {
-    track.dataset.mouseDownAt = e.clientX;
-    hasDragged = false;
-    dragZone.classList.add('dragging');
-};
+// Only enable drag on devices with hover (desktop)
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const handleOnDown = e => {
+        track.dataset.mouseDownAt = e.clientX;
+        hasDragged = false;
+        dragZone.classList.add('dragging');
+    };
 
-const handleOnUp = () => {
-    track.dataset.mouseDownAt = '0';
-    track.dataset.prevPercentage = track.dataset.percentage || '0';
-    dragZone.classList.remove('dragging');
-};
+    const handleOnUp = () => {
+        track.dataset.mouseDownAt = '0';
+        track.dataset.prevPercentage = track.dataset.percentage || '0';
+        dragZone.classList.remove('dragging');
+    };
 
-const handleOnMove = e => {
-    if (track.dataset.mouseDownAt === '0') return;
+    const handleOnMove = e => {
+        if (track.dataset.mouseDownAt === '0') return;
 
-    const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX;
-    
-    // Mark as dragged if moved more than 5px
-    if (Math.abs(mouseDelta) > 5) hasDragged = true;
-    
-    const maxDelta = window.innerWidth / 2;
+        const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX;
+        
+        // Mark as dragged if moved more than 5px
+        if (Math.abs(mouseDelta) > 5) hasDragged = true;
+        
+        const maxDelta = window.innerWidth / 2;
 
-    const percentage               = (mouseDelta / maxDelta) * -100;
-    const nextPercentageUnclamped  = parseFloat(track.dataset.prevPercentage || '0') + percentage;
-    const nextPercentage           = Math.max(Math.min(nextPercentageUnclamped, 0), -100);
+        const percentage               = (mouseDelta / maxDelta) * -100;
+        const nextPercentageUnclamped  = parseFloat(track.dataset.prevPercentage || '0') + percentage;
+        const nextPercentage           = Math.max(Math.min(nextPercentageUnclamped, 0), -100);
 
-    track.dataset.percentage = nextPercentage;
+        track.dataset.percentage = nextPercentage;
 
-    track.animate(
-        { transform: `translate(${nextPercentage}%, -50%)` },
-        { duration: 1200, fill: 'forwards' }
-    );
-
-    for (const image of track.getElementsByClassName('image')) {
-        image.animate(
-            { objectPosition: `${100 + nextPercentage}% center` },
+        track.animate(
+            { transform: `translate(${nextPercentage}%, -50%)` },
             { duration: 1200, fill: 'forwards' }
         );
-    }
-};
 
-// Attach to drag zone instead of window
-dragZone.addEventListener('mousedown',  e => handleOnDown(e));
-dragZone.addEventListener('touchstart', e => handleOnDown(e.touches[0]), { passive: true });
+        for (const image of track.getElementsByClassName('image')) {
+            image.animate(
+                { objectPosition: `${100 + nextPercentage}% center` },
+                { duration: 1200, fill: 'forwards' }
+            );
+        }
+    };
 
-// Keep mouseup/mousemove on window so dragging works even if cursor leaves zone
-window.addEventListener('mouseup',    () => handleOnUp());
-window.addEventListener('touchend',   () => handleOnUp());
-window.addEventListener('mousemove',  e => handleOnMove(e));
-window.addEventListener('touchmove',  e => handleOnMove(e.touches[0]), { passive: true });
+    dragZone.addEventListener('mousedown', e => handleOnDown(e));
+    window.addEventListener('mouseup', () => handleOnUp());
+    window.addEventListener('mousemove', e => handleOnMove(e));
+}
 
 // ============================================================
 // CARD EXPANSION
