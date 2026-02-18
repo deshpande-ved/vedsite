@@ -172,18 +172,11 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
+        justify-content: center;
 
         & h1 {
             width: 100%;
             text-align: center;
-        }
-
-        & .resume-btn {
-            margin-right: auto;
-        }
-
-        & .home-btn {
-            margin-left: auto;
         }
     }
 
@@ -208,7 +201,6 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         transition: all 300ms ease;
         background: none;
         white-space: nowrap;
-        justify-self: center;
 
         &:hover {
             background: #000000;
@@ -227,9 +219,9 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         border-radius: 30px;
         transition: all 300ms ease;
         background: none;
-        white-space: nowrap;
-        grid-column: 3;
         justify-self: end;
+        grid-column: 3;
+        white-space: nowrap;
 
         &:hover {
             background: #a69b8f;
@@ -535,6 +527,19 @@ body:has(#cards) {
 
     & .page-header {
         margin-bottom: 30px;
+
+        @media (max-width: 768px) {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+    }
+
+    & .home-btn {
+        @media (max-width: 768px) {
+            justify-self: unset;
+            grid-column: unset;
+        }
     }
 
     & .page-content {
