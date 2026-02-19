@@ -1,5 +1,9 @@
 /* about.css - Styles for image track gallery with descriptions */
 
+:root {
+    --page-edge-spacing: 40px;
+}
+
 body {
     background-color: #D60270;
     overflow: hidden;
@@ -10,7 +14,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    padding: 40px 60px;
+    padding: var(--page-edge-spacing) 60px;
     box-sizing: border-box;
 }
 
@@ -184,6 +188,10 @@ body {
    ============================================================================= */
 
 @media (hover: none), (max-width: 768px) {
+    :root {
+        --page-edge-spacing: 30px;
+    }
+
     body {
         overflow-y: auto;
         height: auto;
@@ -192,7 +200,7 @@ body {
     .page-container {
         height: auto;
         min-height: 100vh;
-        padding: 30px 20px;
+        padding: var(--page-edge-spacing) 20px;
     }
 
     .page-content {
@@ -231,5 +239,60 @@ body {
         white-space: normal;
         font-size: 14px;
         padding: 15px;
+    }
+}
+
+/* =============================================================================
+   SOCIAL LINKS FOOTER
+   ============================================================================= */
+
+.social-links {
+    position: fixed;
+    bottom: var(--page-edge-spacing);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 12px 24px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 30px;
+    z-index: 100;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: transform 200ms ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-2px);
+}
+
+.social-links img {
+    width: 22px;
+    height: 22px;
+    filter: brightness(0) invert(1);
+}
+
+.social-links span {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Mobile social links - must come after main styles */
+@media (hover: none), (max-width: 768px) {
+    .social-links {
+        position: static;
+        transform: none;
+        left: auto;
+        bottom: auto;
+        padding: 12px 20px;
+        flex-wrap: wrap;
+        margin-top: auto;
+        gap: 16px;
     }
 }
