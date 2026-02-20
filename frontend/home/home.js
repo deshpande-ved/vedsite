@@ -153,7 +153,7 @@ animate();
 const pageColors = {
     'about': '#cc0000',
     'projects': '#663399', // rebeccapurple
-    'experience': '#1a2744',
+    'experience': '#D4A017',
     'misc': '#069494'
 };
 
