@@ -256,7 +256,7 @@ instead of writing an all-encompassing
 description, i thought it'd be better
 to show you instead.
 
-► roller skating champ (hk 2016)
+► int. roller skating (hk 2016)
 ► neu club squash vice president
 ► first-gen cs student & mentor
 ► film, music, tv enthusiast
@@ -285,7 +285,7 @@ to show you instead.
   kruskal's algorithm puzzle
 
 ► Carbon Neutrality Sim
-  racket environmental game`
+  drracket environmental game`
 
 	case "experience":
 		color = pageColors[2]
@@ -293,18 +293,18 @@ to show you instead.
 		content = `
 Northeastern University
 B.S. Computer Science, Minor in Math
-expected may 2028
+Expected May 2028
 
 ─────────────────────────────────────
 
 ► Vice President | NEU Club Squash
-  sep 2024 – present
+  Sep 2024 – Present
 
 ► Program Alumni | Khoury FIRST
-  sep 2024 – present
+  Sep 2024 – Present
 
 ► Software Dev Intern | TalentHome
-  jun – aug 2023 | mumbai, india`
+  Jun – Aug 2023 | Mumbai, India`
 
 	case "misc":
 		color = pageColors[3]
