@@ -151,9 +151,9 @@ animate();
 
 // Page color mapping
 const pageColors = {
-    'about': '#D60270',
+    'about': '#cc0000',
     'projects': '#663399', // rebeccapurple
-    'experience': '#0038A8',
+    'experience': '#1a2744',
     'misc': '#069494'
 };
 

@@ -1,25 +1,91 @@
-/* experience.css */
+/* experience.css - Misc-style single page layout */
 
 body {
-    background-color: #0038A8;
+    background-color: #1a2744;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: 100vh !important;
+    margin: 0;
 }
 
-.experience-card {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 16px;
-    transition: background 300ms ease;
+#background-animation {
+    z-index: 1 !important;
+}
 
-    &:hover {
-        background: rgba(255, 255, 255, 0.12);
+.page-container {
+    position: relative;
+    z-index: 10 !important;
+    padding: 20px 50px 40px;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    margin-bottom: 10px;
+    flex-shrink: 0;
+
+    & h1 {
+        font-size: 32px;
+    }
+
+    & .home-btn,
+    & .resume-btn {
+        padding: 8px 18px;
+        font-size: 16px;
+    }
+}
+
+.page-content h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.page-content section {
+    margin-bottom: 16px !important;
+}
+
+/* Two-column layout */
+.two-column-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    flex: 1;
+    min-height: 0;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 0;
+}
+
+.column section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Experience cards */
+.experience-card {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+
+    &:last-child {
+        margin-bottom: 0;
     }
 
     & p {
         margin: 0;
-        opacity: 0.85;
-        font-size: 16px;
+        opacity: 1;
+        font-size: 17px;
+        line-height: 1.6;
     }
 }
 
@@ -32,39 +98,22 @@ body {
 }
 
 .exp-title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
 }
 
 .exp-date {
-    font-size: 14px;
+    font-size: 13px;
     opacity: 0.7;
 }
 
 .exp-company {
-    font-size: 16px;
+    font-size: 14px;
     opacity: 0.8;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.skill-category {
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 20px;
-
-    & h3 {
-        font-size: 16px;
-        margin-bottom: 12px;
-        opacity: 0.9;
-    }
-}
-
+/* Skill tags - standalone sections */
 .skill-tags {
     display: flex;
     flex-wrap: wrap;
@@ -75,7 +124,7 @@ body {
         border: 1px solid rgba(255, 255, 255, 0.15);
         padding: 6px 14px;
         border-radius: 20px;
-        font-size: 14px;
+        font-size: 13px;
         transition: all 200ms ease;
 
         &:hover {
@@ -84,13 +133,74 @@ body {
     }
 }
 
+/* Course tags */
+.course-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+
+    & span {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 5px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+    }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .two-column-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        height: auto;
+    }
+
+    .page-container {
+        height: auto;
+        overflow: auto;
+        padding: 20px 30px 40px;
+    }
+}
+
 @media (max-width: 600px) {
+    .page-container {
+        padding: 15px 20px 40px;
+    }
+
+    .page-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+
+        & h1 {
+            width: 100%;
+            text-align: center;
+        }
+
+        & .home-btn,
+        & .resume-btn {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
     .exp-header {
         flex-direction: column;
         gap: 4px;
     }
 
     .experience-card {
-        padding: 16px 18px;
+        padding: 14px 16px;
+    }
+
+    .exp-title {
+        font-size: 16px;
+    }
+
+    .experience-card p {
+        font-size: 13px;
     }
 }
