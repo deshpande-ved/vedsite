@@ -259,8 +259,8 @@ to show you instead.
 ► roller skating champ (hk 2016)
 ► neu club squash vice president
 ► first-gen cs student & mentor
-► film enthusiast (synecdoche ny)
-► stereolab, deerhunter, fishmans
+► film, music, tv enthusiast
+► synecdoche, ny; nujabes; atlanta
 
       visit vedsite.com/about
       for the full photo gallery`
