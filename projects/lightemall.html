@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="stylesheet" href="../frontend/subprojects.css" />
-    <title>light-em-all logic game</title>
+    <link rel="stylesheet" href="../frontend/subproject/subprojects.css" />
+    <link rel="stylesheet" href="../frontend/lightemall/lightemall.css" />
+    <title>Light-Em-All Logic Game</title>
     <link rel="icon" href="../icons/tab_icon.png" type="image/png">
 </head>
 
@@ -25,7 +26,7 @@
 
     <div class="page-container">
         <header class="page-header">
-            <h1>light-em-all logic game</h1>
+            <h1>Light-Em-All Logic Game</h1>
             <div class="nav-buttons">
                 <a href="../projects.html" class="back-btn"> ← projects </a>
                 <a href="../index.html" class="home-btn"> ⌂ home </a>
@@ -33,15 +34,258 @@
         </header>
 
         <div class="page-content">
+
+            <!-- overview -->
             <section>
                 <h2>overview</h2>
-                <p>Coming soon...</p>
+                <p>
+                    A grid-based puzzle game where players must connect all tiles to a central power station 
+                    by rotating wire segments to complete a circuit. The board is generated using 
+                    <strong>Kruskal's algorithm</strong> to create a minimum spanning tree, guaranteeing 
+                    a solvable puzzle with a unique solution path. Power flows outward from the station 
+                    using <strong>breadth-first search</strong>, illuminating connected tiles. Victory is 
+                    achieved when every tile on the board receives power.
+                </p>
             </section>
+
+            <!-- play the game -->
+            <section>
+                <h2>play the game</h2>
+                <div class="lea-container">
+                    <div class="lea-selectors">
+                        <div class="lea-selector-group">
+                            <span class="group-label">Difficulty:</span>
+                            <button class="lea-mode-btn active" data-difficulty="1">Easy</button>
+                            <button class="lea-mode-btn" data-difficulty="2">Medium</button>
+                            <button class="lea-mode-btn" data-difficulty="3">Hard</button>
+                        </div>
+                        <div class="lea-selector-group">
+                            <span class="group-label">Size:</span>
+                            <button class="lea-size-btn" data-size="4">4×4</button>
+                            <button class="lea-size-btn active" data-size="6">6×6</button>
+                            <button class="lea-size-btn" data-size="8">8×8</button>
+                        </div>
+                    </div>
+
+                    <div class="lea-header">
+                        <div class="lea-stats">
+                            <span><span class="label">Moves:</span> <span class="value" id="lea-moves">0</span></span>
+                            <span><span class="label">Time:</span> <span class="value" id="lea-time">0:00</span></span>
+                        </div>
+                    </div>
+
+                    <div class="lea-board">
+                        <div id="board-grid"></div>
+                    </div>
+
+                    <div class="lea-controls">
+                        <button class="lea-btn primary" id="lea-reset">New Game</button>
+                        <button class="lea-btn" id="lea-radius">Radius</button>
+                        <button class="lea-btn" id="lea-hex">Hex Mode</button>
+                    </div>
+
+                    <div class="lea-message" id="lea-message"></div>
+
+                    <p class="lea-hint">
+                        <kbd>Click</kbd> to rotate · <kbd>↑↓←→</kbd> or <kbd>WASD</kbd> to move power station · <kbd>R</kbd> toggle radius · <kbd>H</kbd> toggle hex
+                    </p>
+                </div>
+            </section>
+
+            <!-- how to play -->
+            <section>
+                <h2>how to play</h2>
+                <div class="features">
+                    <div class="feature">
+                        <strong>goal</strong>: Connect all tiles to the power station by rotating wire 
+                        segments until every cell is lit. The power station (blue/orange star) is your 
+                        source — wires must form an unbroken path from it to each tile.
+                    </div>
+                    <div class="feature">
+                        <strong>click</strong>: Rotate any tile 90° clockwise. Each rotation counts as 
+                        one move. Plan ahead to minimize your move count.
+                    </div>
+                    <div class="feature">
+                        <strong>arrow keys / WASD</strong>: Move the power station along connected wires 
+                        to a neighboring tile. This also counts as a move but can help reach distant sections.
+                    </div>
+                    <div class="feature">
+                        <strong>R key</strong>: Toggle the power radius effect. When enabled, power only 
+                        extends a limited distance from the station, adding strategic depth.
+                    </div>
+                    <div class="feature">
+                        <strong>H key</strong>: Toggle hexagonal grid mode. This adds diagonal connections 
+                        (8 directions instead of 4), creating more complex puzzles.
+                    </div>
+                </div>
+            </section>
+
+            <!-- visuals -->
+            <section>
+                <h2>visuals</h2>
+                <p>
+                    The game renders a dark grid where each cell displays wire segments extending in 
+                    cardinal directions. Powered wires glow yellow while unpowered wires remain gray. 
+                    The UI panel shows elapsed time, move count, current radius, and difficulty level.
+                </p>
+                <div class="features">
+                    <div class="feature">
+                        <strong>powered tiles</strong>: Yellow wires indicate successful connection to 
+                        the power station. Watch the electricity flow as you solve the puzzle.
+                    </div>
+                    <div class="feature">
+                        <strong>power station</strong>: A cyan star with an orange outline marks your 
+                        power source. It starts at (0,0) but can be moved along connected paths.
+                    </div>
+                    <div class="feature">
+                        <strong>win animation</strong>: When all tiles are powered, fireworks burst 
+                        across the screen and your score is recorded to the Hall of Fame.
+                    </div>
+                    <div class="feature">
+                        <strong>difficulty colors</strong>: Easy, Medium, and Hard buttons in the UI 
+                        regenerate the board with increasingly complex wire patterns.
+                    </div>
+                </div>
+            </section>
+
+            <!-- game mechanics -->
+            <section>
+                <h2>game mechanics</h2>
+                <div class="features">
+                    <div class="feature">
+                        <strong>wire connections</strong>: Each tile stores boolean flags for up to 8 
+                        directions (4 cardinal + 4 diagonal in hex mode). Rotation cycles these flags 
+                        clockwise.
+                    </div>
+                    <div class="feature">
+                        <strong>connection validation</strong>: Two tiles are connected only if both have 
+                        wires pointing toward each other — a tile with <code>right=true</code> connects 
+                        to a neighbor with <code>left=true</code>.
+                    </div>
+                    <div class="feature">
+                        <strong>power radius</strong>: When enabled, power diminishes over distance. The 
+                        initial radius is calculated as half the graph's diameter + 1, found via two BFS 
+                        passes to locate the furthest endpoints.
+                    </div>
+                    <div class="feature">
+                        <strong>difficulty scaling</strong>: Edge weights in Kruskal's algorithm vary by 
+                        difficulty. Easy uses weights 0-50, Medium 0-100, Hard 50-200. Higher variance 
+                        creates more irregular, challenging mazes.
+                    </div>
+                </div>
+            </section>
+
+            <!-- construction -->
+            <section>
+                <h2>construction</h2>
+                <div class="tech-tags">
+                    <span>Java</span>
+                    <span>impworld</span>
+                    <span>javalib</span>
+                    <span>Kruskal's Algorithm</span>
+                    <span>Union-Find</span>
+                    <span>BFS</span>
+                </div>
+
+                <p>
+                    Built in <strong>Java</strong> using Northeastern's <code>impworld</code> game library, 
+                    which provides a <code>World</code> class with <code>onTick</code>, <code>onMouseClicked</code>, 
+                    and <code>onKeyEvent</code> hooks. The rendering uses <code>javalib.worldimages</code> 
+                    for compositing rectangles, stars, and overlays into each frame.
+                </p>
+
+                <div class="features">
+                    <div class="feature">
+                        <strong>maze generation</strong>: Kruskal's algorithm builds the minimum spanning 
+                        tree. All possible edges are created with random weights, sorted, then processed. 
+                        Union-Find tracks connected components — an edge is added only if it connects two 
+                        previously separate components.
+                    </div>
+                    <div class="feature">
+                        <strong>union-find with path compression</strong>: The <code>find()</code> operation 
+                        recursively locates the root representative and flattens the tree by pointing all 
+                        nodes directly to the root, achieving near-constant amortized time complexity.
+                    </div>
+                    <div class="feature">
+                        <strong>power propagation</strong>: BFS from the power station explores all connected 
+                        neighbors, tracking distance. Tiles within the radius threshold are marked as powered. 
+                        This runs after every rotation or station move.
+                    </div>
+                    <div class="feature">
+                        <strong>hexagonal mode</strong>: Diagonal connections add 4 additional directions 
+                        per tile. The rotation logic cycles through 8 positions instead of 4, and edge 
+                        generation includes diagonal neighbors.
+                    </div>
+                </div>
+            </section>
+
+            <!-- architecture -->
+            <section>
+                <h2>architecture</h2>
+
+                <div class="arch-row">
+                    <span class="node">GamePiece</span>
+                    <span class="arrow">→</span>
+                    <span class="node">Edge</span>
+                    <span class="arrow">→</span>
+                    <span class="node">UnionFind</span>
+                    <span class="arrow">→</span>
+                    <span class="node">LightEmAll</span>
+                </div>
+
+                <p>
+                    <strong>GamePiece</strong> represents a single tile with position, connection flags, 
+                    and power state. It handles rotation and connection checking. <strong>Edge</strong> 
+                    stores weighted connections between two pieces for Kruskal's algorithm. 
+                    <strong>UnionFind</strong> manages disjoint sets with path compression for efficient 
+                    MST construction. <strong>LightEmAll</strong> extends <code>World</code> and orchestrates 
+                    the game loop, rendering, and event handling.
+                </p>
+
+                <p>
+                    The game state includes a 2D <code>ArrayList</code> board, a flat <code>nodes</code> list 
+                    for iteration, the MST edge list, power station coordinates, and UI state (moves, time, 
+                    difficulty, animation frames). The <code>makeScene()</code> method composites all tiles 
+                    and UI elements into a single <code>WorldScene</code> each frame.
+                </p>
+            </section>
+
+            <!-- algorithms -->
+            <section>
+                <h2>key algorithms</h2>
+
+                <div class="features">
+                    <div class="feature">
+                        <strong>kruskal's MST</strong>: Guarantees a connected, acyclic graph (tree) with 
+                        minimum total edge weight. Since all tiles must be reachable, this ensures exactly 
+                        one solution path exists. Time complexity: O(E log E) for sorting + O(E α(V)) for 
+                        union-find operations.
+                    </div>
+                    <div class="feature">
+                        <strong>BFS for power flow</strong>: Explores tiles level-by-level from the power 
+                        station. Each tile's distance from the source determines if it's within the power 
+                        radius. Time complexity: O(V + E) where V is tiles and E is connections.
+                    </div>
+                    <div class="feature">
+                        <strong>diameter calculation</strong>: Two BFS passes find the graph's diameter. 
+                        First BFS from any node finds the furthest node A. Second BFS from A finds the 
+                        furthest node B. Distance A→B is the diameter, used to set initial power radius.
+                    </div>
+                </div>
+
+                <p>
+                    <strong>Source?</strong> This project was built as part of Northeastern's Fundamentals 
+                    of Computer Science II course (CS 2510). The implementation demonstrates graph algorithms, 
+                    data structure design, and event-driven game programming in Java.
+                </p>
+            </section>
+
         </div>
     </div>
 
     <div id="mousetrailer"></div>
-    <script src="../frontend/subprojects.js"></script>
+    <script src="../frontend/subproject/subprojects.js"></script>
+    <script src="../frontend/lightemall/lightemall.js"></script>
 </body>
 
 </html>

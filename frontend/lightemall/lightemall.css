@@ -1,0 +1,295 @@
+/* lightemall.css - Styles for Light-Em-All puzzle game */
+
+.lea-container {
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 24px 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.lea-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.lea-stats {
+    display: flex;
+    gap: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    justify-content: center;
+    text-align: center !important;
+}
+
+.lea-stats span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lea-stats .label {
+    opacity: 0.6;
+    font-size: 0.85rem;
+}
+
+.lea-stats .value {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+/* Mode/Size selectors */
+.lea-selectors {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.lea-selector-group {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.lea-selector-group .group-label {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-right: 4px;
+}
+
+.lea-mode-btn,
+.lea-size-btn {
+    padding: 6px 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    font-family: inherit;
+}
+
+.lea-mode-btn:hover,
+.lea-size-btn:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.lea-mode-btn.active,
+.lea-size-btn.active {
+    border-color: #FFD700;
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+}
+
+/* Game board */
+.lea-board {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+#board-grid {
+    display: grid;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px;
+    border-radius: 8px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.lea-cell {
+    width: 50px;
+    height: 50px;
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.lea-cell:hover {
+    background: #252525;
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+}
+
+.lea-cell.powered {
+    background: rgba(255, 215, 0, 0.08);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.wire-svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Controls */
+.lea-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.lea-btn {
+    padding: 10px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-family: inherit;
+    min-width: 80px;
+}
+
+.lea-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+.lea-btn.active {
+    border-color: #FFD700;
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+}
+
+.lea-btn.primary {
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+.lea-btn.primary:hover {
+    background: #FFD700;
+    color: #000;
+}
+
+/* Message */
+.lea-message {
+    text-align: center;
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-weight: bold;
+    display: none;
+}
+
+.lea-message.show {
+    display: block;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.lea-message.win {
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    border: 2px solid #FFD700;
+}
+
+/* Instructions hint */
+.lea-hint {
+    text-align: center !important;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-top: 12px;
+    width: 100%;
+    display: block;
+}
+
+.lea-hint kbd {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .lea-container {
+        padding: 12px;
+        overflow: hidden;
+    }
+
+    .lea-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .lea-stats {
+        font-size: 0.9rem;
+        gap: 16px;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .lea-selectors {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .lea-board {
+        overflow: hidden;
+        max-width: 100%;
+    }
+
+    #board-grid {
+        max-width: 100%;
+    }
+
+    .lea-controls {
+        gap: 8px;
+    }
+
+    .lea-btn {
+        padding: 8px 14px;
+        font-size: 0.8rem;
+        min-width: 70px;
+    }
+
+    .lea-hint {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .lea-container {
+        padding: 10px;
+    }
+
+    .lea-mode-btn,
+    .lea-size-btn {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+
+    .lea-hint {
+        font-size: 0.65rem;
+    }
+}

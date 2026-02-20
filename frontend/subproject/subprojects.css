@@ -1,6 +1,11 @@
+/* =============================================================================
+   PROJECTS.CSS - Standalone styles for projects.html AND subproject detail pages
+   No dependency on subpage.css
+   ============================================================================= */
+
 @font-face {
     font-family: "sfpro_d";
-    src: url(../font/SF-Pro-Display-Medium.otf);
+    src: url(../../font/SF-Pro-Display-Medium.otf);
 }
 
 * {
@@ -14,16 +19,22 @@ body {
     width: 100%;
     font-family: 'sfpro_d', 'Times New Roman', Times, serif;
     overflow-x: hidden;
+    background-color: #000000;
 }
 
-a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
-    color: #000000;
+a:not(.nav-shape):not(.home-btn):not(.back-btn) {
+    color: #ffffff;
+    text-decoration: underline;
 }
+
+/* =============================================================================
+   MOUSETRAILER
+   ============================================================================= */
 
 #mousetrailer {
     height: 15px;
     width: 15px;
-    background: black;
+    background: white;
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     position: fixed;
     left: 0;
@@ -36,6 +47,16 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     display: none;
 }
 
+@media (hover: hover), (pointer: fine) {
+    #mousetrailer {
+        display: block;
+    }
+}
+
+/* =============================================================================
+   BACKGROUND ANIMATION
+   ============================================================================= */
+
 #background-animation {
     position: fixed;
     top: 0;
@@ -43,7 +64,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 11;
+    z-index: 1;
     pointer-events: none;
     background: none;
 
@@ -54,8 +75,8 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     &::before {
         content: 'vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsitevedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsitevedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsitevedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite vedsite';
         position: absolute;
-        top: -50px;
-        left: -100px;
+        top: 0;
+        left: 0;
         width: 300%;
         height: 300%;
         font-size: clamp(30px, 8vw, 80px);
@@ -63,7 +84,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         color: rgba(255, 255, 255, 0.05);
     }
 
-    &>.bg-shape {
+    & > .bg-shape {
         position: absolute;
         opacity: 0.15;
         will-change: transform;
@@ -86,67 +107,32 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
             animation: float-and-roll-right 20s linear infinite;
         }
 
-        &:nth-child(1) {
-            top: 5%;
-            animation-delay: 0s;
-            animation-duration: 22s;
-        }
-
-        &:nth-child(2) {
-            top: 15%;
-            animation-delay: -5s;
-            animation-duration: 25s;
-        }
-
-        &:nth-child(3) {
-            top: 25%;
-            animation-delay: -10s;
-            animation-duration: 28s;
-        }
-
-        &:nth-child(4) {
-            top: 35%;
-            animation-delay: -15s;
-            animation-duration: 20s;
-        }
-
-        &:nth-child(5) {
-            top: 45%;
-            animation-delay: -8s;
-            animation-duration: 24s;
-        }
-
-        &:nth-child(6) {
-            top: 55%;
-            animation-delay: -12s;
-            animation-duration: 26s;
-        }
-
-        &:nth-child(7) {
-            top: 65%;
-            animation-delay: -18s;
-            animation-duration: 23s;
-        }
-
-        &:nth-child(8) {
-            top: 75%;
-            animation-delay: -3s;
-            animation-duration: 27s;
-        }
-
-        &:nth-child(9) {
-            top: 85%;
-            animation-delay: -20s;
-            animation-duration: 21s;
-        }
-
-        &:nth-child(10) {
-            top: 95%;
-            animation-delay: -14s;
-            animation-duration: 29s;
-        }
+        &:nth-child(1) { top: 5%; animation-delay: 0s; animation-duration: 22s; }
+        &:nth-child(2) { top: 15%; animation-delay: -5s; animation-duration: 25s; }
+        &:nth-child(3) { top: 25%; animation-delay: -10s; animation-duration: 28s; }
+        &:nth-child(4) { top: 35%; animation-delay: -15s; animation-duration: 20s; }
+        &:nth-child(5) { top: 45%; animation-delay: -8s; animation-duration: 24s; }
+        &:nth-child(6) { top: 55%; animation-delay: -12s; animation-duration: 26s; }
+        &:nth-child(7) { top: 65%; animation-delay: -18s; animation-duration: 23s; }
+        &:nth-child(8) { top: 75%; animation-delay: -3s; animation-duration: 27s; }
+        &:nth-child(9) { top: 85%; animation-delay: -20s; animation-duration: 21s; }
+        &:nth-child(10) { top: 95%; animation-delay: -14s; animation-duration: 29s; }
     }
 }
+
+@keyframes float-and-roll-left {
+    from { transform: translateX(-100px) rotate(0deg); }
+    to { transform: translateX(calc(100vw + 100px)) rotate(-360deg); }
+}
+
+@keyframes float-and-roll-right {
+    from { transform: translateX(calc(100vw + 100px)) rotate(0deg); }
+    to { transform: translateX(-100px) rotate(360deg); }
+}
+
+/* =============================================================================
+   PAGE CONTAINER / HEADER / CONTENT
+   ============================================================================= */
 
 .page-container {
     position: relative;
@@ -172,11 +158,15 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
-        justify-content: center;
 
         & h1 {
             width: 100%;
             text-align: center;
+        }
+
+        & .nav-buttons {
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 
@@ -190,25 +180,6 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         }
     }
 
-    & .resume-btn {
-        font-family: 'sfpro_d', 'Times New Roman', Times, serif;
-        font-size: clamp(12px, 2vw, 18px);
-        color: #ffffff;
-        text-decoration: none;
-        padding: clamp(8px, 1.5vw, 12px) clamp(14px, 2.5vw, 24px);
-        border: 2px solid #ffffff;
-        border-radius: 30px;
-        transition: all 300ms ease;
-        background: none;
-        white-space: nowrap;
-
-        &:hover {
-            background: #000000;
-            border-color: #000000;
-            color: #ffffff;
-        }
-    }
-
     & .home-btn {
         font-family: 'sfpro_d', 'Times New Roman', Times, serif;
         font-size: clamp(12px, 2vw, 18px);
@@ -219,8 +190,6 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         border-radius: 30px;
         transition: all 300ms ease;
         background: none;
-        justify-self: end;
-        grid-column: 3;
         white-space: nowrap;
 
         &:hover {
@@ -229,12 +198,6 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
             color: #000000;
         }
     }
-}
-
-.nav-buttons {
-    display: flex;
-    gap: 12px;
-    align-items: center;
 }
 
 .page-content {
@@ -256,18 +219,16 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     & p {
         margin-bottom: 20px;
         background: none;
+        text-align: center;
+    }
+
+    & p strong {
+        color: #FF0000;
     }
 
     & section {
         margin-bottom: 60px;
         background: none;
-    }
-}
-
-@media (hover: hover),
-(pointer: fine) {
-    #mousetrailer {
-        display: block;
     }
 }
 
@@ -286,31 +247,11 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     border-radius: 6rem;
 }
 
-@keyframes float-and-roll-left {
-    from {
-        transform: translateX(-100px) rotate(0deg);
-    }
-
-    to {
-        transform: translateX(calc(100vw + 100px)) rotate(-360deg);
-    }
-}
-
-@keyframes float-and-roll-right {
-    from {
-        transform: translateX(calc(100vw + 100px)) rotate(0deg);
-    }
-
-    to {
-        transform: translateX(-100px) rotate(360deg);
-    }
-}
-
 /* =============================================================================
    CARD GRID (projects.html landing page)
    ============================================================================= */
 
-.page-content>section:first-child {
+.page-content > section:first-child {
     margin-bottom: 30px;
 }
 
@@ -323,7 +264,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     justify-content: center;
 }
 
-#cards:hover>.card::after {
+#cards:hover > .card::after {
     opacity: 1;
 }
 
@@ -358,20 +299,24 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 }
 
 .card::before {
-    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
-            rgba(255, 255, 255, 0.06),
-            transparent 40%);
+    background: radial-gradient(
+        800px circle at var(--mouse-x) var(--mouse-y),
+        rgba(255, 255, 255, 0.06),
+        transparent 40%
+    );
     z-index: 3;
 }
 
 .card::after {
-    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
-            rgba(255, 255, 255, 0.4),
-            transparent 40%);
+    background: radial-gradient(
+        600px circle at var(--mouse-x) var(--mouse-y),
+        rgba(255, 255, 255, 0.4),
+        transparent 40%
+    );
     z-index: 1;
 }
 
-.card>.card-content {
+.card > .card-content {
     background-color: rgb(20, 20, 20);
     border-radius: inherit;
     display: flex;
@@ -393,7 +338,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     display: none;
 }
 
-.card.expanding>.card-content {
+.card.expanding > .card-content {
     background-color: #000000;
 }
 
@@ -409,7 +354,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 .card-image {
     align-items: center;
     display: flex;
-    height: 16 / 9;
+    height: 180px;
     justify-content: center;
     overflow: hidden;
     border-radius: 8px 8px 0 0;
@@ -418,7 +363,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 .card-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     opacity: 0.7;
     filter: grayscale(0.3);
     transition: opacity 300ms ease, filter 300ms ease;
@@ -443,7 +388,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     gap: 10px;
 }
 
-.card-info-title>h3 {
+.card-info-title > h3 {
     font-size: 1.05em;
     line-height: 1.3;
     color: rgb(240, 240, 240);
@@ -451,7 +396,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     margin: 0;
 }
 
-.card-info-title>h4 {
+.card-info-title > h4 {
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.8em;
     font-weight: 400;
@@ -470,22 +415,6 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 }
 
 @media (max-width: 600px) {
-
-    @media (hover: none) {
-
-        .card::before,
-        .card::after {
-            opacity: 1;
-            --mouse-x: 50%;
-            --mouse-y: 50%;
-        }
-
-        .card-image img {
-            opacity: 1;
-            filter: grayscale(0);
-        }
-    }
-
     #cards {
         gap: 6px;
     }
@@ -495,82 +424,258 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
         height: 234px;
     }
 
+    .card-image {
+        height: 108px;
+    }
+
     .card-info-wrapper {
         padding: 0px 12px;
     }
 
-    .card-info-title>h3 {
+    .card-info-title > h3 {
         font-size: 0.95em;
     }
 
-    .card-info-title>h4 {
+    .card-info-title > h4 {
         font-size: 0.75em;
         margin-top: 4px;
     }
 }
 
 /* =============================================================================
-   PROJECTS PAGE SPECIFIC
+   SUBPROJECT DETAIL PAGES (ssh.html, squashhub.html, etc.)
+   Add class="detail-page" to <body> on detail pages for black background
    ============================================================================= */
 
-body:has(#cards) {
-    overflow: hidden;
-    height: 100vh;
-    background-color: rebeccapurple;
+body.detail-page {
+    background-color: #000000;
+}
 
-    & .page-container {
-        padding: 40px 60px;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
+/* =============================================================================
+   NAV BUTTONS (detail pages)
+   ============================================================================= */
+
+.page-header .back-btn {
+    font-family: 'sfpro_d', 'Times New Roman', Times, serif;
+    font-size: clamp(12px, 2vw, 18px);
+    color: #ffffff;
+    text-decoration: none;
+    padding: clamp(8px, 1.5vw, 12px) clamp(14px, 2.5vw, 24px);
+    border: 2px solid #ffffff;
+    border-radius: 30px;
+    transition: all 300ms ease;
+    background: none;
+    white-space: nowrap;
+}
+
+.page-header .back-btn:hover {
+    background: #9b4f96;
+    border-color: #9b4f96;
+    color: #ffffff;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-self: end;
+    grid-column: 3;
+}
+
+/* =============================================================================
+   SUBPROJECT DETAIL PAGES â€” CENTERED LAYOUT
+   Scoped via :has(.back-btn) so only detail pages are affected,
+   not the projects.html card grid landing page.
+   ============================================================================= */
+
+.page-container:has(.back-btn) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.page-container:has(.back-btn) .page-header {
+    width: 100%;
+    max-width: 720px;
+    margin-bottom: 40px;
+}
+
+.page-container:has(.back-btn) .page-content {
+    max-width: 720px;
+    width: 100%;
+    text-align: center;
+}
+
+.page-container:has(.back-btn) .page-content p {
+    text-align: left;
+    line-height: 1.8;
+}
+
+.page-container:has(.back-btn) .page-content h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.page-container:has(.back-btn) .page-content section {
+    margin-bottom: 2.5rem;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 2rem;
+    border-radius: 12px;
+
+    & > *:last-child {
+        margin-bottom: 0;
     }
+}
 
-    & .page-header {
-        margin-bottom: 30px;
+/* =============================================================================
+   SUBPROJECT REUSABLE COMPONENTS
+   ============================================================================= */
 
-        @media (max-width: 768px) {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-    }
+/* Highlighted box â€” e.g. "try it" / connect commands */
+.highlight-box {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem auto;
+    max-width: 420px;
+}
 
-    & .home-btn {
-        @media (max-width: 768px) {
-            justify-self: unset;
-            grid-column: unset;
-        }
-    }
+.highlight-box code {
+    font-size: 1.3rem;
+    color: #FF0000;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
 
-    & .page-content {
-        flex: 1;
-        display: flex;
-        align-items: center;
-    }
+.highlight-box .hint {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-bottom: 0;
+    text-align: center !important;
+}
 
-    & #cards {
-        width: 100%;
-    }
+/* Inline code */
+.page-container:has(.back-btn) .page-content code {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
 
-    & .card {
-        height: 260px;
-    }
+/* Tech tag pills */
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 1rem 0;
+}
 
-    & .card-image {
-        height: 140px;
-    }
+.tech-tags span {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
 
-    @media (max-width: 768px) {
-        overflow-y: auto;
-        height: auto;
+/* Feature list */
+.features {
+    text-align: left;
+    margin: 1rem 0;
+}
 
-        & .page-container {
-            height: auto;
-        }
+.feature {
+    margin-bottom: 1rem;
+}
 
-        & .page-content {
-            flex: none;
-            display: block;
-        }
-    }
+.feature strong {
+    color: #FF0000;
+}
+
+/* Architecture / flow diagram row */
+.arch-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+.arch-row .node {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 8px 16px;
+    border-radius: 6px;
+}
+
+.arch-row .arrow {
+    opacity: 0.4;
+}
+
+/* Screenshot images and videos */
+.screenshot {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 1rem 0;
+    display: block;
+}
+
+/* Screenshot placeholders (remove once real images added) */
+.screenshot-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    opacity: 0.4;
+}
+
+/* =============================================================================
+   SSH COMMAND COPY BUTTON
+   ============================================================================= */
+
+.ssh-command {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ssh-command code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 1em;
+    color: #FF0000;
+    white-space: nowrap;
+}
+
+.copy-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: background 200ms ease;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
