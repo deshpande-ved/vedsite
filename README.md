@@ -79,11 +79,12 @@ vedsite/
 │   ├── requirements.txt
 │   ├── server.py
 │   └── top4.json
-├── .env
 ├── .gitignore
+├── LICENSE
 ├── about.html
 ├── experience.html
 ├── index.html
+├── main.go
 ├── misc.html
 └── projects.html
 ```
