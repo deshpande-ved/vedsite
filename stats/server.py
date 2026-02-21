@@ -3,6 +3,8 @@ flask backend for personal site
 handles: Spotify (with auto token refresh), Last.fm, Letterboxd
 """
 
+import fcntl
+
 from flask import Flask, jsonify
 import os
 import tempfile
@@ -57,24 +59,29 @@ def load_spotify_tokens():
         return None
 
 def save_spotify_tokens(tokens):
-    """Save tokens safely (cant use atomic rename with docker bind mounts)"""
+    """Save tokens safely with file locking"""
     tmp_path = SPOTIFY_TOKENS_FILE + '.tmp'
+    
     with open(tmp_path, 'w') as f:
+        fcntl.flock(f.fileno(), fcntl.LOCK_EX)  # Exclusive lock
         json.dump(tokens, f)
         f.flush()
         os.fsync(f.fileno())
+        fcntl.flock(f.fileno(), fcntl.LOCK_UN)  # Release lock
     
-    # Verify tmp file was written correctly before overwriting main file
+    # Verify tmp file is valid JSON
     with open(tmp_path, 'r') as f:
-        content = f.read()
-        if not content.strip():
-            print("ERROR: Failed to write tokens to temp file")
-            return False
-        # Verify it's valid JSON
-        json.loads(content)
+        json.loads(f.read())
     
-    with open(tmp_path, 'r') as src, open(SPOTIFY_TOKENS_FILE, 'w') as dst:
-        dst.write(src.read())
+    # Lock main file during copy
+    with open(SPOTIFY_TOKENS_FILE, 'w') as dst:
+        fcntl.flock(dst.fileno(), fcntl.LOCK_EX)
+        with open(tmp_path, 'r') as src:
+            dst.write(src.read())
+        dst.flush()
+        os.fsync(dst.fileno())
+        fcntl.flock(dst.fileno(), fcntl.LOCK_UN)
+    
     os.remove(tmp_path)
     return True
 
