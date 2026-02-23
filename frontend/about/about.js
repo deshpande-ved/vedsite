@@ -19,17 +19,17 @@ const getPageColor = () => {
 };
 
 const storedColor = sessionStorage.getItem('transitionColor') || '#000000';
-const storedX     = sessionStorage.getItem('transitionX');
-const storedY     = sessionStorage.getItem('transitionY');
+const storedX = sessionStorage.getItem('transitionX');
+const storedY = sessionStorage.getItem('transitionY');
 
-const size    = getShapeSize();
+const size = getShapeSize();
 const halfSize = size / 2;
-const centerX = storedX ? parseFloat(storedX) : window.innerWidth  / 2;
+const centerX = storedX ? parseFloat(storedX) : window.innerWidth / 2;
 const centerY = storedY ? parseFloat(storedY) : window.innerHeight / 2;
 
-const vpWidth  = window.innerWidth;
+const vpWidth = window.innerWidth;
 const vpHeight = Math.max(window.innerHeight, document.documentElement.clientHeight, window.screen.height);
-const maxDistX = Math.max(centerX + 50, vpWidth  - centerX + 50);
+const maxDistX = Math.max(centerX + 50, vpWidth - centerX + 50);
 const maxDistY = Math.max(centerY + 50, vpHeight - centerY + 50);
 const fullRadius = Math.sqrt(maxDistX * maxDistX + maxDistY * maxDistY) + 100;
 
@@ -98,7 +98,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         window.addEventListener('mousemove', e => {
-            const x = e.clientX - mousetrailer.offsetWidth  / 2;
+            const x = e.clientX - mousetrailer.offsetWidth / 2;
             const y = e.clientY - mousetrailer.offsetHeight / 2;
             mousetrailer.animate(
                 { transform: `translate(${x}px, ${y}px)` },
@@ -134,15 +134,15 @@ if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         if (track.dataset.mouseDownAt === '0') return;
 
         const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX;
-        
+
         // Mark as dragged if moved more than 5px
         if (Math.abs(mouseDelta) > 5) hasDragged = true;
-        
+
         const maxDelta = window.innerWidth / 2;
 
-        const percentage               = (mouseDelta / maxDelta) * -100;
-        const nextPercentageUnclamped  = parseFloat(track.dataset.prevPercentage || '0') + percentage;
-        const nextPercentage           = Math.max(Math.min(nextPercentageUnclamped, 0), -100);
+        const percentage = (mouseDelta / maxDelta) * -100;
+        const nextPercentageUnclamped = parseFloat(track.dataset.prevPercentage || '0') + percentage;
+        const nextPercentage = Math.max(Math.min(nextPercentageUnclamped, 0), -100);
 
         track.dataset.percentage = nextPercentage;
 

@@ -43,8 +43,8 @@
                     by rotating wire segments to complete a circuit. The board is generated using 
                     <strong>Kruskal's algorithm</strong> to create a minimum spanning tree, guaranteeing 
                     a solvable puzzle with a unique solution path. Power flows outward from the station 
-                    using <strong>breadth-first search</strong>, illuminating connected tiles. Victory is 
-                    achieved when every tile on the board receives power.
+                    using <strong>breadth-first search</strong>, illuminating connected tiles. The player
+                    wins when every tile on board is lit up and receiving power.
                 </p>
             </section>
 
@@ -87,7 +87,8 @@
                     <div class="lea-message" id="lea-message"></div>
 
                     <p class="lea-hint">
-                        <kbd>Click</kbd> to rotate · <kbd>↑↓←→</kbd> or <kbd>WASD</kbd> to move power station · <kbd>R</kbd> toggle radius · <kbd>H</kbd> toggle hex
+                        <kbd>Click</kbd> to rotate · <kbd>Click</kbd> to rotate · <kbd>↑↓←→</kbd> or <kbd>WASD</kbd> to move power station ·  
+                        <kbd>R</kbd> toggle radius · <kbd>H</kbd> toggle hex
                     </p>
                 </div>
             </section>
@@ -97,25 +98,26 @@
                 <h2>how to play</h2>
                 <div class="features">
                     <div class="feature">
-                        <strong>goal</strong>: Connect all tiles to the power station by rotating wire 
-                        segments until every cell is lit. The power station (blue/orange star) is your 
-                        source — wires must form an unbroken path from it to each tile.
+                        <strong>goal</strong>: Connect all tiles to the power station, by rotating the wire
+                        by clicking on it and lighting up every cell. The Star is the power source from which
+                        each tile must receive power through connected wires.
                     </div>
                     <div class="feature">
                         <strong>click</strong>: Rotate any tile 90° clockwise. Each rotation counts as 
-                        one move. Plan ahead to minimize your move count.
+                        one move. Like chess, you plan ahead to minimize your move count.
                     </div>
                     <div class="feature">
                         <strong>arrow keys / WASD</strong>: Move the power station along connected wires 
                         to a neighboring tile. This also counts as a move but can help reach distant sections.
                     </div>
                     <div class="feature">
-                        <strong>R key</strong>: Toggle the power radius effect. When enabled, power only 
-                        extends a limited distance from the station, adding strategic depth.
+                        <strong>R key</strong>: Toggle the power radius effect. When enabled, power 
+                        extends a limited distance from the source, adding even more strategic depth.
                     </div>
                     <div class="feature">
                         <strong>H key</strong>: Toggle hexagonal grid mode. This adds diagonal connections 
-                        (8 directions instead of 4), creating more complex puzzles.
+                        (8 directions instead of 4), creating more complex and harder puzzles. I myself
+                        have not completed the hex 8x8 on hard yet.
                     </div>
                 </div>
             </section>
@@ -124,22 +126,18 @@
             <section>
                 <h2>visuals</h2>
                 <p>
-                    The game renders a dark grid where each cell displays wire segments extending in 
+                    Initially, the game renders a dark grid where each cell displays wire segments extending in 
                     cardinal directions. Powered wires glow yellow while unpowered wires remain gray. 
                     The UI panel shows elapsed time, move count, current radius, and difficulty level.
                 </p>
                 <div class="features">
                     <div class="feature">
-                        <strong>powered tiles</strong>: Yellow wires indicate successful connection to 
-                        the power station. Watch the electricity flow as you solve the puzzle.
+                        <strong>powered tiles</strong>: The tiles turning yellow indicate successful connection to 
+                        the Star, watch the electricity flow as you solve the puzzle.
                     </div>
                     <div class="feature">
-                        <strong>power station</strong>: A cyan star with an orange outline marks your 
-                        power source. It starts at (0,0) but can be moved along connected paths.
-                    </div>
-                    <div class="feature">
-                        <strong>win animation</strong>: When all tiles are powered, fireworks burst 
-                        across the screen and your score is recorded to the Hall of Fame.
+                        <strong>power station</strong>: A cyan Star with an orange outline marks your 
+                        power source. It starts at (0,0) but can be moved along connected paths with the arrow keys.
                     </div>
                     <div class="feature">
                         <strong>difficulty colors</strong>: Easy, Medium, and Hard buttons in the UI 
@@ -154,16 +152,16 @@
                 <div class="features">
                     <div class="feature">
                         <strong>wire connections</strong>: Each tile stores boolean flags for up to 8 
-                        directions (4 cardinal + 4 diagonal in hex mode). Rotation cycles these flags 
+                        directions (4 cardinal + 4 diagonal in hex mode) and rotation cycles these flags 
                         clockwise.
                     </div>
                     <div class="feature">
                         <strong>connection validation</strong>: Two tiles are connected only if both have 
-                        wires pointing toward each other — a tile with <code>right=true</code> connects 
+                        wires pointing toward each other, a tile with <code>right=true</code> connects 
                         to a neighbor with <code>left=true</code>.
                     </div>
                     <div class="feature">
-                        <strong>power radius</strong>: When enabled, power diminishes over distance. The 
+                        <strong>power radius</strong>: When turned on, power diminishes over distance. The 
                         initial radius is calculated as half the graph's diameter + 1, found via two BFS 
                         passes to locate the furthest endpoints.
                     </div>
@@ -198,18 +196,18 @@
                     <div class="feature">
                         <strong>maze generation</strong>: Kruskal's algorithm builds the minimum spanning 
                         tree. All possible edges are created with random weights, sorted, then processed. 
-                        Union-Find tracks connected components — an edge is added only if it connects two 
+                        Union-Find tracks connected components, an edge is added only if it connects two 
                         previously separate components.
                     </div>
                     <div class="feature">
                         <strong>union-find with path compression</strong>: The <code>find()</code> operation 
-                        recursively locates the root representative and flattens the tree by pointing all 
-                        nodes directly to the root, achieving near-constant amortized time complexity.
+                        recursively locates the root representative and flattens the binary tree by pointing all 
+                        nodes directly to the root which makes it really fast, on average.
                     </div>
                     <div class="feature">
                         <strong>power propagation</strong>: BFS from the power station explores all connected 
-                        neighbors, tracking distance. Tiles within the radius threshold are marked as powered. 
-                        This runs after every rotation or station move.
+                        neighbors, tracking distance. Tiles within the radius threshold are marked as powered, 
+                        running after every rotation or station move.
                     </div>
                     <div class="feature">
                         <strong>hexagonal mode</strong>: Diagonal connections add 4 additional directions 
@@ -258,13 +256,13 @@
                     <div class="feature">
                         <strong>kruskal's MST</strong>: Guarantees a connected, acyclic graph (tree) with 
                         minimum total edge weight. Since all tiles must be reachable, this ensures exactly 
-                        one solution path exists. Time complexity: O(E log E) for sorting + O(E α(V)) for 
+                        one solution path exists. Time complexity is O(E log E) for sorting & O(E α(V)) for 
                         union-find operations.
                     </div>
                     <div class="feature">
                         <strong>BFS for power flow</strong>: Explores tiles level-by-level from the power 
                         station. Each tile's distance from the source determines if it's within the power 
-                        radius. Time complexity: O(V + E) where V is tiles and E is connections.
+                        radius. Time complexity is O(V + E) where V is tiles and E is connections.
                     </div>
                     <div class="feature">
                         <strong>diameter calculation</strong>: Two BFS passes find the graph's diameter. 
