@@ -1,4 +1,4 @@
-# [vedsite.com] (https://vedsite.com)
+# [vedsite.com](https://vedsite.com)
 deployed on cloudflare pages, hosted on AWS EC2 in Docker with nginx reverse proxy <br>
 ssh portfolio on port 22 made with go & bubble tea, wish frameworks <br>
 ssh portfolio.vedsite.com
