@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/signal"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 
@@ -36,10 +37,10 @@ type Shape struct {
 var shapeChars = []string{"#", "@", "*", "+"}
 
 var pageColors = []lipgloss.Color{
-	lipgloss.Color("#cc0000"), // about
-	lipgloss.Color("#663399"), // projects (rebeccapurple)
-	lipgloss.Color("#D4A017"), // experience (mustard)
-	lipgloss.Color("#069494"), // misc
+	lipgloss.Color("#D60270"),
+	lipgloss.Color("#663399"),
+	lipgloss.Color("#0038A8"),
+	lipgloss.Color("#069494"),
 }
 
 var pageLabels = []string{"about", "projects", "experience", "misc"}
@@ -53,8 +54,22 @@ type model struct {
 	currentPage string
 }
 
+var (
+	lastNotified = make(map[string]time.Time)
+	notifyMu     sync.Mutex
+)
+
 func notifyVisitor(s ssh.Session) {
 	ip := strings.Split(s.RemoteAddr().String(), ":")[0]
+
+	// Rate limit: one notification per IP per minute
+	notifyMu.Lock()
+	if t, ok := lastNotified[ip]; ok && time.Since(t) < time.Minute {
+		notifyMu.Unlock()
+		return
+	}
+	lastNotified[ip] = time.Now()
+	notifyMu.Unlock()
 
 	// Get location from IP
 	resp, err := http.Get("http://ip-api.com/json/" + ip)
@@ -245,108 +260,53 @@ func (m model) renderHome() string {
 func (m model) renderPage() string {
 	var color lipgloss.Color
 	var title string
-	var content string
+	var body string
 
 	switch m.currentPage {
 	case "about":
 		color = pageColors[0]
-		title = "ABOUT ME"
-		content = `
-instead of writing an all-encompassing
-description, i thought it'd be better
-to show you instead.
-
-► int. roller skating (hk 2016)
-► neu club squash vice president
-► first-gen cs student & mentor
-► film, music, tv enthusiast
-► synecdoche, ny; nujabes; atlanta
-
-      visit vedsite.com/about
-      for the full photo gallery`
-
+		title = "ABOUT"
+		body = "Coming soon...\n  ║\n  ║       Visit vedsite.com/about"
 	case "projects":
 		color = pageColors[1]
 		title = "PROJECTS"
-		content = `
-► SSH Portfolio
-  terminal-accessible portfolio
+		body = `
+       ► SSH Portfolio
+         Terminal-accessible portfolio via SSH
 
-► NEU SquashHub
-  full-stack team management app
+       ► NEU SquashHub
+         Attendance service for NEU Club Squash
 
-► Premier League Analysis
-  selenium scraping & regression
+       ► Premier League Performance Analysis
+         Selenium scraping & data visualization
 
-► Sanguine Card Game
-  turn-based strategy game
-
-► Light-Em-All
-  kruskal's algorithm puzzle
-
-► Carbon Neutrality Sim
-  drracket environmental game`
-
+       ► Sanguine Strategy Card Game
+         Turn-based card game, based on Queen's Blood`
 	case "experience":
 		color = pageColors[2]
 		title = "EXPERIENCE"
-		content = `
-Northeastern University
-B.S. Computer Science, Minor in Math
-Expected May 2028
-
-─────────────────────────────────────
-
-► Vice President | NEU Club Squash
-  Sep 2024 – Present
-
-► Program Alumni | Khoury FIRST
-  Sep 2024 – Present
-
-► Software Dev Intern | TalentHome
-  Jun – Aug 2023 | Mumbai, India`
-
+		body = "Coming soon...\n  ║\n  ║       Visit vedsite.com/experience"
 	case "misc":
 		color = pageColors[3]
 		title = "MISC"
-		content = `
-live api integrations:
-
-♫ spotify now playing & queue
-♫ last.fm top artists
-◎ letterboxd recent & top 4
-◎ strava stats (coming soon)
-
-visit vedsite.com/misc to see
-what i'm listening to & watching!`
+		body = "Coming soon...\n  ║\n  ║       Visit vedsite.com/misc"
 	}
 
+	style := lipgloss.NewStyle().Foreground(color)
 	dimStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
 
-	// Create a proper bordered box using lipgloss
-	titleBox := lipgloss.NewStyle().
-		Foreground(color).
-		Bold(true).
-		Render(title)
+	content := fmt.Sprintf(`
+  ╔══════════════════════════════════════════════════╗
+  ║              %-36s║
+  ╠══════════════════════════════════════════════════╣
+  ║                                                  ║
+  ║       %s
+  ║                                                  ║
+  ╚══════════════════════════════════════════════════╝`, title, body)
 
-	contentBox := lipgloss.NewStyle().
-		Foreground(color).
-		Border(lipgloss.RoundedBorder()).
-		BorderForeground(color).
-		Padding(1, 2).
-		Render(titleBox + "\n" + content)
+	footer := dimStyle.Render("\n\n  [b] back  [q] quit")
 
-	// Center the box in the terminal
-	centered := lipgloss.NewStyle().
-		Width(m.width).
-		Height(m.height-2).
-		Align(lipgloss.Center, lipgloss.Center).
-		Render(contentBox)
-
-	footer := dimStyle.Render("[b] back  [q] quit")
-	footerCentered := lipgloss.NewStyle().Width(m.width).Align(lipgloss.Center).Render(footer)
-
-	return centered + "\n" + footerCentered
+	return style.Render(content) + footer
 }
 
 func main() {
