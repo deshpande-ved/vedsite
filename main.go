@@ -57,22 +57,37 @@ type model struct {
 
 var (
 	lastNotified = make(map[string]time.Time)
+	scannerIPs   = make(map[string]time.Time)
 	notifyMu     sync.Mutex
 )
 
 func notifyVisitor(s ssh.Session) {
+	startTime := time.Now()
 	ip := strings.Split(s.RemoteAddr().String(), ":")[0]
 
-	// Rate limit: one notification per IP per minute
+	// Wait for session to end to measure duration
+	<-s.Context().Done()
+	duration := time.Since(startTime)
+
 	notifyMu.Lock()
-	if t, ok := lastNotified[ip]; ok && time.Since(t) < time.Minute {
+	// Check if scanner IP is rate-limited (1 hour)
+	if t, ok := scannerIPs[ip]; ok && time.Since(t) < time.Hour {
 		notifyMu.Unlock()
 		return
 	}
-	lastNotified[ip] = time.Now()
+	// Check if real user IP is rate-limited (1 minute)
+	if duration >= 15*time.Second {
+		if t, ok := lastNotified[ip]; ok && time.Since(t) < time.Minute {
+			notifyMu.Unlock()
+			return
+		}
+		lastNotified[ip] = time.Now()
+	} else {
+		scannerIPs[ip] = time.Now()
+	}
 	notifyMu.Unlock()
 
-	// Get location from IP
+	// Get location and timezone from IP
 	resp, err := http.Get("http://ip-api.com/json/" + ip)
 	if err != nil {
 		return
@@ -81,8 +96,9 @@ func notifyVisitor(s ssh.Session) {
 	body, _ := io.ReadAll(resp.Body)
 
 	var geo struct {
-		City    string `json:"city"`
-		Country string `json:"country"`
+		City     string `json:"city"`
+		Country  string `json:"country"`
+		Timezone string `json:"timezone"`
 	}
 	json.Unmarshal(body, &geo)
 
@@ -91,8 +107,28 @@ func notifyVisitor(s ssh.Session) {
 		location = fmt.Sprintf("%s, %s", geo.City, geo.Country)
 	}
 
-	msg := fmt.Sprintf(`{"content": "🖥️ **SSH Portfolio visitor!**\n**IP:** %s\n**Location:** %s\n**Time:** %s"}`,
-		ip, location, time.Now().Format("Jan 2 15:04:05 MST"))
+	// Format time in visitor's local timezone
+	localTime := startTime
+	if geo.Timezone != "" {
+		if loc, err := time.LoadLocation(geo.Timezone); err == nil {
+			localTime = startTime.In(loc)
+		}
+	}
+
+	// Format duration
+	durationStr := fmt.Sprintf("%.1fs", duration.Seconds())
+	if duration >= time.Minute {
+		durationStr = fmt.Sprintf("%dm %ds", int(duration.Minutes()), int(duration.Seconds())%60)
+	}
+
+	var msg string
+	if duration < 15*time.Second {
+		msg = fmt.Sprintf(`{"content": "🤖 **Scanner detected**\n**IP:** %s\n**Location:** %s\n**Connected:** %s\n**Time:** %s\n_Muted for 1 hour_"}`,
+			ip, location, durationStr, localTime.Format("Jan 2 15:04:05 MST"))
+	} else {
+		msg = fmt.Sprintf(`{"content": "🖥️ **SSH Portfolio visitor!**\n**IP:** %s\n**Location:** %s\n**Connected:** %s\n**Time:** %s"}`,
+			ip, location, durationStr, localTime.Format("Jan 2 15:04:05 MST"))
+	}
 
 	http.Post(discordWebhook, "application/json", bytes.NewBuffer([]byte(msg)))
 }
@@ -340,7 +376,7 @@ live api integrations:
 ◎ strava stats (coming soon)
 
 visit vedsite.com/misc to see
-what i'm watching & listening to!`
+what i'm listening to & watching!`
 	}
 
 	dimStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
