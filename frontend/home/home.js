@@ -73,17 +73,13 @@ shapes.forEach((shape, index) => {
         // Apply hover scale along with current position
         const data = shapeData[index];
         shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg) scale(1.15)`;
-        const label = shape.querySelector('.shape-label');
-        if (label) label.style.opacity = '1';
     });
 
     shape.addEventListener('mouseleave', () => {
         shapeData[index].isHovering = false;
-        // Remove hover scale and reset label
+        // Remove hover scale
         const data = shapeData[index];
         shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
-        const label = shape.querySelector('.shape-label');
-        if (label) label.style.opacity = '';
     });
 });
 
@@ -240,9 +236,11 @@ shapes.forEach((shape, index) => {
         sessionStorage.setItem('transitionX', rect.left + rect.width / 2);
         sessionStorage.setItem('transitionY', rect.top + rect.height / 2);
 
-        // Hide label during expansion
+        // Hide label immediately during expansion (use visibility to bypass CSS !important on opacity)
         const label = shape.querySelector('.shape-label');
-        if (label) label.style.opacity = '0';
+        if (label) {
+            label.style.visibility = 'hidden';
+        }
 
         // Calculate scale needed to cover viewport
         const centerX = rect.left + rect.width / 2;
@@ -278,13 +276,15 @@ window.addEventListener('pageshow', (e) => {
             shape.style.transition = '';
             shape.style.borderRadius = '';
             shape.style.zIndex = '';
-            
+
             const data = shapeData[index];
             data.isHovering = false;
             shape.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
-            
+
             const label = shape.querySelector('.shape-label');
-            if (label) label.style.opacity = '';
+            if (label) {
+                label.style.visibility = '';
+            }
         });
 
         // Check if returning from subpage - play animation
