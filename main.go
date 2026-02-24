@@ -340,7 +340,7 @@ live api integrations:
 ◎ strava stats (coming soon)
 
 visit vedsite.com/misc to see
-what i'm listening to & watching!`
+what i'm watching & listening to!`
 	}
 
 	dimStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
