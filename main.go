@@ -52,6 +52,7 @@ type model struct {
 	height      int
 	shapes      []Shape
 	currentPage string
+	startTime   time.Time
 }
 
 var (
@@ -120,6 +121,7 @@ func initialModel() model {
 		height:      24,
 		shapes:      shapes,
 		currentPage: "",
+		startTime:   time.Now(),
 	}
 }
 
@@ -154,6 +156,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.width = msg.Width
 		m.height = msg.Height
 	case tickMsg:
+		// 10-minute session timeout
+		if time.Since(m.startTime) > 10*time.Minute {
+			return m, tea.Quit
+		}
+
 		for i := range m.shapes {
 			m.shapes[i].x += m.shapes[i].vx
 			m.shapes[i].y += m.shapes[i].vy
