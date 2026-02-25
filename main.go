@@ -21,7 +21,6 @@ import (
 	"github.com/charmbracelet/ssh"
 	"github.com/charmbracelet/wish"
 	"github.com/charmbracelet/wish/bubbletea"
-	"github.com/muesli/termenv"
 )
 
 var discordWebhook = os.Getenv("DISCORD_WEBHOOK")
@@ -53,6 +52,7 @@ type model struct {
 	shapes      []Shape
 	currentPage string
 	startTime   time.Time
+	renderer    *lipgloss.Renderer
 }
 
 var (
@@ -87,8 +87,9 @@ func notifyVisitor(s ssh.Session) {
 	}
 	notifyMu.Unlock()
 
-	// Get location and timezone from IP
-	resp, err := http.Get("http://ip-api.com/json/" + ip)
+	// Get location and timezone from IP (with timeout)
+	client := &http.Client{Timeout: 3 * time.Second}
+	resp, err := client.Get("http://ip-api.com/json/" + ip)
 	if err != nil {
 		return
 	}
@@ -130,10 +131,10 @@ func notifyVisitor(s ssh.Session) {
 			ip, location, durationStr, localTime.Format("Jan 2 15:04:05 MST"))
 	}
 
-	http.Post(discordWebhook, "application/json", bytes.NewBuffer([]byte(msg)))
+	client.Post(discordWebhook, "application/json", bytes.NewBuffer([]byte(msg)))
 }
 
-func initialModel() model {
+func initialModel(renderer *lipgloss.Renderer) model {
 	shapes := make([]Shape, 4)
 	for i := 0; i < 4; i++ {
 		shapes[i] = Shape{
@@ -158,6 +159,7 @@ func initialModel() model {
 		shapes:      shapes,
 		currentPage: "",
 		startTime:   time.Now(),
+		renderer:    renderer,
 	}
 }
 
@@ -240,7 +242,7 @@ func (m model) View() string {
 }
 
 func (m model) renderHome() string {
-	bgStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#3a3a3a"))
+	bgStyle := m.renderer.NewStyle().Foreground(lipgloss.Color("#3a3a3a"))
 
 	lines := make([][]rune, m.height)
 	bgText := "vedsite "
@@ -276,7 +278,7 @@ func (m model) renderHome() string {
 			for _, shape := range m.shapes {
 				sx, sy := int(shape.x), int(shape.y)
 				if x >= sx && x < sx+5 && y >= sy && y < sy+3 {
-					style := lipgloss.NewStyle().Foreground(shape.color).Bold(true)
+					style := m.renderer.NewStyle().Foreground(shape.color).Bold(true)
 					output.WriteString(style.Render(string(ch)))
 					colored = true
 					break
@@ -289,7 +291,7 @@ func (m model) renderHome() string {
 		output.WriteString("\n")
 	}
 
-	footerStyle := lipgloss.NewStyle().
+	footerStyle := m.renderer.NewStyle().
 		Foreground(lipgloss.Color("#ffffff")).
 		Background(lipgloss.Color("#1a1a1a")).
 		Padding(0, 1)
@@ -379,15 +381,15 @@ visit vedsite.com/misc to see
 what i'm listening to & watching!`
 	}
 
-	dimStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
+	dimStyle := m.renderer.NewStyle().Foreground(lipgloss.Color("#888888"))
 
 	// Create a proper bordered box using lipgloss
-	titleBox := lipgloss.NewStyle().
+	titleBox := m.renderer.NewStyle().
 		Foreground(color).
 		Bold(true).
 		Render(title)
 
-	contentBox := lipgloss.NewStyle().
+	contentBox := m.renderer.NewStyle().
 		Foreground(color).
 		Border(lipgloss.RoundedBorder()).
 		BorderForeground(color).
@@ -395,20 +397,19 @@ what i'm listening to & watching!`
 		Render(titleBox + "\n" + content)
 
 	// Center the box in the terminal
-	centered := lipgloss.NewStyle().
+	centered := m.renderer.NewStyle().
 		Width(m.width).
 		Height(m.height-2).
 		Align(lipgloss.Center, lipgloss.Center).
 		Render(contentBox)
 
 	footer := dimStyle.Render("[b] back  [q] quit")
-	footerCentered := lipgloss.NewStyle().Width(m.width).Align(lipgloss.Center).Render(footer)
+	footerCentered := m.renderer.NewStyle().Width(m.width).Align(lipgloss.Center).Render(footer)
 
 	return centered + "\n" + footerCentered
 }
 
 func main() {
-	lipgloss.SetColorProfile(termenv.TrueColor)
 	host := "0.0.0.0"
 	port := 22
 
@@ -418,7 +419,8 @@ func main() {
 		wish.WithMiddleware(
 			bubbletea.Middleware(func(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 				go notifyVisitor(s)
-				return initialModel(), []tea.ProgramOption{tea.WithAltScreen()}
+				renderer := bubbletea.MakeRenderer(s)
+				return initialModel(renderer), []tea.ProgramOption{tea.WithAltScreen()}
 			}),
 		),
 	)
