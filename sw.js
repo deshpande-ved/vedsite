@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vedsite-v1';
+const CACHE_NAME = 'vedsite-v2';
 
 const STATIC_ASSETS = [
   '/',
@@ -75,7 +75,26 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first for everything else
+  // For HTML navigation requests, always go network-first
+  // This prevents the redirect error on subpages
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Only cache non-redirected responses
+          if (response.redirected) {
+            return response;
+          }
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Cache-first for static assets (CSS, JS, fonts, images)
   event.respondWith(
     caches.match(event.request)
       .then(cached => cached || fetch(event.request).then(response => {
