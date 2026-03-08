@@ -1,0 +1,25 @@
+{
+  "name": "Ved Deshpande",
+  "short_name": "vedsite",
+  "description": "Portfolio of Ved Deshpande",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#a69b8f",
+  "theme_color": "#a69b8f",
+  "icons": [
+    {
+      "src": "/icons/favicon/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/favicon/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
