@@ -14,6 +14,11 @@ body {
     width: 100%;
     font-family: 'sfpro_d', 'Times New Roman', Times, serif;
     overflow-x: hidden;
+    cursor: none;
+}
+
+a, button, [onclick], .home-btn, .back-btn, .resume-btn {
+    cursor: none;
 }
 
 a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
@@ -32,7 +37,6 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
     pointer-events: none;
     opacity: 1;
     transition: opacity 250ms ease;
-    transform: rotate(35deg);
     display: none;
 }
 
@@ -330,7 +334,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn):not(.resume-btn) {
 .card {
     background-color: rgb(20, 20, 20);
     border-radius: 10px;
-    cursor: pointer;
+    cursor: none;
     display: flex;
     height: 304px;
     flex-direction: column;

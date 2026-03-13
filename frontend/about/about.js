@@ -100,10 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('mousemove', e => {
             const x = e.clientX - mousetrailer.offsetWidth / 2;
             const y = e.clientY - mousetrailer.offsetHeight / 2;
-            mousetrailer.animate(
-                { transform: `translate(${x}px, ${y}px)` },
-                { duration: 400, fill: 'forwards' }
-            );
+            mousetrailer.style.transform = `translate(${x}px, ${y}px)`;
         });
     }
 });

@@ -20,6 +20,11 @@ body {
     font-family: 'sfpro_d', 'Times New Roman', Times, serif;
     overflow-x: hidden;
     background-color: #000000;
+    cursor: none;
+}
+
+a, button, [onclick], .home-btn, .back-btn, .card, .copy-btn {
+    cursor: none;
 }
 
 a:not(.nav-shape):not(.home-btn):not(.back-btn) {
@@ -43,7 +48,6 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn) {
     pointer-events: none;
     opacity: 1;
     transition: opacity 250ms ease;
-    transform: rotate(35deg);
     display: none;
 }
 
@@ -271,7 +275,7 @@ a:not(.nav-shape):not(.home-btn):not(.back-btn) {
 .card {
     background-color: rgb(20, 20, 20);
     border-radius: 10px;
-    cursor: pointer;
+    cursor: none;
     display: flex;
     height: 304px;
     flex-direction: column;
@@ -669,7 +673,7 @@ body.detail-page {
 .copy-btn {
     background: rgba(255, 255, 255, 0.1);
     border: none;
-    cursor: pointer;
+    cursor: none;
     font-size: 16px;
     padding: 8px 10px;
     border-radius: 6px;

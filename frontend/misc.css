@@ -7,6 +7,11 @@ body {
     overflow-y: auto !important;
     height: 100vh !important;
     margin: 0;
+    cursor: none;
+}
+
+a, button, .film-card, .top4-card, .artist-card {
+    cursor: none;
 }
 
 .page-header .home-btn:hover {
@@ -403,7 +408,7 @@ section:has(#top4-grid) {
 
 .top4-poster-wrapper {
     position: relative;
-    cursor: pointer;
+    cursor: none;
     overflow: visible;
 }
 

@@ -7,12 +7,7 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
         const x = e.clientX - mousetrailer.offsetWidth / 2;
         const y = e.clientY - mousetrailer.offsetHeight / 2;
 
-        mousetrailer.animate({
-            transform: `translate(${x}px, ${y}px)`
-        }, {
-            duration: 400,
-            fill: 'forwards'
-        });
+        mousetrailer.style.transform = `translate(${x}px, ${y}px)`;
     }
 }
 
@@ -133,11 +128,6 @@ function animate() {
         // Apply position and rotation via transform (GPU accelerated)
         data.el.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rotation}deg)`;
 
-        // Counter-rotate the label to keep it readable
-        const label = data.el.querySelector('.shape-label');
-        if (label && window.innerWidth > 768) {
-            label.style.transform = `rotate(${-data.rotation}deg)`;
-        }
     });
 
     requestAnimationFrame(animate);

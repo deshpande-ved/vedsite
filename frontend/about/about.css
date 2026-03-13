@@ -8,6 +8,11 @@ body {
     background-color: #cc0000;
     overflow: hidden;
     height: 100vh;
+    cursor: none;
+}
+
+a, button, .gallery-card, .social-links a, .close-btn {
+    cursor: none;
 }
 
 .page-container {
@@ -61,12 +66,12 @@ body {
     left: -60px;
     right: -60px;
     bottom: -40px;
-    cursor: grab;
+    cursor: none;
     overflow: hidden;
 }
 
 .drag-zone.dragging {
-    cursor: grabbing;
+    cursor: none;
 }
 
 /* =============================================================================
@@ -90,7 +95,7 @@ body {
     border-radius: 12px;
     overflow: hidden;
     flex-shrink: 0;
-    cursor: pointer;
+    cursor: none;
     transition: transform 300ms ease, box-shadow 300ms ease;
 }
 
@@ -172,7 +177,7 @@ body {
     right: 30px;
     font-size: 32px;
     color: #fff;
-    cursor: pointer;
+    cursor: none;
     opacity: 0.7;
     transition: opacity 200ms ease;
     background: none;

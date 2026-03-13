@@ -11,6 +11,7 @@ body {
     background-color: #a69b8f;
     font-family: 'sfpro_d', 'inter', Times, serif;
     font-size: 20pt;
+    cursor: none;
 }
 
 a:not(.nav-shape):not(.home-btn) {
@@ -29,7 +30,6 @@ a:not(.nav-shape):not(.home-btn) {
     pointer-events: none;
     opacity: 1;
     transition: opacity 250ms ease;
-    transform: rotate(35deg);
     display: none;
 }
 
@@ -110,7 +110,7 @@ a:not(.nav-shape):not(.home-btn) {
     position: fixed;
     width: clamp(120px, 25vw, 225px);
     height: clamp(120px, 25vw, 225px);
-    cursor: pointer;
+    cursor: none;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -125,12 +125,6 @@ a:not(.nav-shape):not(.home-btn) {
     -webkit-backface-visibility: hidden;
     outline: none;
 
-    &:hover {
-        & > .shape-label {
-            opacity: 1;
-        }
-    }
-
     &.expanding {
         z-index: 9999;
         border-radius: 0 !important;
@@ -140,7 +134,7 @@ a:not(.nav-shape):not(.home-btn) {
         font-family: 'sfpro_d', 'Times New Roman', Times, serif;
         font-size: clamp(18px, 3vw, 30px);
         text-align: center;
-        opacity: 0;
+        opacity: 1;
         transition: opacity 300ms ease;
         pointer-events: none;
         color: #000000;
@@ -149,11 +143,6 @@ a:not(.nav-shape):not(.home-btn) {
     }
 }
 
-@media (max-width: 768px), (hover: none) {
-    .nav-shape > .shape-label {
-        opacity: 1 !important;
-    }
-}
 
 @media (hover: hover) and (pointer: fine) {
     #mousetrailer {

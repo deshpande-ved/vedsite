@@ -1,6 +1,10 @@
 /* sanguine.css - Game-specific styles for Sanguine card game */
 /* Theme matches vedsite color palette */
 
+.cell, .hand-card, .game-btn, .mode-btn {
+    cursor: none;
+}
+
 .game-container {
     background: rgba(0, 0, 0, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -120,7 +124,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: none;
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
@@ -144,7 +148,7 @@
 }
 
 .cell.has-card {
-    cursor: default;
+    cursor: none;
 }
 
 .cell.red-owned {
@@ -244,7 +248,7 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     padding: 8px 12px;
-    cursor: pointer;
+    cursor: none;
     transition: all 0.2s ease;
     min-width: 70px;
     flex: 0 1 auto;
@@ -264,7 +268,7 @@
 
 .hand-card.disabled {
     opacity: 0.5;
-    cursor: not-allowed;
+    cursor: none;
 }
 
 .hand-card .card-name {
@@ -340,7 +344,7 @@
     border: 2px solid;
     border-radius: 8px;
     font-weight: bold;
-    cursor: pointer;
+    cursor: none;
     transition: all 0.2s ease;
     font-size: 0.9rem;
     background: transparent;
@@ -434,7 +438,7 @@
     border-radius: 20px;
     background: transparent;
     color: white;
-    cursor: pointer;
+    cursor: none;
     transition: all 0.2s ease;
     font-size: 0.85rem;
 }

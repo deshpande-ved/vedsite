@@ -6,6 +6,11 @@ body {
     overflow-y: auto !important;
     height: 100vh !important;
     margin: 0;
+    cursor: none;
+}
+
+a, button {
+    cursor: none;
 }
 
 #background-animation {
